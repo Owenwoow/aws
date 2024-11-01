@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/157098070?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="## 题目：
+
+#### 背景
+
+AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。">
+<meta property="og:title" content="[aws][jam]-03-照镜子">
+<meta property="og:description" content="## 题目：
+
+#### 背景
+
+AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-03--zhao-jing-zi.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
+<title>[aws][jam]-03-照镜子</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">[aws][jam]-03-照镜子</h1>
+<div class="title-right">
+    <a href="https://Owenwoow.github.io/aws" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Owenwoow/aws/issues/5" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>题目：</h2>
+<h4>背景</h4>
+<p>AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。信标中包含一条消息，安全团队可利用该消息来识别其他受感染主机。</p>
+<h4>你的任务</h4>
+<p>使用 AnyCompany<code class="notranslate">JamMonitorStation</code>捕获受感染者<code class="notranslate">JamInstanceA</code>向目标发送的信标<code class="notranslate">JamInstanceB</code>。要完成此挑战，您需要：</p>
+<ul>
+<li>正确配置流量镜像，以便<code class="notranslate">JamMonitorStation</code>可以捕获由<code class="notranslate">JamInstanceA</code></li>
+<li>登录到<code class="notranslate">JamMonitorStation</code>网站<code class="notranslate">System Manager's Session Manager</code>来捕获流量。</li>
+</ul>
+<h4>入门</h4>
+<p>要开始，请单击<code class="notranslate">Start Challenge</code>，然后单击<code class="notranslate">Open AWS Console</code>，并导航到<code class="notranslate">Systems Manager Session Manager</code>登录监控站。</p>
+<h4>存货</h4>
+<ul>
+<li><code class="notranslate">JamMonitorStation</code></li>
+<li><code class="notranslate">JamInstanceA</code></li>
+<li><code class="notranslate">JamInstanceA</code></li>
+</ul>
+<h4>您应该使用的服务</h4>
+<ul>
+<li><code class="notranslate">EC2</code></li>
+<li><code class="notranslate">VPC</code></li>
+<li><code class="notranslate">SSM</code></li>
+</ul>
+<h4>任务验证</h4>
+<p>要得到答案，您需要识别<code class="notranslate">JamInstanceA</code>和之间的网络流量中隐藏的消息<code class="notranslate">JamInstanceB</code>，然后将隐藏的消息放入 JAM 答案字段。</p>
+<h2>原理&amp;解答</h2>
+<h3>1. <strong>流量镜像的原理</strong></h3>
+<p>流量镜像（Traffic Mirroring）允许你将特定的网络流量复制到指定的目标网络接口，以便进行分析和监控。在 AWS 中，流量镜像可以帮助你监控流经虚拟私有云（VPC）中的实例的网络流量。</p>
+<ul>
+<li><strong>镜像源（Mirror Source）</strong>：指定你想要复制流量的网络接口，即你想监控流量的实例。我们在这里选择了 <strong>JamInstanceA</strong>，因为它是受感染的主机，需要监控其流量。</li>
+<li><strong>镜像目标（Mirror Target）</strong>：流量将被复制到这个目标接口，也就是监控实例。在这个案例中，<strong>JamMonitorStation</strong> 是目标，我们需要将从 JamInstanceA 收集的流量发送到这个监控站以进行分析。</li>
+<li><strong>VXLAN 封装</strong>：流量镜像使用 VXLAN（Virtual Extensible LAN）协议将流量封装，并通过网络传输到镜像目标。VXLAN 是一种隧道协议，它允许你将流量从一个网络设备发送到另一个设备，并在网络传输过程中封装数据帧。</li>
+</ul>
+<h3>2. <strong>VXLAN 与 UDP 端口 4789</strong></h3>
+<p>流量镜像通过 VXLAN 封装流量，这意味着它会在 <strong>UDP 端口 4789</strong> 上发送数据包。这个端口专门用于 VXLAN 隧道流量，因此我们必须确保 <strong>JamMonitorStation</strong> 上的安全组允许通过这个端口的入站流量。</p>
+<p>为了让 JamMonitorStation 接收 VXLAN 流量，我们需要修改它的安全组，允许来自任何地方（<code class="notranslate">0.0.0.0/0</code>）的 UDP 4789 端口入站流量。</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4bc3e877-d8bb-4839-872d-47cc87f055e6"><img src="https://github.com/user-attachments/assets/4bc3e877-d8bb-4839-872d-47cc87f055e6" alt="image-20241017123815525" style="max-width: 100%;"></a></p>
+<h3>3. <strong>配置流量镜像</strong></h3>
+<h4>3.1 <strong>镜像源和镜像目标</strong></h4>
+<p>流量镜像的核心是将 <strong>JamInstanceA</strong> 的流量复制到 <strong>JamMonitorStation</strong>。在 AWS 控制台中，我们通过以下几个步骤实现这一点：</p>
+<ul>
+<li><strong>镜像源</strong>：我们选择 <strong>JamInstanceA</strong> 的网络接口，因为我们希望监控从这台受感染主机发送的流量。这个接口 ID 可以在 EC2 的网络属性中找到。</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ca802ca8-e802-429a-ae24-422ee6fb2703"><img src="https://github.com/user-attachments/assets/ca802ca8-e802-429a-ae24-422ee6fb2703" alt="image-20241017125848618" style="max-width: 100%;"></a></p>
+<ul>
+<li>创建镜像源</li>
+</ul>
+<p>(<a href="https://github.com/user-attachments/assets/31b42335-777a-45c7-9ee4-5939a1f4261a">https://github.com/user-attachments/assets/31b42335-777a-45c7-9ee4-5939a1f4261a</a>)</p>
+<ul>
+<li>
+<p><strong>镜像目标</strong>：这个目标是 <strong>JamMonitorStation</strong> 的网络接口，它将接收到来自 JamInstanceA 的流量。创建一个新的镜像目标时，我们必须指定 JamMonitorStation 的接口 ID。</p>
+<p>镜像筛选条件：</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/19b9d79d-b7aa-4c65-a2c0-e5ad376499db"><img src="https://github.com/user-attachments/assets/19b9d79d-b7aa-4c65-a2c0-e5ad376499db" alt="image-20241017141436268" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/31e47bed-d2a0-47ac-98ba-3d67fc2b2940"><img src="https://github.com/user-attachments/assets/31e47bed-d2a0-47ac-98ba-3d67fc2b2940" alt="image-20241017141530193" style="max-width: 100%;"></a></p>
+<h3>4. <strong>流量捕获与分析</strong></h3>
+<h4>4.1 <strong>VXLAN 解封</strong></h4>
+<p>VXLAN 封装意味着流量被包装在一个额外的网络层中。当我们在 <strong>JamMonitorStation</strong> 上捕获流量时，首先需要解封这些数据包，这样才能查看其中的内容。这就是为什么我们需要在监控站上创建一个 <strong>VXLAN 接口</strong>。</p>
+<p>使用以下命令来创建并启用 VXLAN 接口：</p>
+<pre class="notranslate"><code class="notranslate">bashCopy codesudo ip link add vxlan0 type vxlan id 100 dev eth0 local 10.0.1.11 dstport 4789
+sudo ip link set vxlan0 up
+</code></pre>
+<p>这些命令会：</p>
+<ul>
+<li>创建一个新的网络接口 <code class="notranslate">vxlan0</code>，它会监听 VXLAN ID <code class="notranslate">100</code>。</li>
+<li>设置接口为活动状态，使其可以接收并解封封装的 VXLAN 流量。</li>
+</ul>
+<h4>4.2 <strong>捕获 ICMP 流量</strong></h4>
+<p><strong>ICMP（Internet Control Message Protocol）</strong> 是网络中用于发送错误消息或进行简单通信的协议。在这个挑战中，恶意的 JamInstanceA 会通过 ICMP 发送消息给 JamInstanceB，因此我们使用 <strong>tcpdump</strong> 工具来捕获 ICMP 流量：</p>
+<pre class="notranslate"><code class="notranslate">bash
+
+
+Copy code
+sudo tcpdump -lnvXi vxlan0 icmp
+</code></pre>
+<ul>
+<li><strong>tcpdump</strong> 是一个命令行工具，用于捕获网络流量。</li>
+<li><code class="notranslate">-lnvX</code> 参数表示将以人类可读的方式输出详细信息。</li>
+<li><code class="notranslate">vxlan0</code> 是我们创建的接口，它负责解封流量并监听 VXLAN 封装的流量。</li>
+<li><strong>ICMP</strong> 是我们关心的协议，因为恶意流量通过 ICMP 发送。</li>
+</ul>
+<p>通过这个命令，我们可以查看 <strong>JamInstanceA 发送给 JamInstanceB 的 ICMP ECHO 请求</strong>，其中隐藏了一条消息。这条消息通常被嵌入到 ICMP 请求的有效载荷（payload）字段中。</p>
+<h3><strong>5.捕获隐藏的消息并提交答案</strong></h3>
+<h4>数据包解析</h4>
+<p>首先，我们看到这部分是完整的 ICMP echo reply 数据包：</p>
+<pre class="notranslate"><code class="notranslate">yamlCopy code06:10:12.835327 IP (tos 0x0, ttl 255, id 52663, offset 0, flags [none], proto ICMP (1), length 56)
+    10.0.3.10 &gt; 10.0.2.10: ICMP echo reply, id 2335, seq 18356, length 36
+        0x0000:  4500 0038 cdb7 0000 ff01 d4f9 0a00 030a  E..8............
+        0x0010:  0a00 020a 0000 6c13 091f 47b4 44aa 1067  ......l...G.D..g
+        0x0020:  0000 0000 22be 0c00 0000 0000 6a34 6d63  ....".......j4mc
+        0x0030:  306d 506c 3374 3364                      0mPl3t3d
+</code></pre>
+<p>我们可以把它分成几个部分：</p>
+<ol>
+<li>
+<p><strong>IP头部部分（IP Header, <code class="notranslate">0x0000</code> - <code class="notranslate">0x001F</code>）</strong>：</p>
+<pre class="notranslate"><code class="notranslate">yamlCopy code0x0000:  4500 0038 cdb7 0000 ff01 d4f9 0a00 030a  E..8............
+0x0010:  0a00 020a 0000 6c13 091f 47b4 44aa 1067  ......l...G.D..g
+</code></pre>
+<p>这部分是 IP 头部信息，包括源地址 (<code class="notranslate">10.0.3.10</code>)、目的地址 (<code class="notranslate">10.0.2.10</code>)、协议 (ICMP, 协议号 1)，以及其他 IP 包的元数据。这部分一般是基础网络层的信息，不包含隐藏消息。</p>
+</li>
+<li>
+<p><strong>ICMP 数据部分（ICMP Data, <code class="notranslate">0x0020</code> - <code class="notranslate">0x003F</code>）</strong>：</p>
+<pre class="notranslate"><code class="notranslate">yamlCopy code0x0020:  0000 0000 22be 0c00 0000 0000 6a34 6d63  ....".......j4mc
+0x0030:  306d 506c 3374 3364                      0mPl3t3d
+</code></pre>
+<p>这部分包含了 ICMP 协议的实际数据。在这里我们看到了一段以 <code class="notranslate">j4mc</code> 开头的内容，它是隐藏的信标消息。</p>
+</li>
+</ol>
+<h3>如何识别出隐藏消息？</h3>
+<ul>
+<li>
+<p><strong>ICMP 的正常数据结构</strong>：ICMP 数据包通常包含一些 ID、序列号等控制信息，但在 "payload" (有效载荷) 中是可以携带自定义数据的。在这个包中，从 <code class="notranslate">0x0020</code> 开始的部分是有效载荷字段，通常是自定义内容。在这里，我们看到的就是这个信标信息。</p>
+</li>
+<li>
+<p><strong>有效载荷中不规则的可读内容</strong>：当我们逐字节解析这个包时，发现 <code class="notranslate">0x0020</code> 之后的字节序列 <code class="notranslate">6a34 6d63 306d 506c 3374 3364</code> 被解释为 ASCII 字符时就是：</p>
+<pre class="notranslate"><code class="notranslate">Copy code
+j4mc0mPl3t3d
+</code></pre>
+<p>这段文字非常清晰地呈现了有效载荷中的隐藏消息，它就是 "j4mc0mPl3t3d"。</p>
+</li>
+</ul>
+<h3>总结：</h3>
+<p>在 ICMP 数据包的结构中，有一个部分被用于携带数据。在这种情况下，您要分析的隐藏消息恰好被嵌入在 ICMP 数据包的有效载荷（payload）中，而不是传统的控制信息。这也是为什么通过 <code class="notranslate">tcpdump</code> 命令查看详细的 ICMP 数据包内容后，能够找到信标信息。</p>
+<p>您最终识别到的有效载荷（<code class="notranslate">j4mc0mPl3t3d</code>）是这次捕获任务中的隐藏消息</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Owenwoow.github.io/aws">Owen AWS Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Owenwoow/aws");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script>
+
+</html>
