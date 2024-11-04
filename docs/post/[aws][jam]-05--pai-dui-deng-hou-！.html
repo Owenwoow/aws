@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/157098070?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="# **排队等候！**
+
+### 概述
+
+背景您经营着一家电子商务初创公司，身兼数职。">
+<meta property="og:title" content="[aws][jam]-05-排队等候！">
+<meta property="og:description" content="# **排队等候！**
+
+### 概述
+
+背景您经营着一家电子商务初创公司，身兼数职。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-05--pai-dui-deng-hou-%EF%BC%81.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
+<title>[aws][jam]-05-排队等候！</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">[aws][jam]-05-排队等候！</h1>
+<div class="title-right">
+    <a href="https://Owenwoow.github.io/aws" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Owenwoow/aws/issues/7" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1><strong>排队等候！</strong></h1>
+<h3>概述</h3>
+<p>背景您经营着一家电子商务初创公司，身兼数职。您已开始在 AWS 上使用无服务器计算。您即将召开一场大型投资者会议，就在会议前，您发现一位同事意外做了一些更改，导致您最先进的事件处理系统出现故障，而您原本计划在会议期间演示该系统。您需要戴上云开发人员的帽子，解决问题，并为涉及演示产品的会议做好准备。您准备好迎接挑战了吗？</p>
+<h3>任务 1：SNS 订阅</h3>
+<h5>背景</h5>
+<p>您的网站收到大量流量，这反过来又会在后端生成大量通知。这些通知会发送给不同的消费者。这就是您选择使用 Amazon Simple Notification Service (SNS) 的原因，这样许多消费者就可以决定根据自己的意愿使用通知。每个通知都需要由 AWS Lambda 函数处理。但是，您需要控制这些通知/消息流向 Lambda。这就是您决定在 SNS 和 AWS Lambda 之间使用 Amazon Simple Queue Service (SQS) 的原因。通知流程如下：</p>
+<pre class="notranslate"><code class="notranslate">Notification -&gt; SNS (MySNSTopic) -&gt; SQS (MyQueue) -&gt; Lambda (MyFunctionFixIT)
+</code></pre>
+<p>看起来您部署的所有资源都还在那里：<code class="notranslate">MySNSTopic</code>SNS 主题、<code class="notranslate">MyQueue</code>SQS 队列和<code class="notranslate">MyFunctionFixIT</code>Lambda 函数。但是，查看 Lambda 函数时，似乎从未调用过它。要向大投资者进行演示，您需要一直收到 Lambda 函数的通知。但是，让我们一次启动一项任务。</p>
+<h5>任务一</h5>
+<p>首先，在此任务中，您必须<code class="notranslate">SNS (MySNSTopic) -&gt; SQS (MyQueue)</code>通过创建对 SNS 主题的订阅来修复设置。</p>
+<p>注意：您不必创建额外的资源。</p>
+<h5>入门</h5>
+<p>您可以使用 AWS 的文档在 AWS 管理控制台中找到方法： <a href="https://docs.aws.amazon.com/" rel="nofollow">https://docs.aws.amazon.com/</a></p>
+<h5>存货</h5>
+<ul>
+<li>我是</li>
+<li>社交网络</li>
+<li>新加坡优质服务</li>
+<li>拉姆达</li>
+<li>可以在输出属性中找到 ARN</li>
+</ul>
+<h5>您应该使用的服务</h5>
+<ul>
+<li>社交网络</li>
+<li>新加坡优质服务</li>
+</ul>
+<h5>任务验证</h5>
+<p>找到解决方案后，任务将自动完成。此外，您还可以随时通过点击挑战详情屏幕中的**“检查我的进度”按钮来检查您的进度。**</p>
+<p>在sns中添加订阅</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/225ccd39-25b3-4464-a962-efae5a972f1e"><img src="https://github.com/user-attachments/assets/225ccd39-25b3-4464-a962-efae5a972f1e" alt="image-20241104082233778" style="max-width: 100%;"></a></p>
+<h3>任务 2：Lambda 接收消息的权限</h3>
+<h5>背景</h5>
+<p>请记住，您仍在尝试修复此通知流程：</p>
+<pre class="notranslate"><code class="notranslate">Notification -&gt; SNS (MySNSTopic) -&gt; SQS (MyQueue) -&gt; Lambda (MyFunctionFixIT)
+</code></pre>
+<p>通知现在进入 SQS 队列<code class="notranslate">MyQueue</code>。但是，Lambda 函数<code class="notranslate">MyFunctionFixIT</code>从未被触发。这似乎是权限问题。您可以来修复它！</p>
+<h5>任务</h5>
+<p>您的任务是验证 Lambda 函数所使用的角色及其执行权限。您首先必须通过查看 Lambda 函数的配置来找到 Lambda 函数所使用的角色<code class="notranslate">MyFunctionFixIT</code>。然后，您需要将缺少的权限语句添加到<code class="notranslate">sqs</code>内联策略中。</p>
+<h5>重要信息：</h5>
+<ul>
+<li>
+<p>您将无法将其他策略附加到该角色。您只能修改 <code class="notranslate">sqs</code>内联策略。</p>
+</li>
+<li>
+<p>忽略 IAM 控制台中与权限相关的任何错误消息<code class="notranslate">arn:aws:access-analyzer</code>。</p>
+</li>
+<li>
+<p>确保遵循最小权限原则。只需添加完成任务所需的权限。如果您需要回滚更改，则只允许对 SQS 队列的</p>
+<p>资源</p>
+<pre class="notranslate"><code class="notranslate">MyQueue
+</code></pre>
+<p>ARN执行以下操作：</p>
+<pre class="notranslate"><code class="notranslate">[
+  "sqs:DeleteMessage",
+  "sqs:SendMessage",
+  "sqs:GetQueueAttributes"
+]
+</code></pre>
+</li>
+</ul>
+<h5>存货</h5>
+<ul>
+<li>我是</li>
+<li>社交网络</li>
+<li>新加坡优质服务</li>
+<li>拉姆达</li>
+</ul>
+<h5>您应该使用的服务</h5>
+<ul>
+<li>我是</li>
+<li>拉姆达</li>
+</ul>
+<h5>任务验证</h5>
+<p>找到解决方案后，任务将自动完成。此外，您还可以随时通过点击挑战详情屏幕中的**“检查我的进度”按钮来检查您的进度。**</p>
+<h3>解答：</h3>
+<h3>线索一：Lambda 执行者角色策略权限</h3>
+<p>导航到 AWS 管理控制台中的 IAM 服务，并将它添加到名称中的IAM 角色的策略<code class="notranslate">sqs:ReceiveMessage</code>中。<code class="notranslate">sqs``LambdaExecutionRoleFixIt</code></p>
+<h3><strong>罚分：3分</strong>线索2：在IAM控制台中添加以下权限</h3>
+<h4>更改角色允许的权限</h4>
+<ol>
+<li>
+<p>导航到 AWS 管理控制台中的 IAM 服务。</p>
+</li>
+<li>
+<p>在 IAM 控制台的导航窗格中，选择角色。</p>
+</li>
+<li>
+<p>在搜索栏中输入<code class="notranslate">LambdaExecutionRoleFixIt</code>。</p>
+</li>
+<li>
+<p>单击列表中唯一 IAM 角色的名称。</p>
+</li>
+<li>
+<p>要编辑现有的内联策略，请单击该策略的名称<code class="notranslate">sqs</code>。</p>
+</li>
+<li>
+<p>当光标位于屏幕右侧的<em>操作</em>列表中时，单击“SQS”，将显示操作列表。</p>
+</li>
+<li>
+<p>在<code class="notranslate">Filter actions</code>文本框中搜索<code class="notranslate">ReceiveMessage</code>。</p>
+</li>
+<li>
+<p>单击<em>访问级别 - 阅读</em><code class="notranslate">ReceiveMessage</code>旁边的复选框。</p>
+</li>
+<li>
+<p>这会将添加到</p>
+<pre class="notranslate"><code class="notranslate">sqs:ReceiveMessage
+</code></pre>
+<p>操作列表中。操作列表现在应为：</p>
+<pre class="notranslate"><code class="notranslate">[
+ "sqs:DeleteMessage",
+ "sqs:SendMessage",
+ "sqs:GetQueueAttributes",
+ "sqs:ReceiveMessage"
+]
+</code></pre>
+</li>
+<li>
+<p>点击<code class="notranslate">Next</code>。</p>
+</li>
+<li>
+<p>点击<code class="notranslate">Save changes</code>。</p>
+</li>
+</ol>
+<p>现在该任务应该已经解决。</p>
+<p>参考文档：</p>
+<ul>
+<li>[<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy" rel="nofollow">修改角色步骤</a>](<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy" rel="nofollow">https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy</a>)</li>
+<li>[<a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-iam-policies.html" rel="nofollow">sqs 策略</a>](<a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-iam-policies.html" rel="nofollow">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-iam-policies.html</a>)</li>
+</ul>
+<h3>任务 3：lambda 的事件源</h3>
+<p>可能得分：27 线索罚分：0 <strong>可用得分：27</strong></p>
+<hr>
+<p>检查我的进度</p>
+<hr>
+<h5>背景</h5>
+<p>请记住，您仍在尝试修复此通知流程：</p>
+<pre class="notranslate"><code class="notranslate">Notification -&gt; SNS (MySNSTopic) -&gt; SQS (MyQueue) -&gt; Lambda (MyFunctionFixIT)
+</code></pre>
+<p>通知仍未到达 Lambda 函数。您知道您的 Lambda 函数可以<code class="notranslate">ReceiveMessage</code>在 SQS 队列上执行。但是，消息仍在队列中未被处理。SQS 和 Lambda 之间的链接似乎已断开。您来这里就是为了修复它！</p>
+<h5>任务</h5>
+<p>您的任务是修复<code class="notranslate">MyQueue</code>SQS 队列和 Lambda 函数 之间的触发器。您可以在<a href="https://aws.amazon.com/lambda/%60MyFunctionFixIT%60%E4%B8%8A%E6%89%BE%E5%88%B0%E6%9C%89%E5%85%B3" rel="nofollow">https://aws.amazon.com/lambda/`MyFunctionFixIT`上找到有关</a> Lambda 的更多信息。</p>
+<p>注意：不需要创建额外的资源，并且Lambda函数的代码是正确的。</p>
+<h5>存货</h5>
+<ul>
+<li>我是</li>
+<li>社交网络</li>
+<li>新加坡优质服务</li>
+<li>拉姆达</li>
+</ul>
+<h5>您应该使用的服务</h5>
+<ul>
+<li>新加坡优质服务</li>
+<li>拉姆达</li>
+</ul>
+<h5>任务验证</h5>
+<p>找到解决方案后，任务将自动完成。此外，您还可以随时通过点击挑战详情屏幕中的**“检查我的进度”按钮来检查您的进度。**</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Owenwoow.github.io/aws">Owen AWS Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Owenwoow/aws");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script>
+
+</html>
