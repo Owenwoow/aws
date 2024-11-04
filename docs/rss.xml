@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Owen AWS Blog</title><link>https://Owenwoow.github.io/aws</link><description>Blog For Owen_W</description><copyright>Owen AWS Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Mon, 04 Nov 2024 11:20:33 +0000</lastBuildDate><managingEditor>Owen AWS Blog</managingEditor><ttl>60</ttl><webMaster>Owen AWS Blog</webMaster><item><title>[aws][jam]-04-规模很好</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-04--gui-mo-hen-hao.html</link><description># 规模很好&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Owen AWS Blog</title><link>https://Owenwoow.github.io/aws</link><description>Blog For Owen_W</description><copyright>Owen AWS Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Mon, 04 Nov 2024 11:28:05 +0000</lastBuildDate><managingEditor>Owen AWS Blog</managingEditor><ttl>60</ttl><webMaster>Owen AWS Blog</webMaster><item><title>[aws][jam]-04-规模很好</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-04--gui-mo-hen-hao.html</link><description># 规模很好&#13;
 &#13;
 ### 概述&#13;
 &#13;
@@ -9,9 +9,11 @@
 &#13;
 #### 背景&#13;
 &#13;
-AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-03--zhao-jing-zi.html</guid><pubDate>Fri, 01 Nov 2024 00:39:08 +0000</pubDate></item><item><title>[aws][jam]-02-lamdba与dynomdb创建联网</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-02-lamdba-yu-dynomdb-chuang-jian-lian-wang.html</link><description>线索 1: 使用 VPC 终端节点策略限制对 DynamoDB 表的访问&#13;
+AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-03--zhao-jing-zi.html</guid><pubDate>Fri, 01 Nov 2024 00:39:08 +0000</pubDate></item><item><title>[aws][jam]-02-失去的连接 - AWS VPC 和 DynamoDB 的故事</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-02--shi-qu-de-lian-jie-%20-%20AWS%20VPC%20-he-%20DynamoDB%20-de-gu-shi.html</link><description># **失去的连接 - AWS VPC 和 DynamoDB 的故事**&#13;
 &#13;
-当 AWS Lambda Function 在 VPC 内运行时，它不会始终接到一个安全组，该安全组必须配置适当的出站规则才能允许与目标服务进行通信。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-02-lamdba-yu-dynomdb-chuang-jian-lian-wang.html</guid><pubDate>Thu, 24 Oct 2024 03:06:51 +0000</pubDate></item><item><title>[aws][jam]-01-委派 IAM 管理员</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-01--wei-pai-%20IAM%20-guan-li-yuan.html</link><description># 委派 IAM 管理员&#13;
+### 概述&#13;
+&#13;
+曾几何时，在亚马逊网络服务的云王国中，存在着一个强大的虚拟私有云 (VPC)，由一个技术娴熟的无服务器战士 AWS Lambda 守护。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-02--shi-qu-de-lian-jie-%20-%20AWS%20VPC%20-he-%20DynamoDB%20-de-gu-shi.html</guid><pubDate>Thu, 24 Oct 2024 03:06:51 +0000</pubDate></item><item><title>[aws][jam]-01-委派 IAM 管理员</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-01--wei-pai-%20IAM%20-guan-li-yuan.html</link><description># 委派 IAM 管理员&#13;
 &#13;
 ## 题目：&#13;
 &#13;
