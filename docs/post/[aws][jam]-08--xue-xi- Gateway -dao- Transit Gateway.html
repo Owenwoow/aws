@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/157098070?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="#学习 Gateway 到 Transit Gateway
+
+##任务1：
+背景：
+根据初始设置，您注意到某些内容阻止您访问 EC2 实例。">
+<meta property="og:title" content="[aws][jam]-08-学习 Gateway 到 Transit Gateway">
+<meta property="og:description" content="#学习 Gateway 到 Transit Gateway
+
+##任务1：
+背景：
+根据初始设置，您注意到某些内容阻止您访问 EC2 实例。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-08--xue-xi-%20Gateway%20-dao-%20Transit%20Gateway.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
+<title>[aws][jam]-08-学习 Gateway 到 Transit Gateway</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">[aws][jam]-08-学习 Gateway 到 Transit Gateway</h1>
+<div class="title-right">
+    <a href="https://Owenwoow.github.io/aws" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Owenwoow/aws/issues/11" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>#学习 Gateway 到 Transit Gateway</p>
+<p>##任务1：<br>
+背景：<br>
+根据初始设置，您注意到某些内容阻止您访问 EC2 实例。作为 MyTCPPackets Company 的网络管理员，您必须清除块，以便 EC2 实例可以通信。<br>
+要完成此任务，您需要更新三个安全组。两个安全组将位于 VPC1 中，另一个位于 VPC2 中。您应该完成以下任务：<br>
+1. 从本地工作站 ping VPC1 堡垒主机。您可以在这些说明左侧的 Output Properties （输出属性） 选项卡中找到堡垒主机的公有 IP 地址。<br>
+2. 使用入门部分中提供的凭证通过 SSH 连接到 VPC1 堡垒主机。<br>
+3. 从堡垒主机 （10.0.1.x） ping VPC1 私有子网实例 （10.0.2.x）。<br>
+4. 使用入门部分中提供的凭证，从堡垒主机 （10.0.1.x） 通过 SSH 连接到 VPC1 私有子网实例 （10.0.2.x）。<br>
+5. 虽然您还无法 ping VPC2 中的私有子网实例 （192.168.0.0/16），但请确保 VPC2 私有子网 EC2 实例安全组已正确配置，以允许 VPC1 中的私有实例 ping 此实例。<br>
+完成后，此任务将允许您使用主机的公有 IP 通过 SSH 连接到 VPC1 中的 VPC1 堡垒主机，然后通过 SSH 连接到 VPC1 私有子网实例 （10.0.2.x）。<br>
+质询库存<br>
+1. VPC1 （10.0.0.0/16）：<br>
+• 公有子网 （10.0.1.0/24）<br>
+• 公有子网路由表<br>
+• 互联网网关<br>
+• 私有子网 （10.0.2.0/24）<br>
+• 私有子网路由表<br>
+• 堡垒主机 （10.0.1.x）<br>
+• 堡垒主机安全组<br>
+• 私有子网 EC2 实例 （10.0.2.x）<br>
+• 私有子网 EC2 实例安全组<br>
+2. VPC2 （192.168.0.0/16）：<br>
+• 私有子网 （192.168.2.0/24）<br>
+• 私有子网路由表<br>
+• 私有子网 EC2 实例 （192.168.2.x）<br>
+• 私有子网 EC2 实例安全组<br>
+3. 中转网关<br>
+• VPC1 中转网关挂载<br>
+• VPC2 Transit Gateway 挂载<br>
+• Transit Gateway 路由表<br>
+架构图<br>
+• <a href="https://aws-jam-challenge-resources.s3.amazonaws.com/learning-tgw/Learning_Gateway_to_Transit_Gateway-Architecture_Diagram.jpg" rel="nofollow">链接到架构图</a><br>
+开始<br>
+您应该考虑做的事情：<br>
+1. 在安全组入口规则和路由表条目中使用 VPC CIDR、子网 CIDR 或实例私有 IP 地址。<br>
+你应该避免做的事情：<br>
+1. 根据最佳实践，禁止在安全组的入口规则中使用 All-Traffic。<br>
+2. 根据最佳实践，所有安全组的入口规则都禁止使用零 CIDR （0.0.0.0/0）。<br>
+3. 根据最佳实践，禁止在所有安全组的入站规则中使用所有 TCP 端口。<br>
+4. 自动任务验证脚本将验证在整个挑战赛中是否遵守这些最佳实践。任何不合规情况都将导致任务未标记为已完成。<br>
+5. 通过 SSH 连接到 VPC2 私有子网实例 （192.168.2.x）。<br>
+您可以参考<a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules" rel="nofollow">此文档链接</a>，了解如何向安全组添加入站规则。<br>
+注意：在本次挑战赛中，您无需使用密钥对登录任何 EC2 实例。已在所有 VPC1 实例中创建本地账户。可以在下面的 SSH 说明中找到凭据。<br>
+SSH 说明<br>
+使用以下信息，使用其公有 IP 地址通过 SSH 连接到堡垒主机 EC2 实例。堡垒主机的公有 IP 地址可以在这些说明左侧的 Output Properties （输出属性） 选项卡中找到。<br>
+凭据<br>
+• 用户名：participant<br>
+• 密码：tgw123<br>
+对于 Mac 用户<br>
+• 要通过 SSH 连接到堡垒主机，请打开终端应用程序并使用以下 SSH 命令连接到堡垒主机。注意：必须替换为堡垒机的公网 IP。bastion_host_public_ip<br>
+○ ssh participant@{bastion_host_public_ip}<br>
+• 成功登录堡垒主机后，在堡垒主机终端中使用以下命令通过 SSH 连接到 VPC1 私有子网实例 （10.0.2.x）。注意：您必须替换为 VPC1 私有子网中 EC2 实例的私有 IP（即 ）。vpc1_private_subnet_instance_private_ip10.0.2.x<br>
+○ ssh participant@{vpc1_private_subnet_instance_private_ip}<br>
+对于 Windows 用户<br>
+• 要通过 SSH 连接到堡垒主机，您必须使用 PuTTY 等客户端。如果您的计算机上未安装此 ID，则必须下载并安装一个。检查您的策略，确保在使用公司计算机时允许这样做。<br>
+1. 下载并安装 PuTTY 后，启动应用程序。<br>
+2. 在 Category （类别） 窗格中，选择 Session （会话） 并填写以下字段：<br>
+3. 输入主机，注意：必须将 bastion_host_public_ip 替换为堡垒机的公网 IP。participant@{bastion_host_public_ip}<br>
+4. 确保 Port （端口） 值为 22。<br>
+5. 在 Connection type （连接类型） 下，选择 SSH 。<br>
+6. 单击 Open 按钮<br>
+有关更多详细信息，请参阅 AWS 文档中的<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html#putty-ssh" rel="nofollow">连接到 Linux 实例</a>部分。<br>
+• 成功登录堡垒主机后，使用堡垒主机的以下命令通过 SSH 连接到 VPC1 私有子网实例 （10.0.2.x）。注意：您必须替换为 VPC1 私有子网中 EC2 实例的私有 IP（即 ）。vpc1_private_subnet_instance_private_ip10.0.2.x<br>
+○ ssh participant@{vpc1_private_subnet_instance_private_ip}<br>
+任务清单<br>
+VPC1 和 VPC2 安全组<br>
+您应该使用的服务<br>
+亚马逊 VPC<br>
+任务验证<br>
+您必须使用适当的入站规则更新三个安全组才能完成此任务。<br>
+找到解决方案后，该任务将自动完成。此外，您可以随时通过按任务详细信息屏幕上的 “Check my progress” 按钮来检查您的进度。<br>
+注意：根据安全最佳实践，安全组的入站规则不应允许在任何端口上使用零 cidr。因此，本次挑战赛严禁使用零 cidr 作为源，并且任务不会进入已完成状态。此外，自动任务验证脚本不会将 All TCP （所有 TCP） 和 All Traffic （所有流量） 类型的入站规则视为正确的解决方案。<br>
+提示：使用 ICMP（所有 ICMP - IPv4）和 SSH 端口足以完成此任务。不需要其他端口。<br>
+蛛丝马迹<br>
+罚分： 3 点<br>
+线索 1：为安全组添加 Ingress 规则</p>
+<p>隐藏</p>
+<p>打开 VPC1 私有和公有实例安全组上的 ICMP 和 SSH 端口。此外，您还应在 VPC2 私有实例安全组上打开 ICMP 端口。<br>
+注意：您无需修改/添加任何出口规则。<br>
+安全组是有状态防火墙。您可以在此<a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules" rel="nofollow">链接</a>中找到有关安全组规则的更多信息。<br>
+罚分： 4 点<br>
+线索 2：演练步骤</p>
+<p>隐藏</p>
+<p>演练<br>
+更新 VPC1 堡垒机安全组<br>
+1. 在 AWS 管理控制台中，搜索 VPC 服务并访问 VPC 控制台。<br>
+2. 在左侧面板上，单击 Security grouping（安全分组）下的 Security Groups（安全组）。<br>
+3. 搜索名为 VPC1-BastionHost-SG 的安全组，然后单击安全组 ID。<br>
+4. 在页面底部，单击 Inbound Rules 选项卡和 Edit Inbound Rules。<br>
+5. 单击 Add Rule。<br>
+6. *在类型下拉列表中选择 SSH，然后在源中选择我的 IP。添加您选择的自定义描述，例如“从我的工作站进行 SSH 访问”。<br>
+7. 重复上述步骤以添加 ICMP 规则。<br>
+提示：对于 Type 下拉列表，选择 All ICMP - IPV4。添加您选择的自定义描述，例如“从我的工作站访问 ICMP”。<br>
+8. 单击 Save rules（保存规则）。<br>
+更新 VPC1 私有子网 EC2 实例安全组<br>
+1. 在 AWS 管理控制台中，搜索 VPC 服务并访问 VPC 控制台。<br>
+2. 在左侧面板上，单击 Security grouping（安全分组）下的 Security Groups（安全组）。<br>
+3. 搜索名为 VPC1-Pvt-Subnet-Instance-SG 的安全组，然后单击安全组 ID。<br>
+4. 在页面底部，单击 Inbound Rules 选项卡和 Edit Inbound Rules。<br>
+5. 单击 Add Rule。<br>
+6. *在 Type （类型） 下拉菜单中选择 SSH。选择源中的自定义后，搜索 VPC1-BastionHost-SG。添加您选择的自定义描述，例如“从堡垒主机进行 SSH 访问”。<br>
+添加此规则将允许公有子网中的堡垒主机通过 SSH 端口与 VPC1 私有子网实例通信。这将启用从堡垒主机到私有子网实例的 SSH。<br>
+注意：使用安全组 ID 作为源被视为最佳实践。或者，您也可以提供整个公有子网的 CIDR 范围 （10.0.1.0/24） 或堡垒主机 EC2 实例的私有 IP 地址（例如，格式：10.0.1.x/32）。根据最佳实践，禁止使用 zero-cidr（0.0.0.0/0） 和 All Traffic。<br>
+7. 重复上述步骤以添加 ICMP 规则。<br>
+提示：对于 Type 下拉列表，选择 All ICMP - IPV4。添加您选择的自定义描述，例如“从堡垒主机访问 ICMP”。<br>
+8. 单击 Save rules（保存规则）。<br>
+更新 VPC2 私有子网 EC2 实例安全组<br>
+1. 在 AWS 管理控制台中，搜索 VPC 服务并访问 VPC 控制台。<br>
+2. 在左侧面板上，单击 Security grouping（安全分组）下的 Security Groups（安全组）。<br>
+3. 搜索名为 VPC2-Pvt-Subnet-Instance-SG 的安全组，然后单击安全组 ID。<br>
+4. 在页面底部，单击 Inbound Rules 选项卡和 Edit Inbound Rules。<br>
+5. 单击 Add Rule。<br>
+6. 在 Type 下拉列表中选择 All ICMP - IPV4。在选择“在源中自定义”的情况下，提供整个 VPC1 私有子网的 CIDR 范围 （10.0.2.0/24） 或 VPC1 私有子网 EC2 实例的私有 IP 地址（例如，格式：10.0.2.x/32）。添加您选择的自定义描述，例如“从 VPC1 私有子网 EC2 实例进行 ICMP 访问”。<br>
+添加此规则将允许 VPC1 私有子网中的 EC2 实例通过 ICMP 端口对 VPC2 私有子网实例执行 ping 操作。<br>
+注意：启用 ICMP 访问足以完成此质询。您无需通过 SSH 连接到 VPC2 的私有实例。根据最佳实践，此质询中禁止使用 zero-cidr（0.0.0.0/0） 和 All Traffic。</p>
+<pre class="notranslate"><code class="notranslate">7. 单击 Save rules（保存规则）。
+</code></pre>
+<p>自动验证脚本会将您的任务标记为已完成。或者，您可以单击 Jam 门户任务页面上的 Check my progress 按钮。</p>
+<p>来自 <a href="https://jam.awsevents.com/event-10-23/challenges/learning-tgw?i=1&amp;t=details-1" rel="nofollow">https://jam.awsevents.com/event-10-23/challenges/learning-tgw?i=1&amp;t=details-1</a></p>
+<p>任务2：<br>
+背景<br>
+现在您可以通过堡垒主机 （10.0.1.x） 登录到 VPC1 的私有实例 （10.0.2.x），需要路由来 ping VPC2 的私有子网 （192.168.2.x） 中的实例。确定实现此要求的方法。<br>
+您应该考虑做的事情：<br>
+1. 在路由表条目中使用 VPC CIDR、子网 CIDR 或实例私有 IP 地址。<br>
+你应该避免做的事情：<br>
+1. 根据最佳实践，禁止在所有路由表的路由条目中使用零 CIDR （0.0.0.0/0）。自动任务验证脚本将在整个挑战赛中验证此条件。任何不合规情况都将导致任务被评估为未完成。<br>
+SSH 说明<br>
+使用以下信息，使用其公有 IP 地址通过 SSH 连接到堡垒主机 EC2 实例。您可以在这些说明左侧的 Output Properties （输出属性） 选项卡中找到堡垒主机的公有 IP 地址。<br>
+凭据<br>
+• 用户名：participant<br>
+• 密码：tgw123<br>
+对于 Mac 用户<br>
+• 要通过 SSH 连接到堡垒主机，请打开终端应用程序并使用以下 SSH 命令连接到堡垒主机。注意：必须替换为堡垒机的公网 IP。bastion_host_public_ip<br>
+○ ssh participant@{bastion_host_public_ip}<br>
+• 成功登录堡垒主机后，在堡垒主机终端中使用以下命令通过 SSH 连接到 VPC1 私有子网实例 （10.0.2.x）。注意：您必须替换为 VPC1 私有子网中 EC2 实例的私有 IP（即 ）。vpc1_private_subnet_instance_private_ip10.0.2.x<br>
+○ ssh participant@{vpc1_private_subnet_instance_private_ip}<br>
+对于 Windows 用户<br>
+• 要通过 SSH 连接到堡垒主机，您必须使用 PuTTY 等客户端。如果您的计算机上未安装此 ID，则必须下载并安装一个。检查您的策略，确保在使用公司计算机时允许这样做。<br>
+1. 下载并安装 PuTTY 后，启动应用程序。<br>
+2. 在 Category （类别） 窗格中，选择 Session （会话） 并填写以下字段：<br>
+3. 输入主机，注意：必须将 bastion_host_public_ip 替换为堡垒机的公网 IP。participant@{bastion_host_public_ip}<br>
+4. 确保 Port （端口） 值为 22。<br>
+5. 在 Connection type （连接类型） 下，选择 SSH 。<br>
+6. 单击 Open 按钮<br>
+有关更多详细信息，请参阅 AWS 文档中的<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html#putty-ssh" rel="nofollow">连接到 Linux 实例</a>部分。<br>
+• 成功登录堡垒主机后，使用堡垒主机的以下命令通过 SSH 连接到 VPC1 私有子网实例 （10.0.2.x）。注意：您必须替换为 VPC1 私有子网中 EC2 实例的私有 IP（即 ）。vpc1_private_subnet_instance_private_ip10.0.2.x<br>
+○ ssh participant@{vpc1_private_subnet_instance_private_ip}<br>
+开始<br>
+下面链接了可能有助于执行此任务所需步骤的 AWS 文档。<br>
+• <a href="https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithRouteTables.html#AddRemoveRoutes" rel="nofollow">在路由表中添加和删除路由</a><br>
+• <a href="https://docs.aws.amazon.com/vpc/latest/tgw/tgw-getting-started.html#step-add-routes" rel="nofollow">在中转网关和 VPC 之间添加路由</a><br>
+库存<br>
+VPC1 和 VPC2 路由表<br>
+您应该使用的服务<br>
+亚马逊 VPC<br>
+任务验证<br>
+要完成此任务，您必须使用适当的路由条目更新两个路由表。<br>
+找到解决方案后，任务将自动完成。但是，您始终可以通过按任务详细信息屏幕上的“检查我的进度”按钮来检查您的进度。<br>
+注意：根据安全最佳实践，路由表不应将零 CIDR 条目作为内部流量的目标。因此，禁止在路由条目中使用零 CIDR 作为目标。自动任务验证功能将验证是否符合此要求。此外，自动任务验证脚本将在将任务标记为已完成之前验证您的路由条目。<br>
+提示：使用所需的路由条目更新 VPC 路由表就足以完成此任务。不需要使用其他服务。<br>
+蛛丝马迹<br>
+罚分： 3 点<br>
+线索 1：给路由表添加路由</p>
+<p>隐藏</p>
+<p>需要到中转网关的路由条目才能将流量从 VPC1 路由到 VPC2，反之亦然。<br>
+在 VPC1 和 VPC2 私有子网路由表上添加目标为中转网关的路由条目，并具有适当的目标 CIDR 块。<br>
+路由表包含一组称为路由的规则，用于确定来自子网或网关的网络流量的定向位置。<a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html" rel="nofollow">此文档链接</a>提供了有关路由表和路由条目的更多信息。</p>
+<p>来自 <a href="https://jam.awsevents.com/event-10-23/challenges/learning-tgw?i=2&amp;t=details-2" rel="nofollow">https://jam.awsevents.com/event-10-23/challenges/learning-tgw?i=2&amp;t=details-2</a></p>
+<p>任务三<br>
+背景<br>
+成功添加所需的路由条目后，您应该找到一种方法，通过中转网关从 VPC1 私有子网 EC2 实例 （10.0.2.x） 成功 ping VPC2 私有子网 （192.168.2.x） 中的 EC2 实例。想办法完成这个要求。<br>
+此任务将通过 AWS Transit Gateway 在 VPC1 和 VPC2 之间建立连接。完成后，您在 AWS Transit Gateway 上的概念验证将可供贵公司的领导团队审查。<br>
+注意：请勿创建静态路由来完成此操作。<br>
+要完成质询，您应该完成以下任务：<br>
+1. 从 VPC1 私有子网实例 ping VPC2 私有子网实例的私有 IP。<br>
+注意：您无需登录 VPC2 私有子网实例即可完成此挑战。<br>
+开始<br>
+您可以使用这些文档链接来了解 Transit Gateway 概念。<br>
+• <a href="https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html#concepts" rel="nofollow">中转网关概念</a><br>
+• <a href="https://docs.aws.amazon.com/vpc/latest/tgw/how-transit-gateways-work.html" rel="nofollow">中转网关的工作原理</a><br>
+您可以使用<a href="https://docs.aws.amazon.com/vpc/latest/tgw/tgw-getting-started.html#step-test-tgw" rel="nofollow">此文档链接</a>中的步骤 4 获取有关测试 Transit Gateway 的更多信息。<br>
+在向 VPC2 私有子网 EC2 实例 （192.168.2.x） 发起 ping 命令之前，请确保在 VPC1 私有子网 EC2 实例 （10.0.2.x） 中，然后再向 VPC2 私有子网实例 （192.168.2.x） 发起 ping 命令。<br>
+• VPC 中转网关<br>
+• VPC Transit Gateway 挂载<br>
+• VPC Transit Gateway 路由表<br>
+您应该使用的服务<br>
+• 亚马逊 VPC<br>
+• AWS 中转网关<br>
+任务验证<br>
+找到解决方案后，通过 SSH 连接到 VPC1 堡垒主机。然后，使用 SSH 说明中提供的本地凭证通过 SSH 连接到 VPC1 私有子网实例 （10.0.2.x）。然后，您将从 VPC1 私有子网 EC2 实例 （10.0.2.x） 向 VPC2 私有子网 EC2 实例 （192.168.2.x） 发出 ping 命令。如果您的解决方案正确，您应该能够通过 Transit Gateway 成功将 ICMP 流量从 VPC1 发送到 VPC2。请继续 ping 实例至少 5 到 10 分钟。<br>
+自动任务验证脚本大约需要 5 到 10 分钟来分析传出 Transit Gateway 的数据包数量，以评估解决方案的正确性。<br>
+从 VPC1 私有子网 ping VPC2 私有子网实例后，任务将自动完成。但是，您始终可以通过按任务详细信息屏幕上的“检查我的进度”按钮来检查您的进度。<br>
+蛛丝马迹<br>
+罚分： 7 点<br>
+线索 1：在 Transit Gateway 路由表上创建路由传播</p>
+<p>隐藏</p>
+<p>需要在中转网关<a href="https://docs.aws.amazon.com/vpc/latest/tgw/how-transit-gateways-work.html#tgw-routing-overview" rel="nofollow">路由</a>表上为每个中转网关挂载创建路由传播。这些路由是数据包通过中转网关所必需的。<br>
+您可以在下面的链接中找到有关 Transit Gateway 路由的更多信息。<br>
+路由<br>
+您可以在下面的链接中找到有关创建路由传播的更多信息。<br>
+<a href="https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html#enable-tgw-route-propagation" rel="nofollow">将路由传播到中转网关路由表</a><br>
+罚分： 9 点<br>
+线索 2：详细演练</p>
+<p>隐藏</p>
+<p>演练<br>
+为 VPC1 中转网关挂载创建路由传播<br>
+1. 在 AWS 管理控制台上，搜索 VPC 服务并访问 VPC 控制台。<br>
+2. 在左侧的导航窗格中，选择 Transit gateways 分组下的 Transit gateway route tables。<br>
+3. 选择中转网关路由表。<br>
+4. 选择 Actions （操作） 下拉列表，然后选择 Create propagation （创建传播）。<br>
+5. 在 Create propagation （创建传播） 页面上，选择 VPC1-TGW-Attachment。<br>
+6. 选择 Create propagation （创建传播）。<br>
+为 VPC2 中转网关挂载创建路由传播<br>
+1. 在 AWS 管理控制台上，搜索 VPC 服务并访问 VPC 控制台。<br>
+2. 在左侧的导航窗格中，选择 Transit gateways 分组下的 Transit gateway route tables。<br>
+3. 选择中转网关路由表。<br>
+4. 选择 Actions （操作） 下拉列表，然后选择 Create propagation （创建传播）。<br>
+5. 在 Create propagation （创建传播） 页面上，选择 VPC2-TGW-Attachment。<br>
+6. 选择 Create propagation （创建传播）。<br>
+测试连接性<br>
+1. 通过 SSH 连接到 VPC1 堡垒机。<br>
+2. 从堡垒主机，使用 SSH 说明中提供的凭证通过 SSH 连接到 VPC1 私有子网实例 （10.0.2.x）。<br>
+3. 成功登录后，从 VPC1 私有子网 EC2 实例 （10.0.2.x） 向 VPC2 私有子网 EC2 实例 （192.168.2.x） 发出 ping 命令。<br>
+自动任务验证脚本大约需要 5 到 10 分钟来分析传出 Transit Gateway 的数据包数量，以评估解决方案的正确性。<br>
+从 VPC1 私有子网实例 ping VPC2 私有子网实例后，该任务将自动完成。此外，您可以随时通过点击挑战详情屏幕上的“查看我的进度”按钮来查看您的进度。</p>
+<p>来自 <a href="https://jam.awsevents.com/event-10-23/challenges/learning-tgw?i=3&amp;t=details-3" rel="nofollow">https://jam.awsevents.com/event-10-23/challenges/learning-tgw?i=3&amp;t=details-3</a></p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Owenwoow.github.io/aws">Owen AWS Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Owenwoow/aws");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
