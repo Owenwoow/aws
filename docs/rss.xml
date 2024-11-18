@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Owen AWS Blog</title><link>https://Owenwoow.github.io/aws</link><description>Blog For Owen_W</description><copyright>Owen AWS Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Mon, 18 Nov 2024 12:23:08 +0000</lastBuildDate><managingEditor>Owen AWS Blog</managingEditor><ttl>60</ttl><webMaster>Owen AWS Blog</webMaster><item><title>数据库 连接 | 查询 | 创建（mysql&amp;postgresql)</title><link>https://Owenwoow.github.io/aws/post/shu-ju-ku-%20-lian-jie-%20-%20-cha-xun-%20-%20-chuang-jian-%EF%BC%88mysql%26postgresql%29.html</link><description>## 从实例连接mysql&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Owen AWS Blog</title><link>https://Owenwoow.github.io/aws</link><description>Blog For Owen_W</description><copyright>Owen AWS Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Mon, 18 Nov 2024 12:26:22 +0000</lastBuildDate><managingEditor>Owen AWS Blog</managingEditor><ttl>60</ttl><webMaster>Owen AWS Blog</webMaster><item><title>使用systemd实现自启动</title><link>https://Owenwoow.github.io/aws/post/shi-yong-systemd-shi-xian-zi-qi-dong.html</link><description># systemd 实现服务自启动&#13;
+&#13;
+server.root服务&#13;
+&#13;
+##### 介绍：&#13;
+&#13;
+​	*如果要让任务开机自启动，需将对应的Unit文件存放于/etc/systemd/system下。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/shi-yong-systemd-shi-xian-zi-qi-dong.html</guid><pubDate>Mon, 18 Nov 2024 12:25:59 +0000</pubDate></item><item><title>数据库 连接 | 查询 | 创建（mysql&amp;postgresql)</title><link>https://Owenwoow.github.io/aws/post/shu-ju-ku-%20-lian-jie-%20-%20-cha-xun-%20-%20-chuang-jian-%EF%BC%88mysql%26postgresql%29.html</link><description>## 从实例连接mysql&#13;
 &#13;
 写入器url&#13;
 &#13;
