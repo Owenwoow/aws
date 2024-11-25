@@ -14,18 +14,19 @@ server.root服务
 
 ```shell
 [Unit]
-Description=Halo Service
-Documentation=https://docs.halo.run
-After=network-online.target
-Wants=network-online.target
+Description=Custom Server Service
+After=network.target
 
 [Service]
 User=root
-ExecStart=/root/stub/stub -config /root/stub/stub.ini
-ExecStop=/bin/kill -s QUIT $MAINPID
-Restart=always
-StandardOutput=syslog
-StandardError=inherit
+ExecStart=/root/server/server
+WorkingDirectory=/root/server
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=4096
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=server
 
 [Install]
 WantedBy=multi-user.target
