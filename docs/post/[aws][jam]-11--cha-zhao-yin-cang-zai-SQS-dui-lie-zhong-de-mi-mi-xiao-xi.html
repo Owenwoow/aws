@@ -10,15 +10,14 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="
-![image-20241020090503948](https://github.com/user-attachments/assets/9eddcc11-ebf9-4357-b21a-dfab5756a528)
+<meta name="description" content="![image-20241020090503948](https://github.com/user-attachments/assets/9eddcc11-ebf9-4357-b21a-dfab5756a528)
 
 
 **查找隐藏在SQS队列中的秘密消息！！**
 
 
 
-### 任务 1：为什么 lambda 函数超时？
+## 任务 1：为什么 lambda 函数超时？
 
 ![image-20241020090727875](https://github.com/user-attachments/assets/e7470166-5294-4580-96a5-91a8bb4b36b3)
 
@@ -30,15 +29,14 @@
 
 更新附加到 VPC 端点的安全组的入站规则。">
 <meta property="og:title" content="[aws][jam]-11-查找隐藏在SQS队列中的秘密消息">
-<meta property="og:description" content="
-![image-20241020090503948](https://github.com/user-attachments/assets/9eddcc11-ebf9-4357-b21a-dfab5756a528)
+<meta property="og:description" content="![image-20241020090503948](https://github.com/user-attachments/assets/9eddcc11-ebf9-4357-b21a-dfab5756a528)
 
 
 **查找隐藏在SQS队列中的秘密消息！！**
 
 
 
-### 任务 1：为什么 lambda 函数超时？
+## 任务 1：为什么 lambda 函数超时？
 
 ![image-20241020090727875](https://github.com/user-attachments/assets/e7470166-5294-4580-96a5-91a8bb4b36b3)
 
@@ -53,7 +51,7 @@
 <meta property="og:url" content="https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-11--cha-zhao-yin-cang-zai-SQS-dui-lie-zhong-de-mi-mi-xiao-xi.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
 <title>[aws][jam]-11-查找隐藏在SQS队列中的秘密消息</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -121,7 +119,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div class="markdown-body" id="postBody"><p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9eddcc11-ebf9-4357-b21a-dfab5756a528"><img src="https://github.com/user-attachments/assets/9eddcc11-ebf9-4357-b21a-dfab5756a528" alt="image-20241020090503948" style="max-width: 100%;"></a></p>
 <p><strong>查找隐藏在SQS队列中的秘密消息！！</strong></p>
-<h3>任务 1：为什么 lambda 函数超时？</h3>
+<h2>任务 1：为什么 lambda 函数超时？</h2>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e7470166-5294-4580-96a5-91a8bb4b36b3"><img src="https://github.com/user-attachments/assets/e7470166-5294-4580-96a5-91a8bb4b36b3" alt="image-20241020090727875" style="max-width: 100%;"></a></p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5fc06da6-474d-48d5-8ee4-a22cca2fe7ab"><img src="https://github.com/user-attachments/assets/5fc06da6-474d-48d5-8ee4-a22cca2fe7ab" alt="image-20241020091242378" style="max-width: 100%;"></a></p>
 <p>线索 2：如何访问我的 VPC 端点？</p>
@@ -144,30 +142,81 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>一旦超时错误解决，并且您会收到另一个与权限相关的错误，请单击<code class="notranslate">check my progress</code>JAM 控制台。</li>
 </ul>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/54e9513b-3cb4-404d-b144-fcb884f458cd"><img src="https://github.com/user-attachments/assets/54e9513b-3cb4-404d-b144-fcb884f458cd" alt="image-20241020092602348" style="max-width: 100%;"></a></p>
-<h3>任务 2：AWS lambda 函数角色是否具有足够的权限来访问 SQS？</h3>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/325425d2-cd27-48df-bf06-ec612504d20b"><img src="https://github.com/user-attachments/assets/325425d2-cd27-48df-bf06-ec612504d20b" alt="image-20241020092652885" style="max-width: 100%;"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ca531fe0-c8b5-41f6-a9a4-861072736147"><img src="https://github.com/user-attachments/assets/ca531fe0-c8b5-41f6-a9a4-861072736147" alt="image-20241020093333444" style="max-width: 100%;"></a></p>
-<pre class="notranslate"><code class="notranslate">{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "sqs:ReceiveMessage",
-                "sqs:SendMessage",
-                "sqs:GetQueueUrl",
-                "sqs:ListQueues"
-            ],
-            "Resource": [
-                "arn:aws:sqs:us-west-2:140619006867:Jam-Challenge-Queue",
-                "arn:aws:sqs:us-west-2:140619006867:ResultQueue"
-            ]
-        }
-    ]
-}
-
-</code></pre>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ee87fefc-bc34-45e9-a623-719cb631656a"><img src="https://github.com/user-attachments/assets/ee87fefc-bc34-45e9-a623-719cb631656a" alt="image-20241020094115760" style="max-width: 100%;"></a></p></div>
+<h2>任务 2：AWS Lambda 函数角色是否具有足够的权限来访问 SQS？</h2>
+<hr>
+<h3>背景</h3>
+<p>成功更新 VPC 安全配置后，我们执行了 Lambda，但现在它失败并出现错误：<br>
+<code class="notranslate">when calling the GetQueueUrl operation: The specified queue does not exist or you do not have access to it</code>。<br>
+应用程序（Lambda 函数）从 SQS 队列 <code class="notranslate">Jam-Challenge-Queue</code> 轮询（接收）消息并对其进行处理。</p>
+<hr>
+<h3>任务</h3>
+<p>要完成此任务，您需要确保附加到 Lambda 函数的 IAM 角色具有足够的权限来对 SQS 队列执行基本操作并获取有关 SQS 队列的详细信息。请记住在向现有策略添加/更新任何权限时遵循 <strong>最小特权原则</strong>。</p>
+<h4>任务要求：</h4>
+<ol>
+<li>为了验证 AWS Lambda 函数，请在 IAM 策略中进行必要的更改后执行它。</li>
+<li>如果没有遵循最小特权原则，策略更新将失败。</li>
+<li>可以更新 IAM 策略附加的 AWS Lambda 函数，以添加其他权限。</li>
+</ol>
+<hr>
+<h3>存货</h3>
+<p>我们已为您提供以下资源以帮助您成功完成挑战：</p>
+<ul>
+<li><strong>AWS Lambda 函数</strong>（<code class="notranslate">Jam-Challenge-Lambda</code>）</li>
+<li><strong>Amazon SQS 队列</strong>（<code class="notranslate">Jam-Challenge-Queue</code>）</li>
+<li><strong>IAM 角色</strong>（<code class="notranslate">Jam-Challenge-Role</code>）</li>
+</ul>
+<hr>
+<h3>入门</h3>
+<ol>
+<li>检查附加到 IAM 角色 <code class="notranslate">Jam-Challenge-Role</code> 的 IAM 权限。</li>
+<li>请参阅如何在 Amazon SQS 中使用基于身份的策略。</li>
+</ol>
+<hr>
+<h3>任务验证</h3>
+<p>找到解决方案后，任务将自动完成。您可以随时通过点击挑战详情屏幕中的“<strong>查看我的进度</strong>”按钮来查看进度。</p>
+<h4>注意事项：</h4>
+<ul>
+<li>请检查 Lambda 函数代码并仅添加函数中所需的必要权限。</li>
+<li>要完成任务，您必须使用示例测试事件执行 AWS Lambda 函数。</li>
+<li>请遵守 <strong>最低特权 IAM 政策</strong>。</li>
+<li>更新 IAM 策略时，忽略 AWS IAM 控制台上与 IAM 访问分析器相关的错误。</li>
+<li>基于 SQS 资源的策略超出了此挑战的范围。</li>
+</ul>
+<h5>线索 1：哪些 IAM 权限允许访问 Amazon SQS 服务？</h5>
+<ol>
+<li>打开 [<a href="https://console.aws.amazon.com/iam/" rel="nofollow">Amazon IAM 控制台</a>](<a href="https://console.aws.amazon.com/iam/" rel="nofollow">https://console.aws.amazon.com/iam/</a>)</li>
+<li>更新附加到 IAM 角色的内联策略 <code class="notranslate">Jam-Challenge-Role</code>。请参阅如何使用控制台更新访问策略。</li>
+<li>添加必要的权限以对 SQS 队列执行基本操作，参考此文档。</li>
+<li>仅添加获取队列属性和队列 URL 所需的权限。</li>
+<li>执行 Lambda 函数。</li>
+<li>成功执行 Lambda 函数后，点击 JAM 控制台中的“<strong>检查我的进度</strong>”。</li>
+</ol>
+<h5>线索 2：更新附加到 IAM 角色的内联策略</h5>
+<ol>
+<li>打开 [<a href="https://console.aws.amazon.com/iam/" rel="nofollow">AWS IAM 控制台</a>](<a href="https://console.aws.amazon.com/iam/" rel="nofollow">https://console.aws.amazon.com/iam/</a>)</li>
+<li>在导航窗格中，选择 <strong>角色</strong>。</li>
+<li>搜索 IAM 角色 <code class="notranslate">Jam-Challenge-Role</code>。</li>
+<li>编辑客户内联政策 <code class="notranslate">LambdaExecutionRolePolicy</code>。</li>
+<li>请参阅如何使用 AWS 控制台更新访问策略。</li>
+<li>将以下声明添加到现有的内联策略中：</li>
+</ol>
+<div class="highlight highlight-source-json"><pre class="notranslate">{
+    <span class="pl-ent">"Action"</span>: [
+        <span class="pl-s"><span class="pl-pds">"</span>sqs:ReceiveMessage<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>sqs:GetQueueUrl<span class="pl-pds">"</span></span>
+    ],
+    <span class="pl-ent">"Resource"</span>: [
+        <span class="pl-s"><span class="pl-pds">"</span>arn:aws:sqs:*:*:Jam-Challenge-Queue<span class="pl-pds">"</span></span>
+    ],
+    <span class="pl-ent">"Effect"</span>: <span class="pl-s"><span class="pl-pds">"</span>Allow<span class="pl-pds">"</span></span>
+}</pre></div>
+<ol>
+<li>检查添加的策略并保存更改。</li>
+<li>添加策略后，执行 AWS Lambda 函数。</li>
+<li>成功执行 Lambda 函数后，点击 JAM 控制台中的“<strong>检查我的进度</strong>”。</li>
+</ol>
+<hr>
+<p>这样转化后的 Markdown 格式结构清晰，方便阅读并且便于理解任务要求。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
