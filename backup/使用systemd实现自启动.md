@@ -14,12 +14,12 @@ server.root服务
 
 ```shell
 [Unit]
-Description=Custom Server Service
+Description=root Server Service
 After=network.target
 
 [Service]
 User=root
-ExecStart=/root/server/server
+ExecStart=/root/server/server -config /root/server/server.ini
 WorkingDirectory=/root/server
 Restart=on-failure
 RestartSec=3
@@ -30,6 +30,7 @@ SyslogIdentifier=server
 
 [Install]
 WantedBy=multi-user.target
+
 
 
 ```
