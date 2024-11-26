@@ -133,7 +133,7 @@ yum install amazon-efs-utils -y
 <ul>
 <li>
 <p>要在IAM授权的情况下自动挂载到具有EC2实例配置文件的 Amazon 实例，请在<code class="notranslate">/etc/fstab</code>文件中添加以下行。</p>
-<pre class="notranslate"><code class="notranslate">file-system-id:/ efs-mount-point efs _netdev,noresvport,tls,iam 0 0
+<pre class="notranslate"><code class="notranslate">file-system-id:/ efs挂载点 efs _netdev,noresvport,tls,iam 0 0
 </code></pre>
 </li>
 </ul>
