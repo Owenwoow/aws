@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Owen AWS Blog</title><link>https://Owenwoow.github.io/aws</link><description>Blog For Owen_W</description><copyright>Owen AWS Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Tue, 26 Nov 2024 00:27:14 +0000</lastBuildDate><managingEditor>Owen AWS Blog</managingEditor><ttl>60</ttl><webMaster>Owen AWS Blog</webMaster><item><title>使用systemd实现自启动</title><link>https://Owenwoow.github.io/aws/post/shi-yong-systemd-shi-xian-zi-qi-dong.html</link><description># systemd 实现服务自启动&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Owen AWS Blog</title><link>https://Owenwoow.github.io/aws</link><description>Blog For Owen_W</description><copyright>Owen AWS Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Tue, 26 Nov 2024 00:43:37 +0000</lastBuildDate><managingEditor>Owen AWS Blog</managingEditor><ttl>60</ttl><webMaster>Owen AWS Blog</webMaster><item><title>[aws][jam]-13-Wordpress 密码是什么？</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-13-Wordpress%20-mi-ma-shi-shen-me-%EF%BC%9F.html</link><description># Wordpress 密码是什么？&#13;
+&#13;
+------&#13;
+&#13;
+## 概述&#13;
+&#13;
+当您收到紧急问题报告时，您是一家繁忙的数字代理机构中熟练的 Web 开发人员和 Amazon Lightsail 的权威。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-13-Wordpress%20-mi-ma-shi-shen-me-%EF%BC%9F.html</guid><pubDate>Tue, 26 Nov 2024 00:43:13 +0000</pubDate></item><item><title>使用systemd实现自启动</title><link>https://Owenwoow.github.io/aws/post/shi-yong-systemd-shi-xian-zi-qi-dong.html</link><description># systemd 实现服务自启动&#13;
 &#13;
 server.root服务&#13;
 &#13;
