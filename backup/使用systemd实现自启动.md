@@ -84,5 +84,5 @@ systemctl status server
 ##### 5.开机自启动server
 
 ```
-systemctl enable serverer 
+systemctl enable server
 ```
