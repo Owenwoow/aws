@@ -4,5 +4,5 @@ NekoBox:https://github.com/Matsuridayo/nekoray/releases
 免费配置链接：
 
 ```
-hy2://wht071114@148.135.103.83:1080?mport=60000,41000-43000&insecure=1&sni=www.bing.com#CC
+hy2://{your passwd}@148.135.103.83:1080?mport=60000,41000-43000&insecure=1&sni=www.bing.com#CC
 ```
