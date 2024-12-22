@@ -10,28 +10,26 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="NekoBox:https://github.com/Matsuridayo/nekoray/releases
-![image](https://github.com/user-attachments/assets/d85df53f-3888-4202-9837-2d8975aaa994)
+<meta name="description" content="# 创建iam 分配和创建用户/角色的权限
 
-免费配置链接：
+## 题目：
 
-```
-hy2://wht071114@148.135.103.83:1080?mport=60000,41000-43000&insecure=1&sni=www.bing.com#CC
-```。">
-<meta property="og:title" content="3123123">
-<meta property="og:description" content="NekoBox:https://github.com/Matsuridayo/nekoray/releases
-![image](https://github.com/user-attachments/assets/d85df53f-3888-4202-9837-2d8975aaa994)
+### **背景**
 
-免费配置链接：
+你需要创建 IAM 角色，这个角色可用于开发进行测试。">
+<meta property="og:title" content="创建iam 分配和创建用户/角色的权限">
+<meta property="og:description" content="# 创建iam 分配和创建用户/角色的权限
 
-```
-hy2://wht071114@148.135.103.83:1080?mport=60000,41000-43000&insecure=1&sni=www.bing.com#CC
-```。">
+## 题目：
+
+### **背景**
+
+你需要创建 IAM 角色，这个角色可用于开发进行测试。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://Owenwoow.github.io/aws/post/3123123.html">
+<meta property="og:url" content="https://Owenwoow.github.io/aws/post/chuang-jian-iam%20-fen-pei-he-chuang-jian-yong-hu---jiao-se-de-quan-xian.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
-<title>3123123</title>
-
+<title>创建iam 分配和创建用户/角色的权限</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -73,7 +71,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">3123123</h1>
+<h1 class="postTitle">创建iam 分配和创建用户/角色的权限</h1>
 <div class="title-right">
     <a href="https://Owenwoow.github.io/aws" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -81,7 +79,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/Owenwoow/aws/issues/23" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Owenwoow/aws/issues/3" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -97,11 +95,118 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>NekoBox:<a href="https://github.com/Matsuridayo/nekoray/releases">https://github.com/Matsuridayo/nekoray/releases</a><br>
-<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d85df53f-3888-4202-9837-2d8975aaa994"><img src="https://github.com/user-attachments/assets/d85df53f-3888-4202-9837-2d8975aaa994" alt="image" style="max-width: 100%;"></a></p>
-<p>免费配置链接：</p>
-<pre class="notranslate"><code class="notranslate">hy2://wht071114@148.135.103.83:1080?mport=60000,41000-43000&amp;insecure=1&amp;sni=www.bing.com#CC
-</code></pre></div>
+<div class="markdown-body" id="postBody"><h1>创建iam 分配和创建用户/角色的权限</h1>
+<h2>题目：</h2>
+<h3><strong>背景</strong></h3>
+<p>你需要创建 IAM 角色，这个角色可用于开发进行测试。这个iam用户拥有分配和创建用户/角色的权限，但不超出公司安全策略定义的权限（最大权限<code class="notranslate">s3:*</code>是<code class="notranslate">ssm:PutParameter</code>）</p>
+<h3><strong>你的任务</strong></h3>
+<p>您的工作是创建一个委派管理员角色（角色 A）。</p>
+<ul>
+<li>角色 A 将被开发人员用来为应用程序配置 IAM 资源。角色 A 仅在存在突出显示的最大权限时才可以创建 IAM 角色。</li>
+<li>角色A必须被调用<code class="notranslate">SJ-DelegatedAdmin</code>，并且必须信任2个账户（你当前的账户和<code class="notranslate">681434714655</code>用于答案验证的账户）。</li>
+<li>必须调用您的最大权限策略<code class="notranslate">SJ-Max</code>。</li>
+<li>**可选：**您可以测试从 SJ-DelegatedAdmin（角色 A）创建测试角色（角色 B），以确保您的解决方案正确无误。角色 B 应具有与角色 A 相同的信任关系</li>
+</ul>
+<h3><strong>任务验证</strong></h3>
+<p><strong>验证解决方案的步骤</strong></p>
+<ul>
+<li>
+<p>运行以下命令替换<code class="notranslate">12345</code>AWS 帐号</p>
+<ul>
+<li>
+<p>Mac 或 Linux 机器：</p>
+<pre class="notranslate"><code class="notranslate">curl -d '{"account_id":"12345"}' -H "Content-Type: application/json" -X POST https://1b07hvp92b.execute-api.us-east-1.amazonaws.com/prod/validate
+</code></pre>
+</li>
+<li>
+<p>窗户：</p>
+<pre class="notranslate"><code class="notranslate">curl -d "{\"account_id\":\"12345\"}" -H "Content-Type: application/json" -X POST https://1b07hvp92b.execute-api.us-east-1.amazonaws.com/prod/validate
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>将运行 curl 命令后获得的答案文本输入到<code class="notranslate">Enter answer here</code>JAM 控制台的字段中</p>
+</li>
+</ul>
+<h2>答案：</h2>
+<p>需要创建两权限附加到用户上</p>
+<h4>权限一：将此 IAM 策略命名为SJ-Max</h4>
+<div class="highlight highlight-source-json"><pre class="notranslate">{
+    <span class="pl-ent">"Version"</span>: <span class="pl-s"><span class="pl-pds">"</span>2012-10-17<span class="pl-pds">"</span></span>,
+    <span class="pl-ent">"Statement"</span>: [
+        {
+            <span class="pl-ent">"Effect"</span>: <span class="pl-s"><span class="pl-pds">"</span>Allow<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Action"</span>: [
+                <span class="pl-s"><span class="pl-pds">"</span>s3:*<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>ssm:PutParameter<span class="pl-pds">"</span></span>
+            ],
+            <span class="pl-ent">"Resource"</span>: <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>
+        }
+    ]
+}</pre></div>
+<h4>权限二：将此策略命名为 SJ-Boundary</h4>
+<p>IAM 权限边界本身并不提供权限，而是限制总体权限的预防性控制。<br>
+您需要为委托 IAM 管理员创建权限策略才能创建角色。<br>
+[<a href="https://docs.aws.amazon.com/zh_cn/IAM/latest/UserGuide/id_roles_create_for-service.html" rel="nofollow">为 AWS 服务创建角色</a>](<a href="https://docs.aws.amazon.com/zh_cn/IAM/latest/UserGuide/id_roles_create_for-service.html)%EF%BC%88%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%EF%BC%89" rel="nofollow">https://docs.aws.amazon.com/zh_cn/IAM/latest/UserGuide/id_roles_create_for-service.html)（官方文档）</a></p>
+<p>创建策略：</p>
+<div class="highlight highlight-source-json"><pre class="notranslate">{
+    <span class="pl-ent">"Version"</span>: <span class="pl-s"><span class="pl-pds">"</span>2012-10-17<span class="pl-pds">"</span></span>,
+    <span class="pl-ent">"Statement"</span>: [
+        {
+            <span class="pl-ent">"Sid"</span>: <span class="pl-s"><span class="pl-pds">"</span>RoleCreationWithPermission<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Effect"</span>: <span class="pl-s"><span class="pl-pds">"</span>Allow<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Action"</span>: [
+                <span class="pl-s"><span class="pl-pds">"</span>iam:DetachRolePolicy<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>iam:DeleteRolePolicy<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>iam:CreateRole<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>iam:AttachRolePolicy<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>iam:PutRolePolicy<span class="pl-pds">"</span></span>
+            ],
+            <span class="pl-ent">"Resource"</span>: <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Condition"</span>: {
+                <span class="pl-ent">"StringEquals"</span>: {
+                    <span class="pl-ent">"iam:PermissionsBoundary"</span>: <span class="pl-s"><span class="pl-pds">"</span>arn:aws:iam::{account_id}:policy/SJ-Max<span class="pl-pds">"</span></span>
+                }
+            }
+        },
+        {
+            <span class="pl-ent">"Sid"</span>: <span class="pl-s"><span class="pl-pds">"</span>IAMPermission<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Effect"</span>: <span class="pl-s"><span class="pl-pds">"</span>Allow<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Action"</span>: [
+                <span class="pl-s"><span class="pl-pds">"</span>iam:CreatePolicy<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>iam:GetRole<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>iam:ListRoles<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>iam:DeletePolicy<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>iam:DeleteRole<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>iam:GetRolePolicy<span class="pl-pds">"</span></span>
+            ],
+            <span class="pl-ent">"Resource"</span>: <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>
+        }
+    ]
+} 
+</pre></div>
+<h4>创建用户：</h4>
+<div class="highlight highlight-source-json"><pre class="notranslate">{
+  <span class="pl-ent">"Version"</span>: <span class="pl-s"><span class="pl-pds">"</span>2012-10-17<span class="pl-pds">"</span></span>,
+  <span class="pl-ent">"Statement"</span>: [
+    {
+      <span class="pl-ent">"Effect"</span>: <span class="pl-s"><span class="pl-pds">"</span>Allow<span class="pl-pds">"</span></span>,
+      <span class="pl-ent">"Principal"</span>: {
+        <span class="pl-ent">"AWS"</span>: [
+          <span class="pl-s"><span class="pl-pds">"</span>arn:aws:iam::12345:root<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>arn:aws:iam::681434714655:root<span class="pl-pds">"</span></span>
+        ]
+      },
+      <span class="pl-ent">"Action"</span>: <span class="pl-s"><span class="pl-pds">"</span>sts:AssumeRole<span class="pl-pds">"</span></span>,
+      <span class="pl-ent">"Condition"</span>: {}
+    }
+  ]
+ }
+<span class="pl-ii">ArthurMorgan</span></pre></div>
+<ul>
+<li>单击“更新策略”</li>
+</ul></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
