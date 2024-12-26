@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Thu, 26 Dec 2024 00:59:27 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>架构优化和安全要点</title><link>https://Owenwoow.github.io/aws/post/jia-gou-you-hua-he-an-quan-yao-dian.html</link><description>### 目标组&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Thu, 26 Dec 2024 01:01:34 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>架构优化和安全要点</title><link>https://Owenwoow.github.io/aws/post/jia-gou-you-hua-he-an-quan-yao-dian.html</link><description>### 目标组&#13;
 &#13;
 1. 目标组取消注册 60 和负载auth冷却时间设置 60 &#13;
 2. 负载平衡算法 ， 最少未完成的请求&#13;
@@ -44,7 +44,16 @@ SQS 队列需要允许 SNS 发布消息。</description><guid isPermaLink="true"
 &#13;
 ```&#13;
 hy2://{your passwd}@148.135.103.83:1080?mport=60000,41000-43000&amp;insecure=1&amp;sni=www.bing.com#CC&#13;
-```。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/nekobox-de-shi-yong.html</guid><pubDate>Thu, 12 Dec 2024 02:04:46 +0000</pubDate></item><item><title>Docker基础</title><link>https://Owenwoow.github.io/aws/post/Docker-ji-chu.html</link><description>&#13;
+```。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/nekobox-de-shi-yong.html</guid><pubDate>Thu, 12 Dec 2024 02:04:46 +0000</pubDate></item><item><title>Docker集群</title><link>https://Owenwoow.github.io/aws/post/Docker-ji-qun.html</link><description>&#13;
+容器的集群&#13;
+&#13;
+# Docker Compose&#13;
+&#13;
+-----&#13;
+&#13;
+### 简介：&#13;
+&#13;
+Docker compose 可以用来轻松高效的管理容器，定义多个容器的启动。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/Docker-ji-qun.html</guid><pubDate>Tue, 26 Nov 2024 01:03:32 +0000</pubDate></item><item><title>Docker基础</title><link>https://Owenwoow.github.io/aws/post/Docker-ji-chu.html</link><description>&#13;
 # Docker基础&#13;
 &#13;
 ## docker的安装和卸载&#13;
