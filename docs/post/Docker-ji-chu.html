@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/157098070?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="
+# Docker基础
+
+## docker的安装和卸载
+
+> 安装docker
+
+根据官方文档安装
+
+
+
+> docker 的 卸载
+
+```shell
+# 1、卸载依赖
+
+# 1、卸载资源
+rm -rf /var/lib/docker 
+
+# /var/lib/docker docker 的默认存放路径
+```
+
+
+
+
+
+## 第一个docker应用
+
+> 使用 sudo docker run hello-world
+
+
+
+
+
+## docker的常用命令
+
+### docker的帮助命令
+
+```shell
+docker version		# 显示docker的版本信息
+docker info 		# 显示docker的系统级信息
+docker 命令 --help   # 查看docker命令
+```
+
+帮助文档地址：https://docs.docker.com/reference/
+
+
+
+### 镜像命令
+
+##### **docker images**
+
+```shell
+[root@ip-10-0-1-102 ~]# docker images 
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+hello-world   latest    d2c94e258dcb   18 months ago   13.3kB
+
+
+# 解释
+REPOSITORY   镜像的仓库源
+TAG			 镜像的标签
+IMAGE ID     镜像的id
+CREATED      镜像的创建时间
+SIZE		 镜像的大小
+
+# 可选项
+  -a, --all             Show all images (default hides intermediate images)
+  -q, --quiet           Only show image IDs
+
+```
+
+
+
+##### **docker search 命令搜索镜像%**
+
+```shell
+[root@kuangshen /]# docker search mysql
+NAME                DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql               MySQL is a widely used, open-source relation... 9494      [OK]       
+mariadb             MariaDB is a community-developed fork of MyS... 3441      [OK]       
+
+# 可选项，通过搜索来过滤
+--filter=STARS=3000    # 搜索出来的镜像就是STARS大于3000的
+
+[root@kuangshen /]# docker search mysql --filter=STARS=3000
+NAME                DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql               MySQL is a widely used, open-source relation... 9494      [OK]       
+mariadb             MariaDB is a community-developed fork of MyS... 3441      [OK]       
+
+[root@kuangshen /]# docker search mysql --filter=STARS=5000
+NAME                DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql               MySQL is a widely used, open-source relation... 9494      [OK]
+
+```
+
+
+
+##### **docker pull 下载镜像**
+
+```shell
+# 下载镜像 docker pull 镜像名[:tag]
+[root@kuangshen /]  # docker pull mysql
+Using default tag: latest  # 如果不写 tag，默认就是 latest
+latest: Pulling from library/mysql
+5b54d594fba7: Pull complete
+07e7d6a8a868: Pull complete
+abd946892310: Pull complete
+dd8f4d07efa5: Pull complete
+07d6396a6205: Pull complete
+cf6b2b93048f: Pull complete
+530904b4a8b7: Pull complete
+fb1e55059a95: Pull complete
+4bd29a0dcde8: Pull complete
+b94a001c6ec7: Pull complete
+cb77cbeb422b: Pull complete
+2a35cdbd42cc: Pull complete
+Digest: sha256:dc255ca50a42b358197000b1f9bab2b4e01d158d1a9f56c3db6ee145506f625  # 签名
+Status: Downloaded newer image for mysql:latest
+docker.io/library/mysql:latest  # 真实地址
+
+# 等价于它
+docker pull mysql
+docker pull docker.io/library/mysql:latest
+
+# 指定版本下载
+[root@ip-10-0-1-102 ~]# docker pull mysql:8.0
+8.0: Pulling from library/mysql
+f1a9f94fc2db: Already exists   # 因为已经下载过了，所有没有下载。">
+<meta property="og:title" content="Docker基础">
+<meta property="og:description" content="
+# Docker基础
+
+## docker的安装和卸载
+
+> 安装docker
+
+根据官方文档安装
+
+
+
+> docker 的 卸载
+
+```shell
+# 1、卸载依赖
+
+# 1、卸载资源
+rm -rf /var/lib/docker 
+
+# /var/lib/docker docker 的默认存放路径
+```
+
+
+
+
+
+## 第一个docker应用
+
+> 使用 sudo docker run hello-world
+
+
+
+
+
+## docker的常用命令
+
+### docker的帮助命令
+
+```shell
+docker version		# 显示docker的版本信息
+docker info 		# 显示docker的系统级信息
+docker 命令 --help   # 查看docker命令
+```
+
+帮助文档地址：https://docs.docker.com/reference/
+
+
+
+### 镜像命令
+
+##### **docker images**
+
+```shell
+[root@ip-10-0-1-102 ~]# docker images 
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+hello-world   latest    d2c94e258dcb   18 months ago   13.3kB
+
+
+# 解释
+REPOSITORY   镜像的仓库源
+TAG			 镜像的标签
+IMAGE ID     镜像的id
+CREATED      镜像的创建时间
+SIZE		 镜像的大小
+
+# 可选项
+  -a, --all             Show all images (default hides intermediate images)
+  -q, --quiet           Only show image IDs
+
+```
+
+
+
+##### **docker search 命令搜索镜像%**
+
+```shell
+[root@kuangshen /]# docker search mysql
+NAME                DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql               MySQL is a widely used, open-source relation... 9494      [OK]       
+mariadb             MariaDB is a community-developed fork of MyS... 3441      [OK]       
+
+# 可选项，通过搜索来过滤
+--filter=STARS=3000    # 搜索出来的镜像就是STARS大于3000的
+
+[root@kuangshen /]# docker search mysql --filter=STARS=3000
+NAME                DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql               MySQL is a widely used, open-source relation... 9494      [OK]       
+mariadb             MariaDB is a community-developed fork of MyS... 3441      [OK]       
+
+[root@kuangshen /]# docker search mysql --filter=STARS=5000
+NAME                DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql               MySQL is a widely used, open-source relation... 9494      [OK]
+
+```
+
+
+
+##### **docker pull 下载镜像**
+
+```shell
+# 下载镜像 docker pull 镜像名[:tag]
+[root@kuangshen /]  # docker pull mysql
+Using default tag: latest  # 如果不写 tag，默认就是 latest
+latest: Pulling from library/mysql
+5b54d594fba7: Pull complete
+07e7d6a8a868: Pull complete
+abd946892310: Pull complete
+dd8f4d07efa5: Pull complete
+07d6396a6205: Pull complete
+cf6b2b93048f: Pull complete
+530904b4a8b7: Pull complete
+fb1e55059a95: Pull complete
+4bd29a0dcde8: Pull complete
+b94a001c6ec7: Pull complete
+cb77cbeb422b: Pull complete
+2a35cdbd42cc: Pull complete
+Digest: sha256:dc255ca50a42b358197000b1f9bab2b4e01d158d1a9f56c3db6ee145506f625  # 签名
+Status: Downloaded newer image for mysql:latest
+docker.io/library/mysql:latest  # 真实地址
+
+# 等价于它
+docker pull mysql
+docker pull docker.io/library/mysql:latest
+
+# 指定版本下载
+[root@ip-10-0-1-102 ~]# docker pull mysql:8.0
+8.0: Pulling from library/mysql
+f1a9f94fc2db: Already exists   # 因为已经下载过了，所有没有下载。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://Owenwoow.github.io/aws/post/Docker-ji-chu.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
+<title>Docker基础</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Docker基础</h1>
+<div class="title-right">
+    <a href="https://Owenwoow.github.io/aws" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Owenwoow/aws/issues/21" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h1>Docker基础</h1>
+<h2>docker的安装和卸载</h2>
+<blockquote>
+<p>安装docker</p>
+</blockquote>
+<p>根据官方文档安装</p>
+<blockquote>
+<p>docker 的 卸载</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 1、卸载依赖</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 1、卸载资源</span>
+rm -rf /var/lib/docker 
+
+<span class="pl-c"><span class="pl-c">#</span> /var/lib/docker docker 的默认存放路径</span></pre></div>
+<h2>第一个docker应用</h2>
+<blockquote>
+<p>使用 sudo docker run hello-world</p>
+</blockquote>
+<h2>docker的常用命令</h2>
+<h3>docker的帮助命令</h3>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker version		<span class="pl-c"><span class="pl-c">#</span> 显示docker的版本信息</span>
+docker info 		<span class="pl-c"><span class="pl-c">#</span> 显示docker的系统级信息</span>
+docker 命令 --help   <span class="pl-c"><span class="pl-c">#</span> 查看docker命令</span></pre></div>
+<p>帮助文档地址：<a href="https://docs.docker.com/reference/" rel="nofollow">https://docs.docker.com/reference/</a></p>
+<h3>镜像命令</h3>
+<h5><strong>docker images</strong></h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker images </span>
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+hello-world   latest    d2c94e258dcb   18 months ago   13.3kB
+
+
+<span class="pl-c"><span class="pl-c">#</span> 解释</span>
+REPOSITORY   镜像的仓库源
+TAG			 镜像的标签
+IMAGE ID     镜像的id
+CREATED      镜像的创建时间
+SIZE		 镜像的大小
+
+<span class="pl-c"><span class="pl-c">#</span> 可选项</span>
+  -a, --all             Show all images (default hides intermediate images)
+  -q, --quiet           Only show image IDs
+</pre></div>
+<h5><strong>docker search 命令搜索镜像%</strong></h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@kuangshen /]<span class="pl-c"><span class="pl-c">#</span> docker search mysql</span>
+NAME                DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql               MySQL is a widely used, open-source relation... 9494      [OK]       
+mariadb             MariaDB is a community-developed fork of MyS... 3441      [OK]       
+
+<span class="pl-c"><span class="pl-c">#</span> 可选项，通过搜索来过滤</span>
+--filter=STARS=3000    <span class="pl-c"><span class="pl-c">#</span> 搜索出来的镜像就是STARS大于3000的</span>
+
+[root@kuangshen /]<span class="pl-c"><span class="pl-c">#</span> docker search mysql --filter=STARS=3000</span>
+NAME                DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql               MySQL is a widely used, open-source relation... 9494      [OK]       
+mariadb             MariaDB is a community-developed fork of MyS... 3441      [OK]       
+
+[root@kuangshen /]<span class="pl-c"><span class="pl-c">#</span> docker search mysql --filter=STARS=5000</span>
+NAME                DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql               MySQL is a widely used, open-source relation... 9494      [OK]
+</pre></div>
+<h5><strong>docker pull 下载镜像</strong></h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 下载镜像 docker pull 镜像名[:tag]</span>
+[root@kuangshen /]  <span class="pl-c"><span class="pl-c">#</span> docker pull mysql</span>
+Using default tag: latest  <span class="pl-c"><span class="pl-c">#</span> 如果不写 tag，默认就是 latest</span>
+latest: Pulling from library/mysql
+5b54d594fba7: Pull <span class="pl-c1">complete</span>
+07e7d6a8a868: Pull <span class="pl-c1">complete</span>
+abd946892310: Pull <span class="pl-c1">complete</span>
+dd8f4d07efa5: Pull <span class="pl-c1">complete</span>
+07d6396a6205: Pull <span class="pl-c1">complete</span>
+cf6b2b93048f: Pull <span class="pl-c1">complete</span>
+530904b4a8b7: Pull <span class="pl-c1">complete</span>
+fb1e55059a95: Pull <span class="pl-c1">complete</span>
+4bd29a0dcde8: Pull <span class="pl-c1">complete</span>
+b94a001c6ec7: Pull <span class="pl-c1">complete</span>
+cb77cbeb422b: Pull <span class="pl-c1">complete</span>
+2a35cdbd42cc: Pull <span class="pl-c1">complete</span>
+Digest: sha256:dc255ca50a42b358197000b1f9bab2b4e01d158d1a9f56c3db6ee145506f625  <span class="pl-c"><span class="pl-c">#</span> 签名</span>
+Status: Downloaded newer image <span class="pl-k">for</span> mysql:latest
+docker.io/library/mysql:latest  <span class="pl-c"><span class="pl-c">#</span> 真实地址</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 等价于它</span>
+docker pull mysql
+docker pull docker.io/library/mysql:latest
+
+<span class="pl-c"><span class="pl-c">#</span> 指定版本下载</span>
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker pull mysql:8.0</span>
+8.0: Pulling from library/mysql
+f1a9f94fc2db: Already exists   <span class="pl-c"><span class="pl-c">#</span> 因为已经下载过了，所有没有下载。这就是docker分段下载的好处，省资源</span>
+7354d28ef157: Pull <span class="pl-c1">complete</span> 
+7478c7c1cef6: Pull <span class="pl-c1">complete</span> 
+ff2c12e6ea0c: Pull <span class="pl-c1">complete</span> 
+6fd1af2601dd: Pull <span class="pl-c1">complete</span> 
+562f9f9dbb9a: Pull <span class="pl-c1">complete</span> 
+9a6ec9901d5a: Pull <span class="pl-c1">complete</span> 
+2dd808bff6af: Pull <span class="pl-c1">complete</span> 
+397a7aefe9e4: Pull <span class="pl-c1">complete</span> 
+2300358455cf: Pull <span class="pl-c1">complete</span> 
+300abd503ad1: Pull <span class="pl-c1">complete</span> 
+Digest: sha256:f3a00e618edc1f7ea047d86527b3f3c4654b5e9e3d10d59e879f84a6c6cb110c
+Status: Downloaded newer image <span class="pl-k">for</span> mysql:8.0
+docker.io/library/mysql:8.0
+</pre></div>
+<h5><strong>docker rmi 删除镜像</strong></h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker rmi -f IMAGE ID						# 指定删除一个镜像</span>
+
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker rmi -f IMAGE ID IMAGE ID IMAGE ID 	# 指定输出多个镜像</span>
+
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker rmi -f $(docker images -aq)			# 删除所有镜像</span>
+</pre></div>
+<h3>容器基础命令</h3>
+<p>说明：有镜像才能创建容器，我们这里使用 CentOS 的镜像来测试，就是虚拟一个 CentOS！</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker pull centos</pre></div>
+<h5><strong>新建容器并启动</strong></h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 命令</span>
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+<span class="pl-c"><span class="pl-c">#</span> 常用参数说明</span>
+--name=<span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>                <span class="pl-c"><span class="pl-c">#</span> 给容器指定一个名字</span>
+-d                           <span class="pl-c"><span class="pl-c">#</span> 后台方式运行容器，并返回容器的ID</span>
+-i                           <span class="pl-c"><span class="pl-c">#</span> 以交互模式运行容器，通过和 -t 一起使用</span>
+-t                           <span class="pl-c"><span class="pl-c">#</span> 给容器重新分配一个终端，通常和 -i 一起使用</span>
+-P                           <span class="pl-c"><span class="pl-c">#</span> 随机端口映射（大写）</span>
+-p                           <span class="pl-c"><span class="pl-c">#</span> 指定端口映射（小写），一般可以有四种写法：</span>
+      ip:hostPort:containerPort  (常用)
+      ip::containerPort
+
+
+<span class="pl-c"><span class="pl-c">#</span> 测试</span>
+[root@kuangshen <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker images</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+centos              latest              470671670cac        3 months ago         237MB
+
+<span class="pl-c"><span class="pl-c">#</span> 使用 CentOS 以交互模式启动容器，在容器内执行 /bin/bash 命令！</span>
+[root@kuangshen <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker run -it centos /bin/bash</span>
+[root@dc8f24dd06d0 /]<span class="pl-c"><span class="pl-c">#</span> ls    # 注意地址，已经切换到容器内部了！</span>
+bin  etc   lib    lost+found  mnt  proc  run   srv  tmp  var
+dev  home  lib64  media       opt  root  sbin  sys  usr
+
+[root@dc8f24dd06d0 /]<span class="pl-c"><span class="pl-c">#</span> exit  # 使用 exit 退出容器</span>
+<span class="pl-c1">exit</span>
+[root@kuangshen <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span></span></pre></div>
+<h5>列出所有运行的容器</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 命令</span>
+docker ps [OPTIONS]
+<span class="pl-c"><span class="pl-c">#</span> 常用参数说明</span>
+-a      <span class="pl-c"><span class="pl-c">#</span> 列出当前所有正在运行的容器 + 历史运行过的容器</span>
+-l      <span class="pl-c"><span class="pl-c">#</span> 显示最近创建的容器</span>
+-n=<span class="pl-k">?</span>    <span class="pl-c"><span class="pl-c">#</span> 显示最近n个创建的容器</span>
+-q      <span class="pl-c"><span class="pl-c">#</span> 静默模式，只显示容器编号</span>
+
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker run -it centos /bin/bash</span>
+[root@27d70d250f3e /]<span class="pl-c"><span class="pl-c">#</span> [root@ip-10-0-1-102 ec2-user]# docker ps</span>
+CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS          PORTS     NAMES
+27d70d250f3e   centos    <span class="pl-s"><span class="pl-pds">"</span>/bin/bash<span class="pl-pds">"</span></span>   13 seconds ago   Up 12 seconds             determined_knuth</pre></div>
+<h5>启动停止容器</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker start (容器id or 容器名)        <span class="pl-c"><span class="pl-c">#</span> 启动容器</span>
+docker restart (容器id or 容器名)      <span class="pl-c"><span class="pl-c">#</span> 重启容器</span>
+docker stop (容器id or 容器名)         <span class="pl-c"><span class="pl-c">#</span> 停止容器</span>
+docker <span class="pl-c1">kill</span> (容器id or 容器名)         <span class="pl-c"><span class="pl-c">#</span> 强制停止容器</span></pre></div>
+<h5><strong>退出容器</strong></h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">exit</span>         <span class="pl-c"><span class="pl-c">#</span> 容器停止退出</span>
+ctrl+P+Q     <span class="pl-c"><span class="pl-c">#</span> 容器不停止退出</span></pre></div>
+<h5>删除容器</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker rm 容器id                  <span class="pl-c"><span class="pl-c">#</span> 删除指定容器</span>
+docker rm -f <span class="pl-s"><span class="pl-pds">$(</span>docker ps -a -q<span class="pl-pds">)</span></span>  <span class="pl-c"><span class="pl-c">#</span> 删除所有容器</span>
+docker ps -a -q<span class="pl-k">|</span>xargs docker rm  <span class="pl-c"><span class="pl-c">#</span> 删除所有容器</span></pre></div>
+<h5>后台启动</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 命令</span>
+docker run -d 容器名
+<span class="pl-c"><span class="pl-c">#</span> 例子</span>
+docker run -d centos <span class="pl-c"><span class="pl-c">#</span> 启动centos，使用后台方式启动</span>
+<span class="pl-c"><span class="pl-c">#</span> 问题： 使用docker ps 查看，发现容器已经退出了！</span>
+<span class="pl-c"><span class="pl-c">#</span> 解释：Docker容器后台运行，就必须有一个前台进程，容器运行的命令如果不是那些一直挂起的命</span>
+令，就会自动退出。
+<span class="pl-c"><span class="pl-c">#</span> 比如，你运行了nginx服务，但是docker前台没有运行应用，这种情况下，容器启动后，会立即自</span>
+杀，因为他觉得没有程序了，所以最好的情况是，将你的应用使用前台进程的方式运行启动。</pre></div>
+<h3>容器常用的命令</h3>
+<h5>查看日志</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 命令</span>
+docker logs -f -t --tail 行数 容器id
+
+<span class="pl-c"><span class="pl-c">#</span> 例子：我们启动 centos，并编写一段脚本来测试玩玩！最后查看日志</span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker run -d centos /bin/sh -c "while true;do echo helloword;sleep 1;done"</span>
+
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker ps</span>
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
+43ebca898fb5   centos    <span class="pl-s"><span class="pl-pds">"</span>/bin/sh -c 'while t…<span class="pl-pds">"</span></span>   7 seconds ago   Up 6 seconds             adoring_archimedes
+
+<span class="pl-c"><span class="pl-c">#</span> 现在我们的docker已经在后台运行了，可以去查看一下他的logs</span>
+
+<span class="pl-c"><span class="pl-c">#</span> -t 显示时间戳  </span>
+<span class="pl-c"><span class="pl-c">#</span> -f 打印最新的日志 </span>
+<span class="pl-c"><span class="pl-c">#</span> --tail 数字  显示多少条！</span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker logs -tf --tail 5 43ebca898fb5</span>
+2024-11-19T08:45:30.923592687Z helloword
+2024-11-19T08:45:31.925362836Z helloword
+2024-11-19T08:45:32.926965962Z helloword
+2024-11-19T08:45:33.929450739Z helloword
+2024-11-19T08:45:34.931066410Z helloword
+</pre></div>
+<h5>查看容器中运行的进程信息</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 命令</span>
+docker top 容器id
+
+<span class="pl-c"><span class="pl-c">#</span> 测试</span>
+[root@kuangshen <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker top c8530dbbe3b4</span>
+UID     PID     PPID    C     STIME     TTY   TIME        CMD
+root    27437   27421   0     16:43    <span class="pl-k">?</span>      00:00:00    /bin/sh -c ...
+
+UID		<span class="pl-c"><span class="pl-c">#</span> 当前的用户ID</span>
+PID		<span class="pl-c"><span class="pl-c">#</span> 进程ID </span>
+</pre></div>
+<h5>查看容器/镜像的元数据</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 命令</span>
+docker inspect 容器ID
+
+<span class="pl-c"><span class="pl-c">#</span> 测试</span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker inspect 5b64776e1e1e</span>
+[
+    {
+        <span class="pl-s"><span class="pl-pds">"</span>Id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>5b64776e1e1e529730a447510b84091cb78498d80c36f0caa187972fc5a44189<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Created<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2024-11-19T08:57:44.360779006Z<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Path<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/bin/sh<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Args<span class="pl-pds">"</span></span>: [
+            <span class="pl-s"><span class="pl-pds">"</span>-c<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>while true;do echo helloword;sleep 1;done<span class="pl-pds">"</span></span>
+        ],
+        <span class="pl-s"><span class="pl-pds">"</span>State<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>Status<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>running<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Running<span class="pl-pds">"</span></span>: true,
+            <span class="pl-s"><span class="pl-pds">"</span>Paused<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>Restarting<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>OOMKilled<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>Dead<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>Pid<span class="pl-pds">"</span></span>: 878211,
+            <span class="pl-s"><span class="pl-pds">"</span>ExitCode<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>Error<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>StartedAt<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2024-11-19T08:57:44.778343563Z<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>FinishedAt<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>0001-01-01T00:00:00Z<span class="pl-pds">"</span></span>
+        },
+        <span class="pl-s"><span class="pl-pds">"</span>Image<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>sha256:5d0da3dc976460b72c77d94c8a1ad043720b0416bfc16c52c45d4847e53fadb6<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>ResolvConfPath<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/var/lib/docker/containers/5b64776e1e1e529730a447510b84091cb78498d80c36f0caa187972fc5a44189/resolv.conf<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>HostnamePath<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/var/lib/docker/containers/5b64776e1e1e529730a447510b84091cb78498d80c36f0caa187972fc5a44189/hostname<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>HostsPath<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/var/lib/docker/containers/5b64776e1e1e529730a447510b84091cb78498d80c36f0caa187972fc5a44189/hosts<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>LogPath<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/var/lib/docker/containers/5b64776e1e1e529730a447510b84091cb78498d80c36f0caa187972fc5a44189/5b64776e1e1e529730a447510b84091cb78498d80c36f0caa187972fc5a44189-json.log<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/hardcore_cartwright<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>RestartCount<span class="pl-pds">"</span></span>: 0,
+        <span class="pl-s"><span class="pl-pds">"</span>Driver<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>overlay2<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Platform<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>linux<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>MountLabel<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>ProcessLabel<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>AppArmorProfile<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>ExecIDs<span class="pl-pds">"</span></span>: null,
+        <span class="pl-s"><span class="pl-pds">"</span>HostConfig<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>Binds<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>ContainerIDFile<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>LogConfig<span class="pl-pds">"</span></span>: {
+                <span class="pl-s"><span class="pl-pds">"</span>Type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>json-file<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>Config<span class="pl-pds">"</span></span>: {}
+            },
+            <span class="pl-s"><span class="pl-pds">"</span>NetworkMode<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>default<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>PortBindings<span class="pl-pds">"</span></span>: {},
+            <span class="pl-s"><span class="pl-pds">"</span>RestartPolicy<span class="pl-pds">"</span></span>: {
+                <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>no<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>MaximumRetryCount<span class="pl-pds">"</span></span>: 0
+            },
+            <span class="pl-s"><span class="pl-pds">"</span>AutoRemove<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>VolumeDriver<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>VolumesFrom<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>ConsoleSize<span class="pl-pds">"</span></span>: [
+                44,
+                103
+            ],
+            <span class="pl-s"><span class="pl-pds">"</span>CapAdd<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>CapDrop<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>CgroupnsMode<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Dns<span class="pl-pds">"</span></span>: [],
+            <span class="pl-s"><span class="pl-pds">"</span>DnsOptions<span class="pl-pds">"</span></span>: [],
+            <span class="pl-s"><span class="pl-pds">"</span>DnsSearch<span class="pl-pds">"</span></span>: [],
+            <span class="pl-s"><span class="pl-pds">"</span>ExtraHosts<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>GroupAdd<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>IpcMode<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Cgroup<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Links<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>OomScoreAdj<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>PidMode<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Privileged<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>PublishAllPorts<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>ReadonlyRootfs<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>SecurityOpt<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>UTSMode<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>UsernsMode<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>ShmSize<span class="pl-pds">"</span></span>: 67108864,
+            <span class="pl-s"><span class="pl-pds">"</span>Runtime<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>runc<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Isolation<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>CpuShares<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>Memory<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>NanoCpus<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>CgroupParent<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>BlkioWeight<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>BlkioWeightDevice<span class="pl-pds">"</span></span>: [],
+            <span class="pl-s"><span class="pl-pds">"</span>BlkioDeviceReadBps<span class="pl-pds">"</span></span>: [],
+            <span class="pl-s"><span class="pl-pds">"</span>BlkioDeviceWriteBps<span class="pl-pds">"</span></span>: [],
+            <span class="pl-s"><span class="pl-pds">"</span>BlkioDeviceReadIOps<span class="pl-pds">"</span></span>: [],
+            <span class="pl-s"><span class="pl-pds">"</span>BlkioDeviceWriteIOps<span class="pl-pds">"</span></span>: [],
+            <span class="pl-s"><span class="pl-pds">"</span>CpuPeriod<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>CpuQuota<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>CpuRealtimePeriod<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>CpuRealtimeRuntime<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>CpusetCpus<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>CpusetMems<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Devices<span class="pl-pds">"</span></span>: [],
+            <span class="pl-s"><span class="pl-pds">"</span>DeviceCgroupRules<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>DeviceRequests<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>MemoryReservation<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>MemorySwap<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>MemorySwappiness<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>OomKillDisable<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>PidsLimit<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>Ulimits<span class="pl-pds">"</span></span>: [
+                {
+                    <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>nofile<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>Hard<span class="pl-pds">"</span></span>: 65536,
+                    <span class="pl-s"><span class="pl-pds">"</span>Soft<span class="pl-pds">"</span></span>: 32768
+                }
+            ],
+            <span class="pl-s"><span class="pl-pds">"</span>CpuCount<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>CpuPercent<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>IOMaximumIOps<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>IOMaximumBandwidth<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>MaskedPaths<span class="pl-pds">"</span></span>: [
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/asound<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/acpi<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/kcore<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/keys<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/latency_stats<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/timer_list<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/timer_stats<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/sched_debug<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/scsi<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/sys/firmware<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/sys/devices/virtual/powercap<span class="pl-pds">"</span></span>
+            ],
+            <span class="pl-s"><span class="pl-pds">"</span>ReadonlyPaths<span class="pl-pds">"</span></span>: [
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/bus<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/fs<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/irq<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/sys<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>/proc/sysrq-trigger<span class="pl-pds">"</span></span>
+            ]
+        },
+        <span class="pl-s"><span class="pl-pds">"</span>GraphDriver<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>Data<span class="pl-pds">"</span></span>: {
+                <span class="pl-s"><span class="pl-pds">"</span>LowerDir<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/var/lib/docker/overlay2/c3fc8528a88b6fa134655d830a23098364ce4052ca9e6ee4ea9196d3712f766e-init/diff:/var/lib/docker/overlay2/dc3651a30756cf0bcf686de3a035a5c467586e4992ce60b611d154dc03b8b04a/diff<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>MergedDir<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/var/lib/docker/overlay2/c3fc8528a88b6fa134655d830a23098364ce4052ca9e6ee4ea9196d3712f766e/merged<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>UpperDir<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/var/lib/docker/overlay2/c3fc8528a88b6fa134655d830a23098364ce4052ca9e6ee4ea9196d3712f766e/diff<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>WorkDir<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/var/lib/docker/overlay2/c3fc8528a88b6fa134655d830a23098364ce4052ca9e6ee4ea9196d3712f766e/work<span class="pl-pds">"</span></span>
+            },
+            <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>overlay2<span class="pl-pds">"</span></span>
+        },
+        <span class="pl-s"><span class="pl-pds">"</span>Mounts<span class="pl-pds">"</span></span>: [],
+        <span class="pl-s"><span class="pl-pds">"</span>Config<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>Hostname<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>5b64776e1e1e<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Domainname<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>User<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>AttachStdin<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>AttachStdout<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>AttachStderr<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>Tty<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>OpenStdin<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>StdinOnce<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>Env<span class="pl-pds">"</span></span>: [
+                <span class="pl-s"><span class="pl-pds">"</span>PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin<span class="pl-pds">"</span></span>
+            ],
+            <span class="pl-s"><span class="pl-pds">"</span>Cmd<span class="pl-pds">"</span></span>: [
+                <span class="pl-s"><span class="pl-pds">"</span>/bin/sh<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>-c<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>while true;do echo helloword;sleep 1;done<span class="pl-pds">"</span></span>
+            ],
+            <span class="pl-s"><span class="pl-pds">"</span>Image<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>centos<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Volumes<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>WorkingDir<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Entrypoint<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>OnBuild<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>Labels<span class="pl-pds">"</span></span>: {
+                <span class="pl-s"><span class="pl-pds">"</span>org.label-schema.build-date<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>20210915<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>org.label-schema.license<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>GPLv2<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>org.label-schema.name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>CentOS Base Image<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>org.label-schema.schema-version<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>org.label-schema.vendor<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>CentOS<span class="pl-pds">"</span></span>
+            }
+        },
+        <span class="pl-s"><span class="pl-pds">"</span>NetworkSettings<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>Bridge<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>SandboxID<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>340b871a1a828324a7567bc14c3beee779084881316146f93339e8697ac6b9ef<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>SandboxKey<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/var/run/docker/netns/340b871a1a82<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Ports<span class="pl-pds">"</span></span>: {},
+            <span class="pl-s"><span class="pl-pds">"</span>HairpinMode<span class="pl-pds">"</span></span>: false,
+            <span class="pl-s"><span class="pl-pds">"</span>LinkLocalIPv6Address<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>LinkLocalIPv6PrefixLen<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>SecondaryIPAddresses<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>SecondaryIPv6Addresses<span class="pl-pds">"</span></span>: null,
+            <span class="pl-s"><span class="pl-pds">"</span>EndpointID<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>a9922b53314d099dda7dd0148c5f11657e58ceafb7496e154f3a9220b22678d1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Gateway<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>172.17.0.1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>GlobalIPv6Address<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>GlobalIPv6PrefixLen<span class="pl-pds">"</span></span>: 0,
+            <span class="pl-s"><span class="pl-pds">"</span>IPAddress<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>172.17.0.2<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>IPPrefixLen<span class="pl-pds">"</span></span>: 16,
+            <span class="pl-s"><span class="pl-pds">"</span>IPv6Gateway<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>MacAddress<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>02:42:ac:11:00:02<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Networks<span class="pl-pds">"</span></span>: {
+                <span class="pl-s"><span class="pl-pds">"</span>bridge<span class="pl-pds">"</span></span>: {
+                    <span class="pl-s"><span class="pl-pds">"</span>IPAMConfig<span class="pl-pds">"</span></span>: null,
+                    <span class="pl-s"><span class="pl-pds">"</span>Links<span class="pl-pds">"</span></span>: null,
+                    <span class="pl-s"><span class="pl-pds">"</span>Aliases<span class="pl-pds">"</span></span>: null,
+                    <span class="pl-s"><span class="pl-pds">"</span>MacAddress<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>02:42:ac:11:00:02<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>NetworkID<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>cf263bd4b0123b397f984b9abdecf47e1b8f10f37ea5d6cde0603ef0ac6c7548<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>EndpointID<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>a9922b53314d099dda7dd0148c5f11657e58ceafb7496e154f3a9220b22678d1<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>Gateway<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>172.17.0.1<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>IPAddress<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>172.17.0.2<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>IPPrefixLen<span class="pl-pds">"</span></span>: 16,
+                    <span class="pl-s"><span class="pl-pds">"</span>IPv6Gateway<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>GlobalIPv6Address<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>GlobalIPv6PrefixLen<span class="pl-pds">"</span></span>: 0,
+                    <span class="pl-s"><span class="pl-pds">"</span>DriverOpts<span class="pl-pds">"</span></span>: null,
+                    <span class="pl-s"><span class="pl-pds">"</span>DNSNames<span class="pl-pds">"</span></span>: null
+                }
+            }
+        }
+    }
+]
+</pre></div>
+<h5>进入正在运行的容器</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 命令1</span>
+ docker <span class="pl-c1">exec</span> -it 容器id bas
+
+
+<span class="pl-c"><span class="pl-c">#</span> 测试1</span>
+ [root@kuangshen <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker ps</span>
+ CONTAINER ID        IMAGE               COMMAND                  CREATED     
+        STATUS              PORTS               NAMES
+ c8530dbbe3b4        centos              <span class="pl-s"><span class="pl-pds">"</span>/bin/sh -c 'while t…<span class="pl-pds">"</span></span>   12 minutes 
+ago      Up 12 minutes                           happy_chaum
+ [root@kuangshen <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker exec -it c8530dbbe3b4 /bin/bash</span>
+ [root@c8530dbbe3b4 /]<span class="pl-c"><span class="pl-c">#</span> ps -ef</span>
+ UID        PID  PPID  C STIME TTY          TIME CMD
+ root         1     0  0 08:43 <span class="pl-k">?</span>        00:00:00 /bin/sh -c <span class="pl-k">while</span> <span class="pl-c1">true</span><span class="pl-k">;</span><span class="pl-k">do</span> 
+<span class="pl-c1">echo</span> kuangshen<span class="pl-k">;</span>sleep
+ root       751     0  0 08:56 pts/0    00:00:00 /bin/bash
+ root       769     1  0 08:56 <span class="pl-k">?</span>        00:00:00 /usr/bin/coreutils --
+ coreutils-prog-shebang=s
+ root       770   751  0 08:56 pts/0    00:00:00 ps -ef
+ </pre></div>
+<h5>从容器内拷贝文件到主机上</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 命令</span>
+docker cp 容器id:容器内路径 目的主机路径
+
+<span class="pl-c"><span class="pl-c">#</span> 测试</span>
+<span class="pl-c"><span class="pl-c">#</span> 容器内执行，创建一个测试文件传入主机</span>
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker run -it centos /bin/bash</span>
+
+[root@05dc7a8c9a22 /]<span class="pl-c"><span class="pl-c">#</span> cd /home</span>
+[root@05dc7a8c9a22 home]<span class="pl-c"><span class="pl-c">#</span> vi 114514.txt</span>
+[root@05dc7a8c9a22 home]<span class="pl-c"><span class="pl-c">#</span> ls -l</span>
+total 4
+-rw-r--r--. 1 root root 7 Nov 22 01:20 114514.txt
+[root@05dc7a8c9a22 home]<span class="pl-c"><span class="pl-c">#</span> exit</span>
+<span class="pl-c1">exit</span>
+
+<span class="pl-c"><span class="pl-c">#</span> linux复制查看，是否复制成功</span>
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker ps -a</span>
+CONTAINER ID   IMAGE     COMMAND       CREATED              STATUS                      
+05dc7a8c9a22   centos    <span class="pl-s"><span class="pl-pds">"</span>/bin/bash<span class="pl-pds">"</span></span>   About a minute ago   Exited (0) 23 seconds ago   .....
+
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker cp 05dc7a8c9a22:/home/114514.txt /root</span>
+                                               Successfully copied 2.05kB to /root
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> ll</span>
+total 4
+-rw-r--r--. 1 root root 7 Nov 22 01:20 114514.txt
+</pre></div>
+<h3>小结/常用命令合集</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a0921323-6e52-47e8-b1cb-102caeb3501f"><img src="https://github.com/user-attachments/assets/a0921323-6e52-47e8-b1cb-102caeb3501f" alt="image-20241122093619443" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">attach    Attach to a running container                        <span class="pl-c"><span class="pl-c">#</span> 当前 shell 下 attach 连接指定运行镜像</span>
+build     Build an image from a Dockerfile                     <span class="pl-c"><span class="pl-c">#</span> 通过 Dockerfile 定制镜像</span>
+commit    Create a new image from a container changes          <span class="pl-c"><span class="pl-c">#</span> 提交当前容器为新的镜像</span>
+cp        Copy files/folders from the container<span class="pl-s"><span class="pl-pds">'</span>s filesystem to the host path  # 从容器中拷贝指定文件或者目录到宿主机中</span>
+<span class="pl-s">create    Create a new container                               # 创建一个新的容器，同 run，但不启动容器</span>
+<span class="pl-s">diff      Inspect changes on a container<span class="pl-pds">'</span></span>s filesystem          <span class="pl-c"><span class="pl-c">#</span> 查看 docker 容器变化</span>
+events    Get real <span class="pl-k">time</span> events from the server                 <span class="pl-c"><span class="pl-c">#</span> 从 docker 服务获取容器实时事件</span>
+<span class="pl-c1">exec</span>      Run a <span class="pl-c1">command</span> <span class="pl-k">in</span> an existing container               <span class="pl-c"><span class="pl-c">#</span> 在已存在的容器上运行命令</span>
+<span class="pl-k">export</span>    Stream the contents of a container as a tar archive  <span class="pl-c"><span class="pl-c">#</span> 导出容器的内容流作为一个 tar 归档文件 [对应 import]</span>
+<span class="pl-c1">history</span>   Show the <span class="pl-c1">history</span> of an image                         <span class="pl-c"><span class="pl-c">#</span> 展示一个镜像形成历史</span>
+images    List images                                          <span class="pl-c"><span class="pl-c">#</span> 列出系统当前镜像</span>
+import    Create a new filesystem image from the contents of a tarball  <span class="pl-c"><span class="pl-c">#</span> 从 tar 包中的内容创建一个新的文件系统映像 [对应 export]</span>
+info      Display system-wide information                      <span class="pl-c"><span class="pl-c">#</span> 显示系统相关信息</span>
+inspect   Return low-level information on a container          <span class="pl-c"><span class="pl-c">#</span> 查看容器详细信息</span>
+<span class="pl-c1">kill</span>      Kill a running container                             <span class="pl-c"><span class="pl-c">#</span> kill 指定 docker 容器</span>
+load      Load an image from a tar archive                     <span class="pl-c"><span class="pl-c">#</span> 从一个 tar 包中加载一个镜像 [对应 save]</span>
+login     Register or Login to the docker registry server      <span class="pl-c"><span class="pl-c">#</span> 注册或者登陆一个 docker 源服务器</span>
+<span class="pl-c1">logout</span>    Log out from a Docker registry server                <span class="pl-c"><span class="pl-c">#</span> 从当前 Docker registry 退出</span>
+logs      Fetch the logs of a container                        <span class="pl-c"><span class="pl-c">#</span> 输出当前容器日志信息</span>
+port      Lookup the public-facing port which is NAT-ed to PRIVATE_PORT  <span class="pl-c"><span class="pl-c">#</span> 查看映射端口对应的容器内部源端口</span>
+pause     Pause all processes within a container               <span class="pl-c"><span class="pl-c">#</span> 暂停容器</span>
+ps        List containers                                      <span class="pl-c"><span class="pl-c">#</span> 列出容器列表</span>
+pull      Pull an image or a repository from the docker registry server  <span class="pl-c"><span class="pl-c">#</span> 从 docker 镜像源服务器拉取指定镜像或者库镜像</span>
+push      Push an image or a repository to the docker registry server  <span class="pl-c"><span class="pl-c">#</span> 推送指定镜像或者库镜像至 docker 源服务器</span>
+restart   Restart a running container                          <span class="pl-c"><span class="pl-c">#</span> 重启运行的容器</span>
+rm        Remove one or more containers                        <span class="pl-c"><span class="pl-c">#</span> 移除一个或者多个容器</span>
+rmi       Remove one or more images                            <span class="pl-c"><span class="pl-c">#</span> 移除一个或多个镜像 [无容器使用该镜像才可删除，否则需删除相关容器才可继续或 -f 强制删除]</span>
+run       Run a <span class="pl-c1">command</span> <span class="pl-k">in</span> a new container                     <span class="pl-c"><span class="pl-c">#</span> 创建一个新的容器并运行一个命令</span>
+save      Save an image to a tar archive                       <span class="pl-c"><span class="pl-c">#</span> 保存一个镜像为一个 tar 包 [对应 load]</span>
+search    Search <span class="pl-k">for</span> an image on the Docker Hub                <span class="pl-c"><span class="pl-c">#</span> 在 docker hub 中搜索镜像</span>
+start     Start a stopped containers                           <span class="pl-c"><span class="pl-c">#</span> 启动容器</span>
+stop      Stop a running containers                            <span class="pl-c"><span class="pl-c">#</span> 停止容器</span>
+tag       Tag an image into a repository                       <span class="pl-c"><span class="pl-c">#</span> 给源中镜像打标签</span>
+top       Lookup the running processes of a container          <span class="pl-c"><span class="pl-c">#</span> 查看容器中运行的进程信息</span>
+unpause   Unpause a paused container                           <span class="pl-c"><span class="pl-c">#</span> 取消暂停容器</span>
+version   Show the docker version information                  <span class="pl-c"><span class="pl-c">#</span> 查看 docker 版本号</span>
+<span class="pl-c1">wait</span>      Block <span class="pl-k">until</span> a container stops, <span class="pl-k">then</span> print its <span class="pl-c1">exit</span> code  <span class="pl-c"><span class="pl-c">#</span> 截取容器停止时的退出状态值</span>
+</pre></div>
+<h3>作业</h3>
+<blockquote>
+<p>使用Docker 安装 Nginx</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 1.搜索镜像</span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker search nginx</span>
+NAME                                     DESCRIPTION                                     STARS     OFFICIAL
+nginx                                    Official build of Nginx.                        20371     [OK]
+
+<span class="pl-c"><span class="pl-c">#</span> 2.下载镜像</span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker pull nginx</span>
+Using default tag: latest
+latest: Pulling from library/nginx
+2d429b9e73a6: Pull <span class="pl-c1">complete</span> 
+9b1039c85176: Pull <span class="pl-c1">complete</span> 
+9ad567d3b8a2: Pull <span class="pl-c1">complete</span> 
+773c63cd62e4: Pull <span class="pl-c1">complete</span> 
+1d2712910bdf: Pull <span class="pl-c1">complete</span> 
+4b0adc47c460: Pull <span class="pl-c1">complete</span> 
+171eebbdf235: Pull <span class="pl-c1">complete</span> 
+Digest: sha256:bc5eac5eafc581aeda3008b4b1f07ebba230de2f27d47767129a6a905c84f470
+Status: Downloaded newer image <span class="pl-k">for</span> nginx:latest
+docker.io/library/nginx:latest
+
+<span class="pl-c"><span class="pl-c">#</span> 3.启动镜像</span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker images</span>
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+nginx        latest    60c8a892f36f   7 weeks ago   192MB
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> </span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker run -d --name testnginx -p 12312:80 nginx</span>
+9af12f2d8f19a1223df5942479f342c55ab677f2764359a221b65e8fe5a515c9
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> </span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker ps -a</span>
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+9af12f2d8f19   nginx     <span class="pl-s"><span class="pl-pds">"</span>/docker-entrypoint.…<span class="pl-pds">"</span></span>   5 seconds ago   Up 5 seconds   0.0.0.0:12312-<span class="pl-k">&gt;</span>80/tcp,
+
+
+<span class="pl-c"><span class="pl-c">#</span> 本地验证</span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> curl localhost:12312</span>
+<span class="pl-k">&lt;</span><span class="pl-k">!</span>DOCTYPE html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>head<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>title<span class="pl-k">&gt;</span>Welcome to nginx<span class="pl-k">!</span><span class="pl-k">&lt;</span>/title<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>style<span class="pl-k">&gt;</span>
+html { color-scheme: light dark<span class="pl-k">;</span> }
+body { width: 35em<span class="pl-k">;</span> margin: 0 auto<span class="pl-k">;</span>
+font-family: Tahoma, Verdana, Arial, sans-serif<span class="pl-k">;</span> }
+<span class="pl-k">&lt;</span>/style<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>/head<span class="pl-k">&gt;</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 进入容器查看html文件</span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker exec -it testnginx /bin/bash</span>
+root@9af12f2d8f19:/<span class="pl-c"><span class="pl-c">#</span> </span>
+root@9af12f2d8f19:/<span class="pl-c"><span class="pl-c">#</span> whereis nginx</span>
+nginx: /usr/sbin/nginx /usr/lib/nginx /etc/nginx /usr/share/nginx
+
+root@9af12f2d8f19:/<span class="pl-c"><span class="pl-c">#</span> cd /usr/share/nginx</span>
+root@9af12f2d8f19:/usr/share/nginx# ls
+html
+root@9af12f2d8f19:/usr/share/nginx# ls -l
+drwxr-xr-x. 2 root root 40 Nov 12 02:03 html
+root@9af12f2d8f19:/usr/share/nginx# <span class="pl-c1">cd</span> html/
+root@9af12f2d8f19:/usr/share/nginx/html# ls -l
+total 8
+-rw-r--r--. 1 root root 497 Oct  2 15:13 50x.html
+-rw-r--r--. 1 root root 615 Oct  2 15:13 index.html
+
+root@9af12f2d8f19:/usr/share/nginx/html# cat index.html
+<span class="pl-k">&lt;</span><span class="pl-k">!</span>DOCTYPE html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>html<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>head<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>title<span class="pl-k">&gt;</span>Welcome to nginx<span class="pl-k">!</span><span class="pl-k">&lt;</span>/title<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>style<span class="pl-k">&gt;</span>
+html { color-scheme: light dark<span class="pl-k">;</span> }
+body { width: 35em<span class="pl-k">;</span> margin: 0 auto<span class="pl-k">;</span>
+font-family: Tahoma, Verdana, Arial, sans-serif<span class="pl-k">;</span> }
+<span class="pl-k">&lt;</span>/style<span class="pl-k">&gt;</span>
+.....
+
+
+root@9af12f2d8f19:/usr/share/nginx/html# <span class="pl-c1">exit</span>
+<span class="pl-c1">exit</span>
+</pre></div>
+<p>思考问题：我们每次更nginx配置文件，都需要进入容器内部，有什么访问可以不进入容器而进行更改的吗？</p>
+<p>答：可以在容器外部提供一个映射路径，达到在容器修改文件名，容器内部就可以自动修改。       -v 数据卷</p>
+<h3>安装可视化docker管理界面</h3>
+<h4>部署</h4>
+<p>(<a href="https://docs.portainer.io/start/install-ce/server/docker/linux" rel="nofollow">https://docs.portainer.io/start/install-ce/server/docker/linux</a>)</p>
+<p>首先，创建 Portainer Server 用于存储其数据库的卷：</p>
+<p>复制</p>
+<pre class="notranslate"><code class="notranslate">docker volume create portainer_data
+</code></pre>
+<p>然后，下载并安装 Portainer Server 容器：</p>
+<p>复制</p>
+<pre class="notranslate"><code class="notranslate">docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:2.21.4
+</code></pre>
+<p>默认情况下，Portainer 会生成并使用自签名 SSL 证书来保护端口。或者，您可以[<a href="https://docs.portainer.io/advanced/ssl#using-your-own-ssl-certificate-on-docker-standalone" rel="nofollow">在安装期间</a>](<a href="https://docs.portainer.io/advanced/ssl#using-your-own-ssl-certificate-on-docker-standalone)%E6%88%96%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90%E5%90%8E%5B%5B%E9%80%9A%E8%BF%87" rel="nofollow">https://docs.portainer.io/advanced/ssl#using-your-own-ssl-certificate-on-docker-standalone)或安装完成后[[通过</a> Portainer UI](<a href="https://docs.portainer.io/admin/settings#ssl-certificate)%5D(https://docs.portainer.io/admin/settings#ssl-certificate)%609443%60%E6%8F%90%E4%BE%9B%E8%87%AA%E5%B7%B1%E7%9A%84" rel="nofollow">https://docs.portainer.io/admin/settings#ssl-certificate)](https://docs.portainer.io/admin/settings#ssl-certificate)`9443`提供自己的</a> SSL 证书。</p>
+<p>如果由于遗留原因需要<code class="notranslate">9000</code>开放 HTTP 端口，请将以下内容添加到<code class="notranslate">docker run</code>命令中：</p>
+<pre class="notranslate"><code class="notranslate">-p 9000:9000
+</code></pre>
+<p>Portainer Server 现已安装。您可以通过运行以下命令检查 Portainer Server 容器是否已启动<code class="notranslate">docker ps</code>：</p>
+<p>复制</p>
+<pre class="notranslate"><code class="notranslate">root@server:~# docker ps
+CONTAINER ID   IMAGE                          COMMAND                  CREATED       STATUS      PORTS                                                                                  NAMES             
+de5b28eb2fa9   portainer/portainer-ce:2.21.4  "/portainer"             2 weeks ago   Up 9 da
+</code></pre>
+<h3>镜像commit</h3>
+<p>docker commit 从容器创建一个新的镜像</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker commit 提交容器副本使之成为一个新的镜像！
+<span class="pl-c"><span class="pl-c">#</span> 语法</span>
+docker commit -m=<span class="pl-s"><span class="pl-pds">"</span>提交的描述信息<span class="pl-pds">"</span></span> -a=<span class="pl-s"><span class="pl-pds">"</span>作者<span class="pl-pds">"</span></span> 容器id 要创建的目标镜像名:[标签名]
+
+<span class="pl-c"><span class="pl-c">#</span> 例子</span>
+<span class="pl-c"><span class="pl-c">#</span> 我在centos的docker中添加了一个文件，想把它打包成新的镜像</span>
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker commit -m="test centos" -a="Owen_W" 0677efe2f946 centos_test:1.0</span>
+sha256:64046bb43243d7b0e17214afaccded8cbdf91a89720873cef179a3bba555a1da
+
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker images -a</span>
+REPOSITORY               TAG       IMAGE ID       CREATED         SIZE
+centos_test              1.0       64046bb43243   6 seconds ago   231MB
+centos                   latest    5d0da3dc9764   3 years ago     231MB
+</pre></div>
+<h2>容器数据卷</h2>
+<h3>什么是容器数字卷</h3>
+<hr>
+<p><strong>docker的理念回顾：</strong></p>
+<p>将应用和运行的环境打包形成容器运行，运行可以伴随着容器，但是我们对于数据的要求，是希望能够 持久化的！</p>
+<p>就好比，你安装一个MySQL，结果你把容器删了，就相当于删库跑路了，这TM也太扯了吧！</p>
+<p>所以我们希望容器之间有可能可以共享数据，Docker容器产生的数据，如果不通过docker commit 生成 新的镜像，使得数据作为镜像的一部分保存下来，那么当容器删除后，数据自然也就没有了！这样是行 不通的！</p>
+<p>为了能保存数据在Docker中我们就可以使用卷！让数据挂载到我们本地！这样数据就不会因为容器删除 而丢失了！</p>
+<p><strong>作用：</strong></p>
+<p>卷就是目录或者文件，存在一个或者多个容器中，由docker挂载到容器，但不属于联合文件系统，因此 能够绕过 Union File System ， 提供一些用于持续存储或共享数据的特性：</p>
+<p>卷的设计目的就是数据的持久化，完全独立于容器的生存周期，因此Docker不会在容器删除时删除其挂 载的数据卷。</p>
+<h3>使用数据卷</h3>
+<blockquote>
+<p>方式一：容器中直接使用命令来添加</p>
+</blockquote>
+<p>挂在：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 命令</span>
+docekr run -it -v 主机地址:容器内地址 镜像名
+
+<span class="pl-c"><span class="pl-c">#</span> 测试</span>
+[root@ip-10-0-1-102 centos]<span class="pl-c"><span class="pl-c">#</span> docker run -it -v /home/centos:/home/centos centos /bin/bash</span></pre></div>
+<p>查看数据卷是否挂载成功  <code class="notranslate">docker inspect 容器id</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/53a04493-d7bc-466f-918d-41a4b29cc560"><img src="https://github.com/user-attachments/assets/53a04493-d7bc-466f-918d-41a4b29cc560" alt="image-20241125153522050" style="max-width: 100%;"></a></p>
+<p>测试后发现主机和容器间可以实现共享。</p>
+<h3>匿名挂载和具名挂载</h3>
+<hr>
+<h4>匿名挂载</h4>
+<blockquote>
+<p>含义</p>
+</blockquote>
+<p>匿名挂载就是指定容器内路径，dockers run 每挂载一个目录就会宿主主机自动创建一个随机字符串的目录。目录<code class="notranslate">/var/lib/docker/volumes/</code>随机字符串。</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2396ecb5-1976-4873-b90c-2baae33a4368"><img src="https://github.com/user-attachments/assets/2396ecb5-1976-4873-b90c-2baae33a4368" alt="image-20241128095012980" style="max-width: 100%;"></a></p>
+<p>注意：里面的<code class="notranslate">_data</code>目录和对应容器内目录进行同步。</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/511411f2-31ce-4ef4-82f1-b650efacfa42"><img src="https://github.com/user-attachments/assets/511411f2-31ce-4ef4-82f1-b650efacfa42" alt="image-20241128095135335" style="max-width: 100%;"></a></p>
+<blockquote>
+<p>演示</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 运行容器</span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker run -d -p 8000:80 --name nginx001 -v /etx/nginx nginx</span>
+4365142585dbc134fa314b2fa452b644ef94dd28f31792387fc31344fb01f307
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> </span>
+[root@ip-10-0-1-102 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker ps -a</span>
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+4365142585db   nginx     <span class="pl-s"><span class="pl-pds">"</span>/docker-entrypoint.…<span class="pl-pds">"</span></span>   43 seconds ago   Up 42 seconds   0.0.0.0:8000-<span class="pl-k">&gt;</span>80/tcp
+
+<span class="pl-c"><span class="pl-c">#</span> 查看挂在内容</span>
+[root@ip-10-0-1-102 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker volume ls</span>
+DRIVER    VOLUME NAME
+<span class="pl-k">local</span>     b37fae70fcd294f28af151e259bc2657c031e110b2395ebd64e11c8a0e77313b
+<span class="pl-k">local</span>     portainer_data
+</pre></div>
+<h4>具名挂载</h4>
+<blockquote>
+<p>含义</p>
+</blockquote>
+<p>具名挂载就是挂载的同时指定一个有具体含义的名字，方便后续和容器对应以及后续的运维，便于查找挂载目录。</p>
+<blockquote>
+<p>演示</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 运行容器</span>
+[root@ip-10-0-1-102 volumes]<span class="pl-c"><span class="pl-c">#</span> docker run -d -P --name nginx002 -v jumin-nginx:/etc/nginx nginx </span>
+d5057ed2265531c816d78b4cd3ebf06c3ddebcb59f44e755e50d75eba8c25b0d
+
+<span class="pl-c"><span class="pl-c">#</span> 查看挂在内容</span>
+[root@ip-10-0-1-102 volumes]<span class="pl-c"><span class="pl-c">#</span> docker volume ls</span>
+DRIVER    VOLUME NAME
+<span class="pl-k">local</span>     b37fae70fcd294f28af151e259bc2657c031e110b2395ebd64e11c8a0e77313b
+<span class="pl-k">local</span>     jumin-nginx
+<span class="pl-k">local</span>     portainer_data</pre></div>
+<h4>拓展</h4>
+<blockquote>
+<p>改变文件的读写权限</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> ro: readonly</span>
+<span class="pl-c"><span class="pl-c">#</span> rw: readwrite</span>
+<span class="pl-c"><span class="pl-c">#</span> 指定容器对我们挂载出来的内容的读写权限</span>
+docker run -d -P --name nginx02 -v nginxconfig:/etc/nginx:ro nginx
+docker run -d -P --name nginx02 -v nginxconfig:/etc/nginx:rw nginx</pre></div>
+<h3>初始dockerfile</h3>
+<hr>
+<p>DockerFile 是用来构建Docker镜像的构建文件，是由一些列命令和参数构成的脚本。</p>
+<p>测试：</p>
+<blockquote>
+<p>构建镜像</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 1、我们在宿主机 /home 目录下新建一个 docker-test-volume文件夹</span>
+[root@kuangshen home]<span class="pl-c"><span class="pl-c">#</span> mkdir docker-test-volume</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 说明：在编写DockerFile文件中使用 VOLUME 指令来给镜像添加一个或多个数据卷</span>
+VOLUME[<span class="pl-s"><span class="pl-pds">"</span>/dataVolumeContainer1<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>/dataVolumeContainer2<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>/dataVolumeContainer</span>
+<span class="pl-s">3<span class="pl-pds">"</span></span>]
+
+<span class="pl-c"><span class="pl-c">#</span> 出于可移植和分享的考虑，我们之前使用的 -v 主机目录:容器目录 这种方式不能够直接在</span>
+DockerFile中实现。
+
+<span class="pl-c"><span class="pl-c">#</span> 由于宿主机目录是依赖于特定宿主机的，并不能够保证在所有宿主机上都存在这样的特定目录.</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 2、编写DockerFile文件</span>
+[root@kuangshen docker-test-volume]<span class="pl-c"><span class="pl-c">#</span> pwd</span>
+/home/docker-test-volume
+[root@kuangshen docker-test-volume]<span class="pl-c"><span class="pl-c">#</span> vim dockerfile1</span>
+[root@kuangshen docker-test-volume]<span class="pl-c"><span class="pl-c">#</span> cat dockerfile1</span>
+<span class="pl-c"><span class="pl-c">#</span> volume test</span>
+FROM centos
+VOLUME [<span class="pl-s"><span class="pl-pds">"</span>/dataVolumeContainer1<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>/dataVolumeContainer2<span class="pl-pds">"</span></span>]
+CMD <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>-------end------<span class="pl-pds">"</span></span>
+CMD /bin/bash
+
+<span class="pl-c"><span class="pl-c">#</span> 3、build后生成镜像，获得一个新镜像 kuangshen/cento</span>
+docker build -f /home/docker-test-volume/dockerfile1 -t kuangshen/centos <span class="pl-c1">.</span> <span class="pl-c"><span class="pl-c">#</span></span>
+注意最后有个.</pre></div>
+<blockquote>
+<p>启动容器</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-192 docker-test-volume]<span class="pl-c"><span class="pl-c">#</span> docker run -it 90bc0d9dad3f /bin/bash </span>
+
+[root@303222c13791 /]<span class="pl-c"><span class="pl-c">#</span> ls -l</span>
+total 16
+lrwxrwxrwx.   1 root root     7 Nov  3  2020 bin -<span class="pl-k">&gt;</span> usr/bin
+drwxr-xr-x.   5 root root   360 Nov 28 06:40 dev
+drwxr-xr-x.   1 root root    66 Nov 28 06:40 etc
+drwxr-xr-x.   2 root root     6 Nov  3  2020 home
+........
+drwxr-xr-x.   2 root root     6 Nov 28 06:40 volume01
+drwxr-xr-x.   2 root root     6 Nov 28 06:40 volume02</pre></div>
+<blockquote>
+<p>查看是否挂在成功</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 进入文件创建一个文件进行测试</span>
+[root@621f81cbbc44 /]<span class="pl-c"><span class="pl-c">#</span> cd volume01</span>
+[root@621f81cbbc44 volume01]<span class="pl-c"><span class="pl-c">#</span> touch 123.txt</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 退出容器查看是否挂成功</span>
+[root@ip-10-0-1-192 docker-test-volume]<span class="pl-c"><span class="pl-c">#</span> docker ps -a</span>
+CONTAINER ID   IMAGE          COMMAND                  CREATED                    
+cbd0b3f210fb   90bc0d9dad3f   <span class="pl-s"><span class="pl-pds">"</span>/bin/sh -c /bin/bash<span class="pl-pds">"</span></span>   6 minutes ago       
+
+<span class="pl-c"><span class="pl-c">#</span> 查看容器的详细信息</span>
+[root@ip-10-0-1-192 docker-test-volume]<span class="pl-c"><span class="pl-c">#</span> docker inspect cbd0b3f210fb</span></pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9473bd35-28f4-4430-bbb3-e0129e9a157d"><img src="https://github.com/user-attachments/assets/9473bd35-28f4-4430-bbb3-e0129e9a157d" alt="image-20241128145640984" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 进入挂在容器的目录</span>
+[root@ip-10-0-1-192 docker-test-volume]<span class="pl-c"><span class="pl-c">#</span> cd /var/lib/docker/volumes/79f160f1d792c8177fd304862bafc5aeffe676e9a0cd35e900c9052b05e3d1dc/_data</span>
+[root@ip-10-0-1-192 _data]<span class="pl-c"><span class="pl-c">#</span> ll</span>
+-rw-r--r--. 1 root root 0 Nov 28 06:59 123.txt</pre></div>
+<p>同步成功</p>
+<h3>数据卷容器</h3>
+<hr>
+<h4>实现容器和容器之间的数据同步</h4>
+<blockquote>
+<p>实验：开启三个容器进行测试</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 我们使用刚才已经创建好的容器进行创建</span>
+[root@ip-10-0-1-192 home]<span class="pl-c"><span class="pl-c">#</span> docker images</span>
+REPOSITORY      TAG       IMAGE ID       CREATED       SIZE
+test01/centos   latest    90bc0d9dad3f   3 years ago   231MB
+[root@ip-10-0-1-192 home]<span class="pl-c"><span class="pl-c">#</span> </span>
+[root@ip-10-0-1-192 home]<span class="pl-c"><span class="pl-c">#</span> docker run -it --name test01 test01/centos </span>
+[root@6a4ae4f63ea5 /]<span class="pl-c"><span class="pl-c">#</span> ls -l</span>
+total 16
+lrwxrwxrwx.   1 root root     7 Nov  3  2020 bin -<span class="pl-k">&gt;</span> usr/bin
+drwxr-xr-x.   5 root root   360 Nov 29 00:48 dev
+......
+drwxr-xr-x.   2 root root     6 Nov 29 00:48 volume01
+drwxr-xr-x.   2 root root     6 Nov 29 00:48 volume02
+
+<span class="pl-c"><span class="pl-c">#</span> 创建第二个容器,ctrl+p+q</span>
+<span class="pl-c"><span class="pl-c">#</span> 查看刚才创建的test01是否存在</span>
+[root@6a4ae4f63ea5 /]<span class="pl-c"><span class="pl-c">#</span> [root@ip-10-0-1-192 home]# docker ps</span>
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS     NAMES
+6a4ae4f63ea5   test01/centos   <span class="pl-s"><span class="pl-pds">"</span>/bin/sh -c /bin/bash<span class="pl-pds">"</span></span>   3 minutes ago   Up 3 minutes     
+
+<span class="pl-c"><span class="pl-c">#</span>启动第二个容器，并同时挂在test01的数据卷</span>
+[root@ip-10-0-1-192 home]<span class="pl-c"><span class="pl-c">#</span> docker run -it --name test02 --volumes-from test01 test01/centos</span>
+[root@2e8b932df620 /]<span class="pl-c"><span class="pl-c">#</span> ls -l</span>
+total 16
+lrwxrwxrwx.   1 root root     7 Nov  3  2020 bin -<span class="pl-k">&gt;</span> usr/bin
+drwxr-xr-x.   5 root root   360 Nov 29 00:54 dev
+drwxr-xr-x.   1 root root    66 Nov 29 00:54 etc
+......
+drwxr-xr-x.   2 root root     6 Nov 29 00:48 volume01
+drwxr-xr-x.   2 root root     6 Nov 29 00:48 volume02
+
+<span class="pl-c"><span class="pl-c">#</span> 在目录volume01中创建一个文件</span>
+[root@2e8b932df620 /]<span class="pl-c"><span class="pl-c">#</span> cd volume01</span>
+[root@2e8b932df620 volume01]<span class="pl-c"><span class="pl-c">#</span> vi test02.txt</span>
+</pre></div>
+<blockquote>
+<p>打开一个新的窗口，进入test01容器的volume目录，查看文件是否同步成功</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 使用 docker attach 容器ID 进入正在运行的容器</span>
+[root@ip-10-0-1-192 home]<span class="pl-c"><span class="pl-c">#</span> docker attach 6a4ae4f63ea5 </span>
+[root@6a4ae4f63ea5 /]<span class="pl-c"><span class="pl-c">#</span> cd volume01</span>
+[root@6a4ae4f63ea5 volume01]<span class="pl-c"><span class="pl-c">#</span> ls </span>
+test02.txt
+[root@6a4ae4f63ea5 volume01]<span class="pl-c"><span class="pl-c">#</span> cat test02.txt </span>
+165725367887
+</pre></div>
+<blockquote>
+<p>问题：如果删除test01容器test02挂载的卷会不会消失</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 删除容器test01</span>
+[root@ip-10-0-1-192 home]<span class="pl-c"><span class="pl-c">#</span> docker ps </span>
+CONTAINER ID   IMAGE           COMMAND                  ....   NAMES
+2e8b932df620   test01/centos   <span class="pl-s"><span class="pl-pds">"</span>/bin/sh -c /bin/bash<span class="pl-pds">"</span></span>   ....   test02
+6a4ae4f63ea5   test01/centos   <span class="pl-s"><span class="pl-pds">"</span>/bin/sh -c /bin/bash<span class="pl-pds">"</span></span>   ....   test01
+
+[root@ip-10-0-1-192 home]<span class="pl-c"><span class="pl-c">#</span> docker rm -f 6a4ae4f63ea5 </span>
+6a4ae4f63ea5
+
+<span class="pl-c"><span class="pl-c">#</span> 进入容器test02查看</span>
+[root@2e8b932df620 volume01]<span class="pl-c"><span class="pl-c">#</span> ls -l</span>
+total 4
+-rw-r--r--. 1 root root 13 Nov 29 00:57 test02.txt
+<span class="pl-c"><span class="pl-c">#</span> 文件还是存在</span></pre></div>
+<h4>结论：</h4>
+<p>容器之间配置信息的传递，数据卷容器的生命周期一直持续到没有容器为止</p>
+<p>但是一旦你持久化到本地，这个时候，本地的数据视不会删除的</p>
+<h2>Dockerfile</h2>
+<p>大家想想，Nginx，tomcat，mysql 这些镜像都是哪里来的？官方能写，我们不能写吗？</p>
+<p>我们要研究自己如何做一个镜像，而且我们写的微服务项目以及springboot打包上云部署，Docker就是 最方便的。</p>
+<p>微服务打包成镜像，任何装了Docker的地方，都可以下载使用，极其的方便。</p>
+<p>流程：开发应用=&gt;DockerFile=&gt;打包为镜像=&gt;上传到仓库（私有仓库，公有仓库）=&gt; 下载镜像 =&gt; 启动 运行。</p>
+<p>什么是dockerfile</p>
+<p>dockerfile是用来构建Docker镜像的构建文件，是由一系列命令和参数构成的脚本。</p>
+<p>构建步骤：</p>
+<ol>
+<li>编写dockerfile文件</li>
+<li>docker build 构建镜像</li>
+<li>docker run</li>
+</ol>
+<h3>Dockerfile的命令</h3>
+<div class="highlight highlight-source-shell"><pre class="notranslate">FROM		<span class="pl-c"><span class="pl-c">#</span> 使用的基础镜像，当前镜像是基于那个镜像的</span>
+MAINTAINER  <span class="pl-c"><span class="pl-c">#</span> 维护者的姓名+邮箱地址</span>
+RUN			<span class="pl-c"><span class="pl-c">#</span> 容器构建时候需要运行的命令</span>
+EXPOSE		<span class="pl-c"><span class="pl-c">#</span> 当前容器对外保留的端口</span>
+WORKDIR		<span class="pl-c"><span class="pl-c">#</span> 指定在容器创建后，终端默认登录的进来工作目录</span>
+ENV			<span class="pl-c"><span class="pl-c">#</span> 用来在构建镜像过程中设置环境变量</span>
+ADD			<span class="pl-c"><span class="pl-c">#</span> 将宿主机目录下的文件拷贝进镜像且ADD命令会自动处理URL和TAR</span>
+COPY		<span class="pl-c"><span class="pl-c">#</span> 类似ADD，拷贝文件和目录到镜像中</span>
+VOLUME		<span class="pl-c"><span class="pl-c">#</span> 容器数据卷，用于数据保存持久化工作</span>
+CMD 		<span class="pl-c"><span class="pl-c">#</span> 指定一个容器启动时要运行的命令，dockerFile中可以有多个CMD指令，但只有最</span>
+后一个生效！
+ENTRYPOINT 	<span class="pl-c"><span class="pl-c">#</span> 指定一个容器启动时要运行的命令！和CMD一样</span>
+ONBUILD		<span class="pl-c"><span class="pl-c">#</span> 当构建一个被继承的DockerFile时运行命令，父镜像在被子镜像继承后，父镜像的ONBUILD被触发</span></pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6a080056-10e8-4fa6-a1aa-88ac9ec6bd6d"><img src="https://github.com/user-attachments/assets/6a080056-10e8-4fa6-a1aa-88ac9ec6bd6d" alt="image-20241202084150623" style="max-width: 100%;"></a></p>
+<h3>实战测试</h3>
+<blockquote>
+<p>创建一个自己的centos</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 编写dockerfile</span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> cat mydockerfile-centos </span>
+FROM centos 
+MAINTAINER owen_w<span class="pl-k">&lt;</span>gonekooing@gmail.com<span class="pl-k">&gt;</span>
+
+ENV MYPATH /usr/local
+WORKDIR <span class="pl-smi">$MYPATH</span>
+
+RUN yum -y install vim
+RUN yum -y install net-tools
+
+EXPOSE 80
+
+CMD <span class="pl-c1">echo</span> <span class="pl-smi">$MYPATH</span>
+CMD <span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>-------end--------<span class="pl-pds">"</span></span>
+CMD /bin/bash
+
+<span class="pl-c"><span class="pl-c">#</span> 构建镜像</span>
+<span class="pl-c"><span class="pl-c">#</span> docker build -f dockerfile地址 -t 标签名称 .</span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> docker build -f mydockerfile-centos -t mycentos:1.0 .</span>
+[+] Building 0.4s (6/6) FINISHED                                                     </pre></div>
+<h3>CMD和ENTRYPOINT的区别</h3>
+<div class="highlight highlight-source-shell"><pre class="notranslate">CMD 		<span class="pl-c"><span class="pl-c">#</span> 指定一个容器启动时要运行的命令，dockerFile中可以有多个CMD指令，但只有最</span>
+后一个生效！
+ENTRYPOINT 	<span class="pl-c"><span class="pl-c">#</span> 指定一个容器启动时要运行的命令！和CMD一样</span></pre></div>
+<blockquote>
+<p>CMD测试</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 首先我们构建一个最基础的镜像，只运行一个CMD命令</span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> vi dockerfile-test-cmd</span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> cat dockerfile-test-cmd </span>
+FROM centos 
+CMD [<span class="pl-s"><span class="pl-pds">"</span>ls<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>-a<span class="pl-pds">"</span></span>]
+
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> docker build -f dockerfile-test-cmd -t cmd-test .</span>
+[+] Building 0.1s (5/5) FINISHED                                                                                          docker:default
+ =<span class="pl-k">&gt;</span> [internal] load build definition from dockerfile-test-cmd                                                                       0.0s
+ =<span class="pl-k">&gt;</span> =<span class="pl-k">&gt;</span> transferring dockerfile: 138B                                                                                                0.0s
+ =<span class="pl-k">&gt;</span> [internal] load metadata <span class="pl-k">for</span> docker.io/library/centos:latest                                                                    0.0s
+ =<span class="pl-k">&gt;</span> [internal] load .dockerignore                                                                                                   0.0s
+ =<span class="pl-k">&gt;</span> =<span class="pl-k">&gt;</span> transferring context: 2B                                                                                                     0.0s
+ =<span class="pl-k">&gt;</span> CACHED [1/1] FROM docker.io/library/centos:latest                                                                               0.0s
+ =<span class="pl-k">&gt;</span> exporting to image                                                                                                              0.0s
+ =<span class="pl-k">&gt;</span> =<span class="pl-k">&gt;</span> exporting layers                                                                                                             0.0s
+ =<span class="pl-k">&gt;</span> =<span class="pl-k">&gt;</span> writing image sha256:7d202bdf002be182b794b7f2b4c90c4fe3560c3ac4f8cebc27f1c8a94ab10a9a                                        0.0s
+ =<span class="pl-k">&gt;</span> =<span class="pl-k">&gt;</span> naming to docker.io/library/cmd-test                   
+ 
+ <span class="pl-c"><span class="pl-c">#</span> 启动容器进行测试</span>
+ [root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> docker images -a</span>
+REPOSITORY      TAG       IMAGE ID       CREATED       SIZE
+cmd-test        latest    7d202bdf002b   3 years ago   231MB
+.......
+<span class="pl-c"><span class="pl-c">#</span> 启动容器后能正常显示</span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> docker run -it 7d202bdf002b </span>
+<span class="pl-c1">.</span>  ..  .dockerenv  bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+
+<span class="pl-c"><span class="pl-c">#</span> 尝试在启动容器的时候在后续追加一个命令，</span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> docker run -it 7d202bdf002b -l</span>
+docker: Error response from daemon: failed to create task <span class="pl-k">for</span> <span class="pl-smi">container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: <span class="pl-s"><span class="pl-pds">"</span>-l<span class="pl-pds">"</span></span>: executable file not found</span> <span class="pl-k">in</span> <span class="pl-smi">$PATH</span>: unknown.</pre></div>
+<blockquote>
+<p>ENTRYPOINT的测试</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 构建容器镜像</span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> vim dockerfile-entrypoint-test</span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> cat dockerfile-entrypoint-test </span>
+FROM centos
+ENTRYPOINT [<span class="pl-s"><span class="pl-pds">"</span>ls<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>-a<span class="pl-pds">"</span></span>]
+
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> docker build -f dockerfile-entrypoint-test -t entrypoint-test .</span>
+[+] Building 0.1s (5/5) FINISHED                                                                                          docker:default
+ =<span class="pl-k">&gt;</span> [internal] load build definition from dockerfile-entrypoint-test                                                                0.0s
+ =<span class="pl-k">&gt;</span> =<span class="pl-k">&gt;</span> transferring dockerfile: 150B                                                                                                0.0s
+ =<span class="pl-k">&gt;</span> [internal] load metadata <span class="pl-k">for</span> docker.io/library/centos:latest                                                                    0.0s
+ =<span class="pl-k">&gt;</span> [internal] load .dockerignore                                                                                                   0.0s
+
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> </span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> docker images -a</span>
+REPOSITORY        TAG       IMAGE ID       CREATED       SIZE
+cmd-test          latest    7d202bdf002b   3 years ago   231MB
+entrypoint-test   latest    b325f5b97233   3 years ago   231MB
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> </span>
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> docker run b325f5b97233</span>
+<span class="pl-c1">.</span>
+..
+.dockerenv
+bin
+dev
+etc
+home
+........
+[root@ip-10-0-1-192 dockerfile-test]<span class="pl-c"><span class="pl-c">#</span> docker run b325f5b97233 -l</span>
+total 16
+drwxr-xr-x.   1 root root     6 Dec  2 06:26 <span class="pl-c1">.</span>
+drwxr-xr-x.   1 root root     6 Dec  2 06:26 ..
+-rwxr-xr-x.   1 root root     0 Dec  2 06:26 .dockerenv
+lrwxrwxrwx.   1 root root     7 Nov  3  2020 bin -<span class="pl-k">&gt;</span> usr/bin
+drwxr-xr-x.   5 root root   340 Dec  2 06:26 dev
+drwxr-xr-x.   1 root root    66 Dec  2 06:26 etc
+drwxr-xr-x.   2 root root     6 Nov  3  2020 home
+.....
+</pre></div>
+<h3>实战演练-独角兽镜像</h3>
+<div class="highlight highlight-source-dockerfile"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 基于一个合适的镜像</span>
+<span class="pl-k">FROM</span> public.ecr.aws/amazonlinux/amazonlinux:latest
+
+<span class="pl-c"><span class="pl-c">#</span> 设置工作目录</span>
+<span class="pl-k">RUN</span> yum update -y &amp;&amp; \
+    mkdir /app
+<span class="pl-k">WORKDIR</span> /app
+
+<span class="pl-c"><span class="pl-c">#</span> 将本地的文件复制到容器中</span>
+<span class="pl-k">COPY</span> server.ini /app/server.ini
+<span class="pl-k">COPY</span> ws-ec2-root /app/ws-ec2-root
+
+<span class="pl-c"><span class="pl-c">#</span> 授权可执行权限</span>
+<span class="pl-k">RUN</span> chmod +x /app/ws-ec2-root
+<span class="pl-k">RUN</span> chmod +x /app/server.ini
+
+<span class="pl-c"><span class="pl-c">#</span> 设置环境变量</span>
+<span class="pl-k">ENV</span> AWS_DEFAULT_REGION=us-east-1
+
+<span class="pl-c"><span class="pl-c">#</span> 暴露端口 80</span>
+<span class="pl-k">EXPOSE</span> 80
+
+<span class="pl-c"><span class="pl-c">#</span> 设置容器启动时执行的命令</span>
+<span class="pl-k">CMD</span> [<span class="pl-s">"./ws-ec2-root"</span>]</pre></div>
+<h2>Docker网络</h2>
+<h3>理解docker0</h3>
+<p>准备工作：清空所有的容器，清空所有的镜像</p>
+<p>Docker的网络也是十分重要的一个点，希望大家可以认真理解！</p>
+<blockquote>
+<p>我们先来做个测试</p>
+</blockquote>
+<p>查看本地的IP <code class="notranslate">ip addr</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/8f12a442-0763-40ff-a462-8210b7a03e1d"><img src="https://github.com/user-attachments/assets/8f12a442-0763-40ff-a462-8210b7a03e1d" alt="image-20241209093646654" style="max-width: 100%;"></a></p>
+<p>这里我们分析可得，有三个网络：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">lo 		127.0.0.1		<span class="pl-c"><span class="pl-c">#</span> 本机的回环地址</span>
+enX0	10.0.1.206		<span class="pl-c"><span class="pl-c">#</span> aws上的私有IP</span>
+docker0	172.17.0.1		<span class="pl-c"><span class="pl-c">#</span> docker网桥</span>
+<span class="pl-c"><span class="pl-c">#</span> 问题：docker是如何处理网络访问的？</span></pre></div>
+<p>我们可以创建两个容器测试他们能不能相互ping通或者与主机ping通</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 下载镜像</span>
+[root@ip-10-0-1-206 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker pull centos</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 启动容器并查看test01-centos的IP地址</span>
+[root@ip-10-0-1-206 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker run -it --name test01-centos centos ip addr</span>
+1: lo: <span class="pl-k">&lt;</span>LOOPBACK,UP,LOWER_UP<span class="pl-k">&gt;</span> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+4: eth0@if5: <span class="pl-k">&lt;</span>BROADCAST,MULTICAST,UP,LOWER_UP<span class="pl-k">&gt;</span> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+<span class="pl-c"><span class="pl-c">#</span> docker会给每个容器都分配一个ip</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 思考，我们的linux主机是否能ping通容器 test01-centos </span>
+[root@ip-10-0-1-206 ec2-user]<span class="pl-c"><span class="pl-c">#</span> ping -c 4 172.17.0.2</span>
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+From 172.17.0.1 icmp_seq=1 Destination Host Unreachable</pre></div>
+<blockquote>
+<p>我们发现主机不能直接ping通容器内的地址这是为什么呢？</p>
+</blockquote>
+<h3>问题分析：</h3>
+<ol>
+<li><strong>容器网络</strong>： 容器使用 Docker 默认的 <code class="notranslate">bridge</code> 网络模式。该模式通过创建一个虚拟网桥（<code class="notranslate">docker0</code>）来连接宿主机和容器。在这种模式下，容器的 IP 地址（如 <code class="notranslate">172.17.0.2</code>）与宿主机的网络不同，因此容器与宿主机在网络上是隔离的。</li>
+<li><strong>宿主机与容器之间的连接</strong>： 宿主机的 <code class="notranslate">docker0</code> 接口拥有 IP 地址 <code class="notranslate">172.17.0.1</code>，这是宿主机和容器网络之间的网关。容器的 IP 地址 <code class="notranslate">172.17.0.2</code> 位于 <code class="notranslate">docker0</code> 网桥的子网内。宿主机不直接能够 ping 容器的 IP 地址。</li>
+</ol>
+<h3>解决方法：</h3>
+<h4>1. <strong>使用 Host 网络模式（如果需要直接访问）</strong></h4>
+<p>如果你希望容器和宿主机共享网络（直接访问容器的 IP 地址），可以使用 <code class="notranslate">host</code> 网络模式：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker run -it --name test01-centos --network host centos ip addr</pre></div>
+<p>这将使容器与宿主机共享相同的网络堆栈，可以直接使用宿主机的 IP 地址来访问容器。</p>
+<h4>2. <strong>连接容器与宿主机的网络（使用 <code class="notranslate">--add-host</code>）</strong></h4>
+<p>如果你有多个容器需要与宿主机进行通信，可以通过修改容器的 <code class="notranslate">/etc/hosts</code> 来实现更灵活的网络配置：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker run -it --name test01-centos --add-host=host.docker.internal:host-gateway centos</pre></div>
+<p>这将使容器能够通过 <code class="notranslate">host.docker.internal</code> 地址访问宿主机。</p>
+<h3>小结</h3>
+<p>Docker使用Linux桥接，在宿主机虚拟一个Docker容器网桥(docker0)，Docker启动一个容器时会根据 Docker网桥的网段分配给容器一个IP地址，称为Container-IP，同时Docker网桥是每个容器的默认网 关。因为在同一宿主机内的容器都接入同一个网桥，这样容器之间就能够通过容器的Container-IP直接 通信</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/67b320d9-8f68-4028-be6a-4afedba1aa3f"><img src="https://github.com/user-attachments/assets/67b320d9-8f68-4028-be6a-4afedba1aa3f" alt="image-20241209100529432" style="max-width: 100%;"></a></p>
+<p>Docker容器网络就很好的利用了Linux虚拟网络技术，在本地主机和容器内分别创建一个虚拟接口，并 让他们彼此联通（这样一对接口叫veth pair）；</p>
+<p>Docker中的网络接口默认都是虚拟的接口。虚拟接口的优势就是转发效率极高（因为Linux是在内核中 进行数据的复制来实现虚拟接口之间的数据转发，无需通过外部的网络设备交换），对于本地系统和容 器系统来说，虚拟接口跟一个正常的以太网卡相比并没有区别，只是他的速度快很多。</p>
+<h3>docker --link</h3>
+<p>思考一个场景，我们编写一个微服务，数据库连接地址原来是使用ip的，如果ip变化就不行了，那我们 能不能使用服务名访问呢？</p>
+<p>jdbc:mysql://mysql:3306，这样的话哪怕mysql重启，我们也不需要修改配置了！docker提供了 --link  的操作！</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-206 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker run -it -d -P --name test03 --link test01 centos </span></pre></div>
+<p>思考，这个原理是什么呢？我们进入tomcat03中查看下host配置文件</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-206 ec2-user]<span class="pl-c"><span class="pl-c">#</span> docker exec -it test03 cat /etc/hosts</span>
+127.0.0.1       localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.17.0.2      test01 f1c722b1a40c
+172.17.0.4      8bf58c52c6c5
+
+<span class="pl-c"><span class="pl-c">#</span> 所以这里其实就是配置了一个 hosts 地址而已！</span>
+<span class="pl-c"><span class="pl-c">#</span> 原因：--link的时候，直接把需要link的主机的域名和ip直接配置到了hosts文件中了。</span></pre></div>
+<h3>容器的自定义网络</h3>
+<blockquote>
+<p>查看docker的所有网络</p>
+</blockquote>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d76f2eca-fdf5-449b-a1ce-7c16562ca004"><img src="https://github.com/user-attachments/assets/d76f2eca-fdf5-449b-a1ce-7c16562ca004" alt="image-20241209130635162" style="max-width: 100%;"></a></p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="center">网络模式</th>
+<th align="center">配置</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">bridge模式</td>
+<td align="center">--net=bridge</td>
+<td align="center">默认值，在Docker网桥docker0上为容器创建新的网络 栈</td>
+</tr>
+<tr>
+<td align="center">none模式</td>
+<td align="center">--net=none</td>
+<td align="center">不配置网络，用户可以稍后进入容器，自行配置</td>
+</tr>
+<tr>
+<td align="center">container 模式</td>
+<td align="center">- net=container:name/id</td>
+<td align="center">容器和另外一个容器共享Network namespace。 kubernetes中的pod就是多个容器共享一个Network namespace。</td>
+</tr>
+<tr>
+<td align="center">host模式</td>
+<td align="center">--net=host</td>
+<td align="center">容器和宿主机共享Network namespace</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9adb6b3b-5da6-4cd1-8d5f-fbb2665d0c86"><img src="https://github.com/user-attachments/assets/9adb6b3b-5da6-4cd1-8d5f-fbb2665d0c86" alt="image-20241209133917080" style="max-width: 100%;"></a></p>
+<blockquote>
+<p>尝试自己创建容器网卡</p>
+</blockquote>
+<p>1、删除原来的所有容器保持环境的干净</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/39ac18b0-0377-4c21-a290-c97f4f946b41"><img src="https://github.com/user-attachments/assets/39ac18b0-0377-4c21-a290-c97f4f946b41" alt="image-20241209133213944" style="max-width: 100%;"></a>.png)</p>
+<p>2、接下来我们来创建容器，但是我们知道默认创建的容器都是docker0网卡的</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 默认我们不配置网络，也就相当于默认值 --net bridge  使用的docker0</span>
+ docker run -d -P --name tomcat01 --net bridge tomcat
+<span class="pl-c"><span class="pl-c">#</span> docker0网络的特点</span>
+ 1.它是默认的
+ 2.域名访问不通
+ 3.--link 域名通了，但是删了又不行</pre></div>
+<p>3、我们可以自己创建网卡并让容器启动的时候使用自定义网络</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/da473249-5bdf-4d29-b111-fc93c7e3d61e"><img src="https://github.com/user-attachments/assets/da473249-5bdf-4d29-b111-fc93c7e3d61e" alt="image-20241209134057104" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 自定义docker网络</span>
+[root@ip-10-0-1-206 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.0.1 mynet</span>
+01cd95f72f46092d3ce4d76a7f33f8f17c3e1eb9620bd481ac9fa3b2d1d80f2b
+
+<span class="pl-c"><span class="pl-c">#</span> 确认是否创建成功</span>
+[root@ip-10-0-1-206 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker network ls</span>
+NETWORK ID     NAME      DRIVER    SCOPE
+426aa83ae2e8   bridge    bridge    <span class="pl-k">local</span>
+d0d56566f436   host      host      <span class="pl-k">local</span>
+01cd95f72f46   mynet     bridge    <span class="pl-k">local</span>
+a1162d4c73e9   none      null      <span class="pl-k">local</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 查看mynet网卡的详细信息</span>
+[root@ip-10-0-1-206 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker network inspect mynet</span>
+[
+    {
+        <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>mynet<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>01cd95f72f46092d3ce4d76a7f33f8f17c3e1eb9620bd481ac9fa3b2d1d80f2b<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Created<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2024-12-09T05:42:48.570384851Z<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Scope<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>local<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Driver<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>bridge<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>EnableIPv6<span class="pl-pds">"</span></span>: false,
+        <span class="pl-s"><span class="pl-pds">"</span>IPAM<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>Driver<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>default<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>Options<span class="pl-pds">"</span></span>: {},
+            <span class="pl-s"><span class="pl-pds">"</span>Config<span class="pl-pds">"</span></span>: [
+                {
+                    <span class="pl-s"><span class="pl-pds">"</span>Subnet<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>192.168.0.0/16<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>Gateway<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>192.168.0.1<span class="pl-pds">"</span></span>
+                }
+            ]
+        },
+        <span class="pl-s"><span class="pl-pds">"</span>Internal<span class="pl-pds">"</span></span>: false,
+        <span class="pl-s"><span class="pl-pds">"</span>Attachable<span class="pl-pds">"</span></span>: false,
+        <span class="pl-s"><span class="pl-pds">"</span>Ingress<span class="pl-pds">"</span></span>: false,
+        <span class="pl-s"><span class="pl-pds">"</span>ConfigFrom<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>Network<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+        },
+        <span class="pl-s"><span class="pl-pds">"</span>ConfigOnly<span class="pl-pds">"</span></span>: false,
+        <span class="pl-s"><span class="pl-pds">"</span>Containers<span class="pl-pds">"</span></span>: {},
+        <span class="pl-s"><span class="pl-pds">"</span>Options<span class="pl-pds">"</span></span>: {},
+        <span class="pl-s"><span class="pl-pds">"</span>Labels<span class="pl-pds">"</span></span>: {}
+    }
+]</pre></div>
+<blockquote>
+<p>启动两个容器并使用自己创建的网卡</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-206 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker run -d -P --name centos01 --net mynet centos ping 192.168.1.1</span>
+[root@ip-10-0-1-206 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker run -d -P --name centos02 --net mynet centos ping 192.168.1.1</span>
+
+[root@ip-10-0-1-206 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker ps</span>
+CONTAINER ID   IMAGE     COMMAND              CREATED          STATUS          PORTS     NAMES
+222522d82c9f   centos    <span class="pl-s"><span class="pl-pds">"</span>ping 192.168.1.1<span class="pl-pds">"</span></span>   3 seconds ago    Up 2 seconds              centos02
+db5b7fad5c89   centos    <span class="pl-s"><span class="pl-pds">"</span>ping 192.168.1.1<span class="pl-pds">"</span></span>   21 seconds ago   Up 20 seconds             centos01
+
+[root@ip-10-0-1-206 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker network inspect mynet</span>
+[
+    {
+        <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>mynet<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>01cd95f72f46092d3ce4d76a7f33f8f17c3e1eb9620bd481ac9fa3b2d1d80f2b<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>Created<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2024-12-09T05:42:48.570384851Z<span class="pl-pds">"</span></span>,
+		..........
+
+        <span class="pl-s"><span class="pl-pds">"</span>Containers<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>222522d82c9fea3a17cb4971c9cd586cbf25729018fce16a3cfad98ff18510f4<span class="pl-pds">"</span></span>: {
+                <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>centos02<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>EndpointID<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>85fcb51f94534eded3c22e2526b9e7c67d32fc2521b9622698a5a7e90c7606d5<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>MacAddress<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>02:42:c0:a8:00:03<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>IPv4Address<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>192.168.0.3/16<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>IPv6Address<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+            },
+            <span class="pl-s"><span class="pl-pds">"</span>db5b7fad5c892e3ce89439dc85365d7a40abdb688ff91466c8d2116d65b09945<span class="pl-pds">"</span></span>: {
+                <span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>centos01<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>EndpointID<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1c94c710c588d280d4c5fa1f30db9f2edae22adea5cc50da7694050e8db49e9e<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>MacAddress<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>02:42:c0:a8:00:02<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>IPv4Address<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>192.168.0.2/16<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>IPv6Address<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+            }
+        },
+        <span class="pl-s"><span class="pl-pds">"</span>Options<span class="pl-pds">"</span></span>: {},
+        <span class="pl-s"><span class="pl-pds">"</span>Labels<span class="pl-pds">"</span></span>: {}
+    }
+]
+</pre></div>
+<blockquote>
+<p>接下来，我们来测试ping容器名和ip试试，都可以ping通</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-206 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker exec -it centos01 ping 192.168.0.3</span>
+PING 192.168.0.3 (192.168.0.3) 56(84) bytes of data.
+64 bytes from 192.168.0.3: icmp_seq=1 ttl=127 time=0.060 ms
+--- 192.168.0.3 ping statistics ---
+
+[root@ip-10-0-1-206 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> docker exec -it centos01 ping centos02</span>
+PING centos02 (192.168.0.3) 56(84) bytes of data.
+64 bytes from centos02.mynet (192.168.0.3): icmp_seq=1 ttl=127 time=0.039 ms
+--- centos02 ping statistics ---
+
+<span class="pl-c"><span class="pl-c">#</span> 测试发现可以通过IP和容器名去ping对方</span></pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Owenwoow.github.io/aws">GitHub - CN Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Owenwoow/aws");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
