@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 13:02:14 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>使用nginx反向代理多个容器</title><link>https://Owenwoow.github.io/aws/post/shi-yong-nginx-fan-xiang-dai-li-duo-ge-rong-qi.html</link><description>## 1.安装ngnix&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 13:03:27 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>使用nginx反向代理多个容器</title><link>https://Owenwoow.github.io/aws/post/shi-yong-nginx-fan-xiang-dai-li-duo-ge-rong-qi.html</link><description>## 1.安装ngnix&#13;
 &#13;
 ```shell&#13;
 yum install nginx -y &#13;
@@ -363,7 +363,7 @@ Amazon DynamoDB：允许访问特定的表&#13;
 &#13;
 #### 2.创建dynamodb的终端节点&#13;
 &#13;
-1. 在 AWS 控制台中，导航到 VPC 仪表板。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/jian-duan-hu-lian-wang-xian.html</guid><pubDate>Thu, 07 Nov 2024 07:09:50 +0000</pubDate></item><item><title>[aws][jam]-11-查找隐藏在SQS队列中的秘密消息</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-11--cha-zhao-yin-cang-zai-SQS-dui-lie-zhong-de-mi-mi-xiao-xi.html</link><description>![image-20241020090503948](https://github.com/user-attachments/assets/9eddcc11-ebf9-4357-b21a-dfab5756a528)&#13;
+1. 在 AWS 控制台中，导航到 VPC 仪表板。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/jian-duan-hu-lian-wang-xian.html</guid><pubDate>Thu, 07 Nov 2024 07:09:50 +0000</pubDate></item><item><title>查找隐藏在SQS队列中的秘密消息-</title><link>https://Owenwoow.github.io/aws/post/cha-zhao-yin-cang-zai-SQS-dui-lie-zhong-de-mi-mi-xiao-xi--.html</link><description>![image-20241020090503948](https://github.com/user-attachments/assets/9eddcc11-ebf9-4357-b21a-dfab5756a528)&#13;
 &#13;
 &#13;
 **查找隐藏在SQS队列中的秘密消息！！**&#13;
@@ -380,7 +380,7 @@ Amazon DynamoDB：允许访问特定的表&#13;
 &#13;
 线索 2：如何访问我的 VPC 端点？&#13;
 &#13;
-更新附加到 VPC 端点的安全组的入站规则。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-11--cha-zhao-yin-cang-zai-SQS-dui-lie-zhong-de-mi-mi-xiao-xi.html</guid><pubDate>Thu, 07 Nov 2024 06:53:52 +0000</pubDate></item><item><title>自动检测iam用户并更改</title><link>https://Owenwoow.github.io/aws/post/zi-dong-jian-ce-iam-yong-hu-bing-geng-gai.html</link><description># 11-自动检测iam用户并更改&#13;
+更新附加到 VPC 端点的安全组的入站规则。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/cha-zhao-yin-cang-zai-SQS-dui-lie-zhong-de-mi-mi-xiao-xi--.html</guid><pubDate>Thu, 07 Nov 2024 06:53:52 +0000</pubDate></item><item><title>自动检测iam用户并更改</title><link>https://Owenwoow.github.io/aws/post/zi-dong-jian-ce-iam-yong-hu-bing-geng-gai.html</link><description># 11-自动检测iam用户并更改&#13;
 &#13;
 ### 任务 1：构建 IAM 评估 Lambda 函数&#13;
 &#13;
