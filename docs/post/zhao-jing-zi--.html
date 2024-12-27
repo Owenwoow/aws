@@ -10,21 +10,21 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="# **排队等候！**
+<meta name="description" content="## 题目：
 
-### 概述
+#### 背景
 
-背景您经营着一家电子商务初创公司，身兼数职。">
-<meta property="og:title" content="[aws][jam]-05-排队等候！">
-<meta property="og:description" content="# **排队等候！**
+AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。">
+<meta property="og:title" content="照镜子-">
+<meta property="og:description" content="## 题目：
 
-### 概述
+#### 背景
 
-背景您经营着一家电子商务初创公司，身兼数职。">
+AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-05--pai-dui-deng-hou-%EF%BC%81.html">
+<meta property="og:url" content="https://Owenwoow.github.io/aws/post/zhao-jing-zi--.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
-<title>[aws][jam]-05-排队等候！</title>
+<title>照镜子-</title>
 
 
 
@@ -67,7 +67,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">[aws][jam]-05-排队等候！</h1>
+<h1 class="postTitle">照镜子-</h1>
 <div class="title-right">
     <a href="https://Owenwoow.github.io/aws" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -75,7 +75,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/Owenwoow/aws/issues/7" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Owenwoow/aws/issues/5" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -91,164 +91,132 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1><strong>排队等候！</strong></h1>
-<h3>概述</h3>
-<p>背景您经营着一家电子商务初创公司，身兼数职。您已开始在 AWS 上使用无服务器计算。您即将召开一场大型投资者会议，就在会议前，您发现一位同事意外做了一些更改，导致您最先进的事件处理系统出现故障，而您原本计划在会议期间演示该系统。您需要戴上云开发人员的帽子，解决问题，并为涉及演示产品的会议做好准备。您准备好迎接挑战了吗？</p>
-<h3>任务 1：SNS 订阅</h3>
-<h5>背景</h5>
-<p>您的网站收到大量流量，这反过来又会在后端生成大量通知。这些通知会发送给不同的消费者。这就是您选择使用 Amazon Simple Notification Service (SNS) 的原因，这样许多消费者就可以决定根据自己的意愿使用通知。每个通知都需要由 AWS Lambda 函数处理。但是，您需要控制这些通知/消息流向 Lambda。这就是您决定在 SNS 和 AWS Lambda 之间使用 Amazon Simple Queue Service (SQS) 的原因。通知流程如下：</p>
-<pre class="notranslate"><code class="notranslate">Notification -&gt; SNS (MySNSTopic) -&gt; SQS (MyQueue) -&gt; Lambda (MyFunctionFixIT)
-</code></pre>
-<p>看起来您部署的所有资源都还在那里：<code class="notranslate">MySNSTopic</code>SNS 主题、<code class="notranslate">MyQueue</code>SQS 队列和<code class="notranslate">MyFunctionFixIT</code>Lambda 函数。但是，查看 Lambda 函数时，似乎从未调用过它。要向大投资者进行演示，您需要一直收到 Lambda 函数的通知。但是，让我们一次启动一项任务。</p>
-<h5>任务一</h5>
-<p>首先，在此任务中，您必须<code class="notranslate">SNS (MySNSTopic) -&gt; SQS (MyQueue)</code>通过创建对 SNS 主题的订阅来修复设置。</p>
-<p>注意：您不必创建额外的资源。</p>
-<h5>入门</h5>
-<p>您可以使用 AWS 的文档在 AWS 管理控制台中找到方法： <a href="https://docs.aws.amazon.com/" rel="nofollow">https://docs.aws.amazon.com/</a></p>
-<h5>存货</h5>
+<div class="markdown-body" id="postBody"><h2>题目：</h2>
+<h4>背景</h4>
+<p>AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。信标中包含一条消息，安全团队可利用该消息来识别其他受感染主机。</p>
+<h4>你的任务</h4>
+<p>使用 AnyCompany<code class="notranslate">JamMonitorStation</code>捕获受感染者<code class="notranslate">JamInstanceA</code>向目标发送的信标<code class="notranslate">JamInstanceB</code>。要完成此挑战，您需要：</p>
 <ul>
-<li>我是</li>
-<li>社交网络</li>
-<li>新加坡优质服务</li>
-<li>拉姆达</li>
-<li>可以在输出属性中找到 ARN</li>
+<li>正确配置流量镜像，以便<code class="notranslate">JamMonitorStation</code>可以捕获由<code class="notranslate">JamInstanceA</code></li>
+<li>登录到<code class="notranslate">JamMonitorStation</code>网站<code class="notranslate">System Manager's Session Manager</code>来捕获流量。</li>
 </ul>
-<h5>您应该使用的服务</h5>
+<h4>入门</h4>
+<p>要开始，请单击<code class="notranslate">Start Challenge</code>，然后单击<code class="notranslate">Open AWS Console</code>，并导航到<code class="notranslate">Systems Manager Session Manager</code>登录监控站。</p>
+<h4>存货</h4>
 <ul>
-<li>社交网络</li>
-<li>新加坡优质服务</li>
+<li><code class="notranslate">JamMonitorStation</code></li>
+<li><code class="notranslate">JamInstanceA</code></li>
+<li><code class="notranslate">JamInstanceA</code></li>
 </ul>
-<h5>任务验证</h5>
-<p>找到解决方案后，任务将自动完成。此外，您还可以随时通过点击挑战详情屏幕中的**“检查我的进度”按钮来检查您的进度。**</p>
-<p>在sns中添加订阅</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/225ccd39-25b3-4464-a962-efae5a972f1e"><img src="https://github.com/user-attachments/assets/225ccd39-25b3-4464-a962-efae5a972f1e" alt="image-20241104082233778" style="max-width: 100%;"></a></p>
-<h3>任务 2：Lambda 接收消息的权限</h3>
-<h5>背景</h5>
-<p>请记住，您仍在尝试修复此通知流程：</p>
-<pre class="notranslate"><code class="notranslate">Notification -&gt; SNS (MySNSTopic) -&gt; SQS (MyQueue) -&gt; Lambda (MyFunctionFixIT)
-</code></pre>
-<p>通知现在进入 SQS 队列<code class="notranslate">MyQueue</code>。但是，Lambda 函数<code class="notranslate">MyFunctionFixIT</code>从未被触发。这似乎是权限问题。您可以来修复它！</p>
-<h5>任务</h5>
-<p>您的任务是验证 Lambda 函数所使用的角色及其执行权限。您首先必须通过查看 Lambda 函数的配置来找到 Lambda 函数所使用的角色<code class="notranslate">MyFunctionFixIT</code>。然后，您需要将缺少的权限语句添加到<code class="notranslate">sqs</code>内联策略中。</p>
-<h5>重要信息：</h5>
+<h4>您应该使用的服务</h4>
+<ul>
+<li><code class="notranslate">EC2</code></li>
+<li><code class="notranslate">VPC</code></li>
+<li><code class="notranslate">SSM</code></li>
+</ul>
+<h4>任务验证</h4>
+<p>要得到答案，您需要识别<code class="notranslate">JamInstanceA</code>和之间的网络流量中隐藏的消息<code class="notranslate">JamInstanceB</code>，然后将隐藏的消息放入 JAM 答案字段。</p>
+<h2>原理&amp;解答</h2>
+<h3>1. <strong>流量镜像的原理</strong></h3>
+<p>流量镜像（Traffic Mirroring）允许你将特定的网络流量复制到指定的目标网络接口，以便进行分析和监控。在 AWS 中，流量镜像可以帮助你监控流经虚拟私有云（VPC）中的实例的网络流量。</p>
+<ul>
+<li><strong>镜像源（Mirror Source）</strong>：指定你想要复制流量的网络接口，即你想监控流量的实例。我们在这里选择了 <strong>JamInstanceA</strong>，因为它是受感染的主机，需要监控其流量。</li>
+<li><strong>镜像目标（Mirror Target）</strong>：流量将被复制到这个目标接口，也就是监控实例。在这个案例中，<strong>JamMonitorStation</strong> 是目标，我们需要将从 JamInstanceA 收集的流量发送到这个监控站以进行分析。</li>
+<li><strong>VXLAN 封装</strong>：流量镜像使用 VXLAN（Virtual Extensible LAN）协议将流量封装，并通过网络传输到镜像目标。VXLAN 是一种隧道协议，它允许你将流量从一个网络设备发送到另一个设备，并在网络传输过程中封装数据帧。</li>
+</ul>
+<h3>2. <strong>VXLAN 与 UDP 端口 4789</strong></h3>
+<p>流量镜像通过 VXLAN 封装流量，这意味着它会在 <strong>UDP 端口 4789</strong> 上发送数据包。这个端口专门用于 VXLAN 隧道流量，因此我们必须确保 <strong>JamMonitorStation</strong> 上的安全组允许通过这个端口的入站流量。</p>
+<p>为了让 JamMonitorStation 接收 VXLAN 流量，我们需要修改它的安全组，允许来自任何地方（<code class="notranslate">0.0.0.0/0</code>）的 UDP 4789 端口入站流量。</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4bc3e877-d8bb-4839-872d-47cc87f055e6"><img src="https://github.com/user-attachments/assets/4bc3e877-d8bb-4839-872d-47cc87f055e6" alt="image-20241017123815525" style="max-width: 100%;"></a></p>
+<h3>3. <strong>配置流量镜像</strong></h3>
+<h4>3.1 <strong>镜像源和镜像目标</strong></h4>
+<p>流量镜像的核心是将 <strong>JamInstanceA</strong> 的流量复制到 <strong>JamMonitorStation</strong>。在 AWS 控制台中，我们通过以下几个步骤实现这一点：</p>
+<ul>
+<li><strong>镜像源</strong>：我们选择 <strong>JamInstanceA</strong> 的网络接口，因为我们希望监控从这台受感染主机发送的流量。这个接口 ID 可以在 EC2 的网络属性中找到。</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ca802ca8-e802-429a-ae24-422ee6fb2703"><img src="https://github.com/user-attachments/assets/ca802ca8-e802-429a-ae24-422ee6fb2703" alt="image-20241017125848618" style="max-width: 100%;"></a></p>
+<ul>
+<li>创建镜像源</li>
+</ul>
+<p>(<a href="https://github.com/user-attachments/assets/31b42335-777a-45c7-9ee4-5939a1f4261a">https://github.com/user-attachments/assets/31b42335-777a-45c7-9ee4-5939a1f4261a</a>)</p>
 <ul>
 <li>
-<p>您将无法将其他策略附加到该角色。您只能修改 <code class="notranslate">sqs</code>内联策略。</p>
+<p><strong>镜像目标</strong>：这个目标是 <strong>JamMonitorStation</strong> 的网络接口，它将接收到来自 JamInstanceA 的流量。创建一个新的镜像目标时，我们必须指定 JamMonitorStation 的接口 ID。</p>
+<p>镜像筛选条件：</p>
 </li>
-<li>
-<p>忽略 IAM 控制台中与权限相关的任何错误消息<code class="notranslate">arn:aws:access-analyzer</code>。</p>
-</li>
-<li>
-<p>确保遵循最小权限原则。只需添加完成任务所需的权限。如果您需要回滚更改，则只允许对 SQS 队列的</p>
-<p>资源</p>
-<pre class="notranslate"><code class="notranslate">MyQueue
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/19b9d79d-b7aa-4c65-a2c0-e5ad376499db"><img src="https://github.com/user-attachments/assets/19b9d79d-b7aa-4c65-a2c0-e5ad376499db" alt="image-20241017141436268" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/31e47bed-d2a0-47ac-98ba-3d67fc2b2940"><img src="https://github.com/user-attachments/assets/31e47bed-d2a0-47ac-98ba-3d67fc2b2940" alt="image-20241017141530193" style="max-width: 100%;"></a></p>
+<h3>4. <strong>流量捕获与分析</strong></h3>
+<h4>4.1 <strong>VXLAN 解封</strong></h4>
+<p>VXLAN 封装意味着流量被包装在一个额外的网络层中。当我们在 <strong>JamMonitorStation</strong> 上捕获流量时，首先需要解封这些数据包，这样才能查看其中的内容。这就是为什么我们需要在监控站上创建一个 <strong>VXLAN 接口</strong>。</p>
+<p>使用以下命令来创建并启用 VXLAN 接口：</p>
+<pre class="notranslate"><code class="notranslate">bashCopy codesudo ip link add vxlan0 type vxlan id 100 dev eth0 local 10.0.1.11 dstport 4789
+sudo ip link set vxlan0 up
 </code></pre>
-<p>ARN执行以下操作：</p>
-<pre class="notranslate"><code class="notranslate">[
-  "sqs:DeleteMessage",
-  "sqs:SendMessage",
-  "sqs:GetQueueAttributes"
-]
+<p>这些命令会：</p>
+<ul>
+<li>创建一个新的网络接口 <code class="notranslate">vxlan0</code>，它会监听 VXLAN ID <code class="notranslate">100</code>。</li>
+<li>设置接口为活动状态，使其可以接收并解封封装的 VXLAN 流量。</li>
+</ul>
+<h4>4.2 <strong>捕获 ICMP 流量</strong></h4>
+<p><strong>ICMP（Internet Control Message Protocol）</strong> 是网络中用于发送错误消息或进行简单通信的协议。在这个挑战中，恶意的 JamInstanceA 会通过 ICMP 发送消息给 JamInstanceB，因此我们使用 <strong>tcpdump</strong> 工具来捕获 ICMP 流量：</p>
+<pre class="notranslate"><code class="notranslate">bash
+
+
+Copy code
+sudo tcpdump -lnvXi vxlan0 icmp
 </code></pre>
-</li>
-</ul>
-<h5>存货</h5>
 <ul>
-<li>我是</li>
-<li>社交网络</li>
-<li>新加坡优质服务</li>
-<li>拉姆达</li>
+<li><strong>tcpdump</strong> 是一个命令行工具，用于捕获网络流量。</li>
+<li><code class="notranslate">-lnvX</code> 参数表示将以人类可读的方式输出详细信息。</li>
+<li><code class="notranslate">vxlan0</code> 是我们创建的接口，它负责解封流量并监听 VXLAN 封装的流量。</li>
+<li><strong>ICMP</strong> 是我们关心的协议，因为恶意流量通过 ICMP 发送。</li>
 </ul>
-<h5>您应该使用的服务</h5>
-<ul>
-<li>我是</li>
-<li>拉姆达</li>
-</ul>
-<h5>任务验证</h5>
-<p>找到解决方案后，任务将自动完成。此外，您还可以随时通过点击挑战详情屏幕中的**“检查我的进度”按钮来检查您的进度。**</p>
-<h3>解答：</h3>
-<h3>线索一：Lambda 执行者角色策略权限</h3>
-<p>导航到 AWS 管理控制台中的 IAM 服务，并将它添加到名称中的IAM 角色的策略<code class="notranslate">sqs:ReceiveMessage</code>中。<code class="notranslate">sqs``LambdaExecutionRoleFixIt</code></p>
-<h3><strong>罚分：3分</strong>线索2：在IAM控制台中添加以下权限</h3>
-<h4>更改角色允许的权限</h4>
+<p>通过这个命令，我们可以查看 <strong>JamInstanceA 发送给 JamInstanceB 的 ICMP ECHO 请求</strong>，其中隐藏了一条消息。这条消息通常被嵌入到 ICMP 请求的有效载荷（payload）字段中。</p>
+<h3><strong>5.捕获隐藏的消息并提交答案</strong></h3>
+<h4>数据包解析</h4>
+<p>首先，我们看到这部分是完整的 ICMP echo reply 数据包：</p>
+<pre class="notranslate"><code class="notranslate">yamlCopy code06:10:12.835327 IP (tos 0x0, ttl 255, id 52663, offset 0, flags [none], proto ICMP (1), length 56)
+    10.0.3.10 &gt; 10.0.2.10: ICMP echo reply, id 2335, seq 18356, length 36
+        0x0000:  4500 0038 cdb7 0000 ff01 d4f9 0a00 030a  E..8............
+        0x0010:  0a00 020a 0000 6c13 091f 47b4 44aa 1067  ......l...G.D..g
+        0x0020:  0000 0000 22be 0c00 0000 0000 6a34 6d63  ....".......j4mc
+        0x0030:  306d 506c 3374 3364                      0mPl3t3d
+</code></pre>
+<p>我们可以把它分成几个部分：</p>
 <ol>
 <li>
-<p>导航到 AWS 管理控制台中的 IAM 服务。</p>
-</li>
-<li>
-<p>在 IAM 控制台的导航窗格中，选择角色。</p>
-</li>
-<li>
-<p>在搜索栏中输入<code class="notranslate">LambdaExecutionRoleFixIt</code>。</p>
-</li>
-<li>
-<p>单击列表中唯一 IAM 角色的名称。</p>
-</li>
-<li>
-<p>要编辑现有的内联策略，请单击该策略的名称<code class="notranslate">sqs</code>。</p>
-</li>
-<li>
-<p>当光标位于屏幕右侧的<em>操作</em>列表中时，单击“SQS”，将显示操作列表。</p>
-</li>
-<li>
-<p>在<code class="notranslate">Filter actions</code>文本框中搜索<code class="notranslate">ReceiveMessage</code>。</p>
-</li>
-<li>
-<p>单击<em>访问级别 - 阅读</em><code class="notranslate">ReceiveMessage</code>旁边的复选框。</p>
-</li>
-<li>
-<p>这会将添加到</p>
-<pre class="notranslate"><code class="notranslate">sqs:ReceiveMessage
+<p><strong>IP头部部分（IP Header, <code class="notranslate">0x0000</code> - <code class="notranslate">0x001F</code>）</strong>：</p>
+<pre class="notranslate"><code class="notranslate">yamlCopy code0x0000:  4500 0038 cdb7 0000 ff01 d4f9 0a00 030a  E..8............
+0x0010:  0a00 020a 0000 6c13 091f 47b4 44aa 1067  ......l...G.D..g
 </code></pre>
-<p>操作列表中。操作列表现在应为：</p>
-<pre class="notranslate"><code class="notranslate">[
- "sqs:DeleteMessage",
- "sqs:SendMessage",
- "sqs:GetQueueAttributes",
- "sqs:ReceiveMessage"
-]
+<p>这部分是 IP 头部信息，包括源地址 (<code class="notranslate">10.0.3.10</code>)、目的地址 (<code class="notranslate">10.0.2.10</code>)、协议 (ICMP, 协议号 1)，以及其他 IP 包的元数据。这部分一般是基础网络层的信息，不包含隐藏消息。</p>
+</li>
+<li>
+<p><strong>ICMP 数据部分（ICMP Data, <code class="notranslate">0x0020</code> - <code class="notranslate">0x003F</code>）</strong>：</p>
+<pre class="notranslate"><code class="notranslate">yamlCopy code0x0020:  0000 0000 22be 0c00 0000 0000 6a34 6d63  ....".......j4mc
+0x0030:  306d 506c 3374 3364                      0mPl3t3d
 </code></pre>
-</li>
-<li>
-<p>点击<code class="notranslate">Next</code>。</p>
-</li>
-<li>
-<p>点击<code class="notranslate">Save changes</code>。</p>
+<p>这部分包含了 ICMP 协议的实际数据。在这里我们看到了一段以 <code class="notranslate">j4mc</code> 开头的内容，它是隐藏的信标消息。</p>
 </li>
 </ol>
-<p>现在该任务应该已经解决。</p>
-<p>参考文档：</p>
+<h3>如何识别出隐藏消息？</h3>
 <ul>
-<li>[<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy" rel="nofollow">修改角色步骤</a>](<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy" rel="nofollow">https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy</a>)</li>
-<li>[<a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-iam-policies.html" rel="nofollow">sqs 策略</a>](<a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-iam-policies.html" rel="nofollow">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-iam-policies.html</a>)</li>
-</ul>
-<h3>任务 3：lambda 的事件源</h3>
-<p>可能得分：27 线索罚分：0 <strong>可用得分：27</strong></p>
-<hr>
-<p>检查我的进度</p>
-<hr>
-<h5>背景</h5>
-<p>请记住，您仍在尝试修复此通知流程：</p>
-<pre class="notranslate"><code class="notranslate">Notification -&gt; SNS (MySNSTopic) -&gt; SQS (MyQueue) -&gt; Lambda (MyFunctionFixIT)
+<li>
+<p><strong>ICMP 的正常数据结构</strong>：ICMP 数据包通常包含一些 ID、序列号等控制信息，但在 "payload" (有效载荷) 中是可以携带自定义数据的。在这个包中，从 <code class="notranslate">0x0020</code> 开始的部分是有效载荷字段，通常是自定义内容。在这里，我们看到的就是这个信标信息。</p>
+</li>
+<li>
+<p><strong>有效载荷中不规则的可读内容</strong>：当我们逐字节解析这个包时，发现 <code class="notranslate">0x0020</code> 之后的字节序列 <code class="notranslate">6a34 6d63 306d 506c 3374 3364</code> 被解释为 ASCII 字符时就是：</p>
+<pre class="notranslate"><code class="notranslate">Copy code
+j4mc0mPl3t3d
 </code></pre>
-<p>通知仍未到达 Lambda 函数。您知道您的 Lambda 函数可以<code class="notranslate">ReceiveMessage</code>在 SQS 队列上执行。但是，消息仍在队列中未被处理。SQS 和 Lambda 之间的链接似乎已断开。您来这里就是为了修复它！</p>
-<h5>任务</h5>
-<p>您的任务是修复<code class="notranslate">MyQueue</code>SQS 队列和 Lambda 函数 之间的触发器。您可以在<a href="https://aws.amazon.com/lambda/%60MyFunctionFixIT%60%E4%B8%8A%E6%89%BE%E5%88%B0%E6%9C%89%E5%85%B3" rel="nofollow">https://aws.amazon.com/lambda/`MyFunctionFixIT`上找到有关</a> Lambda 的更多信息。</p>
-<p>注意：不需要创建额外的资源，并且Lambda函数的代码是正确的。</p>
-<h5>存货</h5>
-<ul>
-<li>我是</li>
-<li>社交网络</li>
-<li>新加坡优质服务</li>
-<li>拉姆达</li>
+<p>这段文字非常清晰地呈现了有效载荷中的隐藏消息，它就是 "j4mc0mPl3t3d"。</p>
+</li>
 </ul>
-<h5>您应该使用的服务</h5>
-<ul>
-<li>新加坡优质服务</li>
-<li>拉姆达</li>
-</ul>
-<h5>任务验证</h5>
-<p>找到解决方案后，任务将自动完成。此外，您还可以随时通过点击挑战详情屏幕中的**“检查我的进度”按钮来检查您的进度。**</p></div>
+<h3>总结：</h3>
+<p>在 ICMP 数据包的结构中，有一个部分被用于携带数据。在这种情况下，您要分析的隐藏消息恰好被嵌入在 ICMP 数据包的有效载荷（payload）中，而不是传统的控制信息。这也是为什么通过 <code class="notranslate">tcpdump</code> 命令查看详细的 ICMP 数据包内容后，能够找到信标信息。</p>
+<p>您最终识别到的有效载荷（<code class="notranslate">j4mc0mPl3t3d</code>）是这次捕获任务中的隐藏消息</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

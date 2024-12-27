@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 13:03:27 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>使用nginx反向代理多个容器</title><link>https://Owenwoow.github.io/aws/post/shi-yong-nginx-fan-xiang-dai-li-duo-ge-rong-qi.html</link><description>## 1.安装ngnix&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 16:09:27 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>使用nginx反向代理多个容器</title><link>https://Owenwoow.github.io/aws/post/shi-yong-nginx-fan-xiang-dai-li-duo-ge-rong-qi.html</link><description>## 1.安装ngnix&#13;
 &#13;
 ```shell&#13;
 yum install nginx -y &#13;
@@ -388,11 +388,11 @@ Amazon DynamoDB：允许访问特定的表&#13;
 &#13;
 &#13;
 &#13;
-有 2 个拥有 IAM 账户的用户，USER-A 和 USER-B。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/xiu-gai-cun-chu-tong-ce-lve.html</guid><pubDate>Thu, 07 Nov 2024 05:54:02 +0000</pubDate></item><item><title>[aws][jam]-08-学习 Gateway 到 Transit Gateway</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-08--xue-xi-%20Gateway%20-dao-%20Transit%20Gateway.html</link><description>#学习 Gateway 到 Transit Gateway&#13;
+有 2 个拥有 IAM 账户的用户，USER-A 和 USER-B。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/xiu-gai-cun-chu-tong-ce-lve.html</guid><pubDate>Thu, 07 Nov 2024 05:54:02 +0000</pubDate></item><item><title>学习 Gateway 到 Transit Gateway-</title><link>https://Owenwoow.github.io/aws/post/xue-xi-%20Gateway%20-dao-%20Transit%20Gateway-.html</link><description>#学习 Gateway 到 Transit Gateway&#13;
 &#13;
 ##任务1：&#13;
 背景：&#13;
-根据初始设置，您注意到某些内容阻止您访问 EC2 实例。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-08--xue-xi-%20Gateway%20-dao-%20Transit%20Gateway.html</guid><pubDate>Wed, 06 Nov 2024 06:13:51 +0000</pubDate></item><item><title>s3跨资源访问CORS</title><link>https://Owenwoow.github.io/aws/post/s3-kua-zi-yuan-fang-wen-CORS.html</link><description>```json&#13;
+根据初始设置，您注意到某些内容阻止您访问 EC2 实例。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/xue-xi-%20Gateway%20-dao-%20Transit%20Gateway-.html</guid><pubDate>Wed, 06 Nov 2024 06:13:51 +0000</pubDate></item><item><title>s3跨资源访问CORS</title><link>https://Owenwoow.github.io/aws/post/s3-kua-zi-yuan-fang-wen-CORS.html</link><description>```json&#13;
 [&#13;
     {&#13;
         'AllowedHeaders': ['*'],&#13;
@@ -418,11 +418,11 @@ https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/ManageCorsUsing.html
 &#13;
 -----&#13;
 &#13;
-##### 客户有一个业务需求，即数据生产者应用程序需要将数据放入 Amazon Kinesis 数据流中。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/gui-mo-hen-hao--.html</guid><pubDate>Mon, 04 Nov 2024 11:20:02 +0000</pubDate></item><item><title>[aws][jam]-03-照镜子</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-03--zhao-jing-zi.html</link><description>## 题目：&#13;
+##### 客户有一个业务需求，即数据生产者应用程序需要将数据放入 Amazon Kinesis 数据流中。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/gui-mo-hen-hao--.html</guid><pubDate>Mon, 04 Nov 2024 11:20:02 +0000</pubDate></item><item><title>照镜子-</title><link>https://Owenwoow.github.io/aws/post/zhao-jing-zi--.html</link><description>## 题目：&#13;
 &#13;
 #### 背景&#13;
 &#13;
-AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-03--zhao-jing-zi.html</guid><pubDate>Fri, 01 Nov 2024 00:39:08 +0000</pubDate></item><item><title>失去的连接 - AWS VPC 和 DynamoDB 的故事</title><link>https://Owenwoow.github.io/aws/post/shi-qu-de-lian-jie-%20-%20AWS%20VPC%20-he-%20DynamoDB%20-de-gu-shi.html</link><description># **失去的连接 - AWS VPC 和 DynamoDB 的故事**&#13;
+AnyCompany 网络上的一台受感染主机会定期向另一台主机发送信标。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/zhao-jing-zi--.html</guid><pubDate>Fri, 01 Nov 2024 00:39:08 +0000</pubDate></item><item><title>失去的连接 - AWS VPC 和 DynamoDB 的故事</title><link>https://Owenwoow.github.io/aws/post/shi-qu-de-lian-jie-%20-%20AWS%20VPC%20-he-%20DynamoDB%20-de-gu-shi.html</link><description># **失去的连接 - AWS VPC 和 DynamoDB 的故事**&#13;
 &#13;
 ### 概述&#13;
 &#13;
