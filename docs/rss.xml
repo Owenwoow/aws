@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 12:31:59 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>架构优化和安全要点</title><link>https://Owenwoow.github.io/aws/post/jia-gou-you-hua-he-an-quan-yao-dian.html</link><description>### 目标组&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 12:32:28 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>架构优化和安全要点</title><link>https://Owenwoow.github.io/aws/post/jia-gou-you-hua-he-an-quan-yao-dian.html</link><description>### 目标组&#13;
 &#13;
 1. 目标组取消注册 60 和负载auth冷却时间设置 60 &#13;
 2. 负载平衡算法 ， 最少未完成的请求&#13;
@@ -380,7 +380,7 @@ Amazon DynamoDB：允许访问特定的表&#13;
 &#13;
 ##任务1：&#13;
 背景：&#13;
-根据初始设置，您注意到某些内容阻止您访问 EC2 实例。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-08--xue-xi-%20Gateway%20-dao-%20Transit%20Gateway.html</guid><pubDate>Wed, 06 Nov 2024 06:13:51 +0000</pubDate></item><item><title>[aws][jam]-07-s3跨资源访问CORS</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-07-s3-kua-zi-yuan-fang-wen-CORS.html</link><description>```json&#13;
+根据初始设置，您注意到某些内容阻止您访问 EC2 实例。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-08--xue-xi-%20Gateway%20-dao-%20Transit%20Gateway.html</guid><pubDate>Wed, 06 Nov 2024 06:13:51 +0000</pubDate></item><item><title>s3跨资源访问CORS</title><link>https://Owenwoow.github.io/aws/post/s3-kua-zi-yuan-fang-wen-CORS.html</link><description>```json&#13;
 [&#13;
     {&#13;
         'AllowedHeaders': ['*'],&#13;
@@ -392,7 +392,7 @@ Amazon DynamoDB：允许访问特定的表&#13;
 &#13;
 ```&#13;
 官方配置文档&#13;
-https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/ManageCorsUsing.html。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-07-s3-kua-zi-yuan-fang-wen-CORS.html</guid><pubDate>Wed, 06 Nov 2024 01:13:45 +0000</pubDate></item><item><title>[aws][jam]-06-加密数据湖</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-06--jia-mi-shu-ju-hu.html</link><description># 加密数据湖&#13;
+https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/ManageCorsUsing.html。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/s3-kua-zi-yuan-fang-wen-CORS.html</guid><pubDate>Wed, 06 Nov 2024 01:13:45 +0000</pubDate></item><item><title>[aws][jam]-06-加密数据湖</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-06--jia-mi-shu-ju-hu.html</link><description># 加密数据湖&#13;
 &#13;
 #### 概述&#13;
 &#13;
