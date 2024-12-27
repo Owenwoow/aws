@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 13:01:45 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>使用nginx反向代理多个容器</title><link>https://Owenwoow.github.io/aws/post/shi-yong-nginx-fan-xiang-dai-li-duo-ge-rong-qi.html</link><description>## 1.安装ngnix&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 13:02:14 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>使用nginx反向代理多个容器</title><link>https://Owenwoow.github.io/aws/post/shi-yong-nginx-fan-xiang-dai-li-duo-ge-rong-qi.html</link><description>## 1.安装ngnix&#13;
 &#13;
 ```shell&#13;
 yum install nginx -y &#13;
@@ -412,13 +412,13 @@ https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/ManageCorsUsing.html
 &#13;
 ### 概述&#13;
 &#13;
-背景您经营着一家电子商务初创公司，身兼数职。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/pai-dui-deng-hou-%EF%BC%81.html</guid><pubDate>Mon, 04 Nov 2024 11:38:30 +0000</pubDate></item><item><title>[aws][jam]-04-规模很好</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-04--gui-mo-hen-hao.html</link><description># 规模很好&#13;
+背景您经营着一家电子商务初创公司，身兼数职。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/pai-dui-deng-hou-%EF%BC%81.html</guid><pubDate>Mon, 04 Nov 2024 11:38:30 +0000</pubDate></item><item><title>规模很好-</title><link>https://Owenwoow.github.io/aws/post/gui-mo-hen-hao--.html</link><description># 规模很好&#13;
 &#13;
 ### 概述&#13;
 &#13;
 -----&#13;
 &#13;
-##### 客户有一个业务需求，即数据生产者应用程序需要将数据放入 Amazon Kinesis 数据流中。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-04--gui-mo-hen-hao.html</guid><pubDate>Mon, 04 Nov 2024 11:20:02 +0000</pubDate></item><item><title>[aws][jam]-03-照镜子</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-03--zhao-jing-zi.html</link><description>## 题目：&#13;
+##### 客户有一个业务需求，即数据生产者应用程序需要将数据放入 Amazon Kinesis 数据流中。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/gui-mo-hen-hao--.html</guid><pubDate>Mon, 04 Nov 2024 11:20:02 +0000</pubDate></item><item><title>[aws][jam]-03-照镜子</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-03--zhao-jing-zi.html</link><description>## 题目：&#13;
 &#13;
 #### 背景&#13;
 &#13;
