@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/157098070?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="## 1.安装ngnix
+
+```shell
+yum install nginx -y 
+```
+
+
+
+## 2.修改nginx.conf文件
+
+要为 Nginx 配置缓存和基于最小连接数的负载均衡，你需要进行如下调整：
+
+1. **缓存配置**：你可以使用 `proxy_cache` 指令在 Nginx 中配置缓存，将响应缓存到本地磁盘，从而减少后端服务器的负担。">
+<meta property="og:title" content="使用nginx反向代理多个容器">
+<meta property="og:description" content="## 1.安装ngnix
+
+```shell
+yum install nginx -y 
+```
+
+
+
+## 2.修改nginx.conf文件
+
+要为 Nginx 配置缓存和基于最小连接数的负载均衡，你需要进行如下调整：
+
+1. **缓存配置**：你可以使用 `proxy_cache` 指令在 Nginx 中配置缓存，将响应缓存到本地磁盘，从而减少后端服务器的负担。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://Owenwoow.github.io/aws/post/shi-yong-nginx-fan-xiang-dai-li-duo-ge-rong-qi.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
+<title>使用nginx反向代理多个容器</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">使用nginx反向代理多个容器</h1>
+<div class="title-right">
+    <a href="https://Owenwoow.github.io/aws" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Owenwoow/aws/issues/25" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>1.安装ngnix</h2>
+<div class="highlight highlight-source-shell"><pre class="notranslate">yum install nginx -y </pre></div>
+<h2>2.修改nginx.conf文件</h2>
+<p>要为 Nginx 配置缓存和基于最小连接数的负载均衡，你需要进行如下调整：</p>
+<ol>
+<li><strong>缓存配置</strong>：你可以使用 <code class="notranslate">proxy_cache</code> 指令在 Nginx 中配置缓存，将响应缓存到本地磁盘，从而减少后端服务器的负担。</li>
+<li><strong>最小连接数负载均衡</strong>：Nginx 默认的负载均衡策略是轮询。如果你想使用最小连接数（least_conn）策略，可以通过修改 <code class="notranslate">upstream</code> 块来实现。</li>
+</ol>
+<h3>更新后的 Nginx 配置文件</h3>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">worker_processes</span> <span class="pl-s">1</span>;  <span class="pl-c"># 设置工作进程数</span>
+
+<span class="pl-k">events</span> {
+    <span class="pl-k">worker_connections</span> <span class="pl-s">1024</span>;  <span class="pl-c"># 每个工作进程的最大连接数</span>
+}
+
+<span class="pl-k">http</span> {
+    <span class="pl-c"># 定义缓存区域</span>
+    <span class="pl-k">proxy_cache_path</span> /var/cache/nginx levels=1:2 keys_zone=app_cache:10m max_size=100m inactive=60m use_temp_path=off;
+
+    <span class="pl-k">upstream</span> <span class="pl-en">app_servers </span>{
+        <span class="pl-c"># 使用最小连接数的负载均衡策略</span>
+        least_conn;
+        
+        <span class="pl-k">server</span> 127.0.0.1:8081;
+        <span class="pl-k">server</span> 127.0.0.1:8082;
+        <span class="pl-k">server</span> 127.0.0.1:8083;
+        <span class="pl-k">server</span> 127.0.0.1:8084;
+        <span class="pl-k">server</span> 127.0.0.1:8085;
+        <span class="pl-k">server</span> 127.0.0.1:8086;
+    }
+
+    <span class="pl-k">server</span> {
+        <span class="pl-k">listen</span> <span class="pl-s">80</span>;  <span class="pl-c"># Nginx 监听端口 80</span>
+
+        <span class="pl-k">location</span> <span class="pl-en">/ </span>{
+            <span class="pl-k">proxy_pass</span> http://app_servers;  <span class="pl-c"># 将流量分发到 upstream</span>
+
+            <span class="pl-c"># 配置缓存</span>
+            <span class="pl-k">proxy_cache</span> app_cache;
+            <span class="pl-k">proxy_cache_valid</span> <span class="pl-s">200</span> <span class="pl-c1">60m</span>;  <span class="pl-c"># HTTP 200 状态码响应缓存 60 分钟</span>
+            <span class="pl-k">proxy_cache_valid</span> <span class="pl-s">404</span> <span class="pl-c1">1m</span>;   <span class="pl-c"># HTTP 404 状态码响应缓存 1 分钟</span>
+            <span class="pl-k">proxy_cache_use_stale</span><span class="pl-c1"> error</span> timeout updating;  <span class="pl-c"># 在发生错误时使用过期缓存</span>
+
+            <span class="pl-c"># 设置转发的头部信息</span>
+            <span class="pl-k">proxy_set_header</span> Host <span class="pl-smi">$host</span>;
+            <span class="pl-k">proxy_set_header</span> X-Real-IP <span class="pl-smi">$remote_addr</span>;
+            <span class="pl-k">proxy_set_header</span> X-Forwarded-For <span class="pl-smi">$proxy_add_x_forwarded_for</span>;
+        }
+    }
+}</pre></div>
+<h3>具体改动解释：</h3>
+<h4>1. <strong>最小连接数负载均衡（least_conn）</strong></h4>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">upstream</span> <span class="pl-en">app_servers </span>{
+    least_conn;  <span class="pl-c"># 使用最小连接数负载均衡</span>
+    <span class="pl-k">server</span> 127.0.0.1:8081;
+    <span class="pl-k">server</span> 127.0.0.1:8082;
+}</pre></div>
+<ul>
+<li><code class="notranslate">least_conn</code>：这个指令会让 Nginx 使用最小连接数的负载均衡策略。即，Nginx 会将请求发送到当前连接数最少的后端服务器上，从而避免某个服务器因为连接数过多而过载。</li>
+<li>这在高并发场景下特别有用，可以确保负载均衡更为均匀。</li>
+</ul>
+<h4>2. <strong>缓存配置</strong></h4>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-c"># 配置缓存区域</span>
+<span class="pl-k">proxy_cache_path</span> /var/cache/nginx levels=1:2 keys_zone=app_cache:10m max_size=100m inactive=60m use_temp_path=off;</pre></div>
+<ul>
+<li>
+<pre class="notranslate"><code class="notranslate">proxy_cache_path
+</code></pre>
+<p>：这个指令用于设置缓存存储的路径和相关属性。它指定了缓存文件的存储位置和缓存的大小等参数。</p>
+<ul>
+<li><code class="notranslate">levels=1:2</code>：文件系统的存储层级，表示缓存文件存储在两层目录中。</li>
+<li><code class="notranslate">keys_zone=app_cache:10m</code>：指定一个缓存区 <code class="notranslate">app_cache</code>，并设置该缓存区的内存大小为 10MB。</li>
+<li><code class="notranslate">max_size=100m</code>：缓存最大空间为 100MB，超过这个空间的缓存会被删除。</li>
+<li><code class="notranslate">inactive=60m</code>：缓存未被访问的时间，如果超时则缓存失效。</li>
+<li><code class="notranslate">use_temp_path=off</code>：避免使用临时路径存储缓存。</li>
+</ul>
+</li>
+</ul>
+<h4>3. <strong>缓存设置</strong></h4>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">proxy_cache</span> app_cache;
+<span class="pl-k">proxy_cache_valid</span> <span class="pl-s">200</span> <span class="pl-c1">60m</span>;  <span class="pl-c"># 200 状态码的响应缓存 60 分钟</span>
+<span class="pl-k">proxy_cache_valid</span> <span class="pl-s">404</span> <span class="pl-c1">1m</span>;   <span class="pl-c"># 404 状态码的响应缓存 1 分钟</span>
+<span class="pl-k">proxy_cache_use_stale</span><span class="pl-c1"> error</span> timeout updating;  <span class="pl-c"># 在发生错误时使用过期缓存</span></pre></div>
+<ul>
+<li>
+<p><code class="notranslate">proxy_cache</code>：启用缓存，并指定缓存区 <code class="notranslate">app_cache</code>。</p>
+</li>
+<li>
+<pre class="notranslate"><code class="notranslate">proxy_cache_valid
+</code></pre>
+<p>：指定不同 HTTP 状态码的缓存时间。</p>
+<ul>
+<li>对于 200 状态码的响应，缓存 60 分钟。</li>
+<li>对于 404 状态码的响应，缓存 1 分钟。</li>
+</ul>
+</li>
+<li>
+<p><code class="notranslate">proxy_cache_use_stale</code>：当发生错误（如超时）时，使用过期缓存继续提供服务，而不是直接返回错误。</p>
+</li>
+</ul>
+<h4>4. <strong>其它常见的 <code class="notranslate">proxy_set_header</code> 配置</strong></h4>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">proxy_set_header</span> Host <span class="pl-smi">$host</span>;
+<span class="pl-k">proxy_set_header</span> X-Real-IP <span class="pl-smi">$remote_addr</span>;
+<span class="pl-k">proxy_set_header</span> X-Forwarded-For <span class="pl-smi">$proxy_add_x_forwarded_for</span>;</pre></div>
+<p>这些指令用于传递客户端请求的真实信息给后端服务器。</p>
+<ul>
+<li><code class="notranslate">Host $host</code>：传递客户端请求的 Host 头部。</li>
+<li><code class="notranslate">X-Real-IP $remote_addr</code>：传递客户端的真实 IP 地址。</li>
+<li><code class="notranslate">X-Forwarded-For $proxy_add_x_forwarded_for</code>：传递经过代理的客户端 IP 地址链。</li>
+</ul>
+<h3>其他可能需要的配置项：</h3>
+<ul>
+<li><strong>缓存清理</strong>：如果你希望 Nginx 自动清理过期的缓存，可以通过调整 <code class="notranslate">inactive</code> 和 <code class="notranslate">max_size</code> 来设置合适的缓存大小和过期时间。</li>
+<li><strong>负载均衡的其他策略</strong>：除了 <code class="notranslate">least_conn</code>，Nginx 还支持其他负载均衡策略，例如：
+<ul>
+<li><code class="notranslate">round_robin</code>：轮询（默认方式）。</li>
+<li><code class="notranslate">ip_hash</code>：基于客户端 IP 地址进行负载均衡（用于保持会话粘性）。</li>
+</ul>
+</li>
+</ul>
+<h3>重新加载配置</h3>
+<p>配置文件修改完成后，运行以下命令重新加载 Nginx 配置：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 测试配置文件是否正确</span>
+nginx -t
+
+<span class="pl-c"><span class="pl-c">#</span> 重新加载 Nginx 配置</span>
+systemctl reload nginx</pre></div>
+<h3>总结</h3>
+<ol>
+<li><strong>最小连接数负载均衡</strong>：通过 <code class="notranslate">least_conn</code> 指令设置负载均衡策略为最小连接数。</li>
+<li><strong>缓存配置</strong>：使用 <code class="notranslate">proxy_cache</code> 和相关指令缓存 HTTP 响应，减轻后端负载并提高响应速度。</li>
+<li><strong>过期缓存使用</strong>：在发生错误时使用过期缓存，而不是直接返回错误。</li>
+</ol>
+<p>以下是完整的 Nginx 配置代码，确保可以实现基于 IP 的会话保持，同时包含简洁的注释以便于理解。</p>
+<p><strong>完整代码：</strong></p>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">worker_processes</span> auto;  <span class="pl-c"># 根据 CPU 核心数自动调整工作进程数</span>
+
+<span class="pl-k">events</span> {
+    <span class="pl-k">worker_connections</span> <span class="pl-s">1024</span>;  <span class="pl-c"># 每个进程的最大连接数（默认1024）</span>
+}
+
+<span class="pl-k">http</span> {
+    <span class="pl-k">include</span>       mime.types;         <span class="pl-c"># 引入 MIME 类型配置</span>
+    <span class="pl-k">default_type</span>  application/octet-stream;
+
+    <span class="pl-c"># 优化 types_hash 的大小以解决 warning 提示</span>
+    <span class="pl-k">types_hash_max_size</span> <span class="pl-s">2048</span>;
+    <span class="pl-k">types_hash_bucket_size</span> 128;
+
+    <span class="pl-k">sendfile</span><span class="pl-c1"> on</span>;                      <span class="pl-c"># 启用高效文件传输</span>
+    <span class="pl-k">tcp_nopush</span><span class="pl-c1"> on</span>;                    <span class="pl-c"># 提升发送大文件的效率</span>
+    <span class="pl-k">tcp_nodelay</span><span class="pl-c1"> on</span>;                   <span class="pl-c"># 减少 TCP 延迟</span>
+
+    <span class="pl-k">keepalive_timeout</span> <span class="pl-s">15</span>;             <span class="pl-c"># 连接的 keepalive 时间</span>
+    <span class="pl-k">client_body_timeout</span> <span class="pl-s">10</span>;           <span class="pl-c"># 请求体超时时间</span>
+    <span class="pl-k">client_header_timeout</span> <span class="pl-s">10</span>;         <span class="pl-c"># 请求头超时时间</span>
+    <span class="pl-k">send_timeout</span> <span class="pl-s">10</span>;                  <span class="pl-c"># 响应发送超时时间</span>
+
+    <span class="pl-c"># 定义后端服务器的负载均衡组</span>
+    <span class="pl-k">upstream</span> <span class="pl-en">backend </span>{
+        <span class="pl-k">ip_hash</span>;                      <span class="pl-c"># 使用基于 IP 的会话保持策略</span>
+        <span class="pl-k">server</span> 127.0.0.1:8081;        <span class="pl-c"># 后端服务器 1</span>
+        <span class="pl-k">server</span> 127.0.0.1:8082;        <span class="pl-c"># 后端服务器 2</span>
+    }
+
+    <span class="pl-k">server</span> {
+        <span class="pl-k">listen</span> <span class="pl-s">80</span>;                    <span class="pl-c"># 监听 80 端口</span>
+
+        <span class="pl-k">location</span> <span class="pl-en">/ </span>{
+            <span class="pl-k">proxy_pass</span> http://backend;  <span class="pl-c"># 代理请求到后端服务器</span>
+
+            <span class="pl-c"># 设置代理头部，保留客户端信息</span>
+            <span class="pl-k">proxy_set_header</span> Host <span class="pl-smi">$host</span>;
+            <span class="pl-k">proxy_set_header</span> X-Real-IP <span class="pl-smi">$remote_addr</span>;
+            <span class="pl-k">proxy_set_header</span> X-Forwarded-For <span class="pl-smi">$proxy_add_x_forwarded_for</span>;
+
+            <span class="pl-c"># 配置超时时间</span>
+            <span class="pl-k">proxy_connect_timeout</span> <span class="pl-c1">30s</span>;
+            <span class="pl-k">proxy_read_timeout</span> <span class="pl-c1">30s</span>;
+            <span class="pl-k">proxy_send_timeout</span> <span class="pl-c1">30s</span>;
+        }
+    }
+}</pre></div>
+<hr>
+<h3><strong>命令总结</strong></h3>
+<ol>
+<li><strong>基本管理命令：</strong>
+<ul>
+<li>启动 Nginx: <code class="notranslate">sudo nginx</code></li>
+<li>停止 Nginx: <code class="notranslate">sudo nginx -s stop</code></li>
+<li>重载配置文件（无中断重启）：<code class="notranslate">sudo nginx -s reload</code></li>
+<li>检查配置文件是否正确：<code class="notranslate">sudo nginx -t</code></li>
+</ul>
+</li>
+<li><strong>配置文件路径：</strong>
+<ul>
+<li>默认配置文件路径：<code class="notranslate">/etc/nginx/nginx.conf</code></li>
+<li>其他配置文件存放目录：<code class="notranslate">/etc/nginx/conf.d/</code></li>
+</ul>
+</li>
+<li><strong>日志查看：</strong>
+<ul>
+<li>访问日志：<code class="notranslate">/var/log/nginx/access.log</code></li>
+<li>错误日志：<code class="notranslate">/var/log/nginx/error.log</code></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3><strong>之前遇到的问题与排错思路</strong></h3>
+<ol>
+<li>
+<p><strong>问题 1:</strong></p>
+<ul>
+<li>
+<p><strong>提示</strong>：<code class="notranslate">nginx: [warn] could not build optimal types_hash</code></p>
+</li>
+<li>
+<p><strong>原因</strong>：<code class="notranslate">types_hash_max_size</code> 和 <code class="notranslate">types_hash_bucket_size</code> 参数过小。</p>
+</li>
+<li>
+<p>解决方法</p>
+<p>：在配置文件</p>
+<pre class="notranslate"><code class="notranslate">http
+</code></pre>
+<p>段增加以下参数：</p>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">types_hash_max_size</span> <span class="pl-s">2048</span>;
+<span class="pl-k">types_hash_bucket_size</span> 128;</pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>问题 2:</strong></p>
+<ul>
+<li>
+<p><strong>提示</strong>：<code class="notranslate">nginx: [emerg] no "events" section in configuration</code></p>
+</li>
+<li>
+<p><strong>原因</strong>：配置文件中缺少 <code class="notranslate">events</code> 段。</p>
+</li>
+<li>
+<p>解决方法</p>
+<p>：确保配置文件包含以下段落：</p>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">events</span> {
+    <span class="pl-k">worker_connections</span> <span class="pl-s">1024</span>;
+}</pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>问题 3:</strong></p>
+<ul>
+<li>
+<p><strong>提示</strong>：反向代理无法实现会话保持。</p>
+</li>
+<li>
+<p><strong>原因</strong>：未正确配置 <code class="notranslate">ip_hash</code>，导致每次请求都随机分配到后端服务器。</p>
+</li>
+<li>
+<p>解决方法</p>
+<p>：在</p>
+<pre class="notranslate"><code class="notranslate">upstream
+</code></pre>
+<p>中添加</p>
+<pre class="notranslate"><code class="notranslate">ip_hash
+</code></pre>
+<p>参数以实现基于 IP 的会话保持：</p>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">upstream</span> <span class="pl-en">backend </span>{
+    <span class="pl-k">ip_hash</span>;
+    <span class="pl-k">server</span> 127.0.0.1:8081;
+    <span class="pl-k">server</span> 127.0.0.1:8082;
+}</pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>问题 4:</strong></p>
+<ul>
+<li>
+<p><strong>提示</strong>：客户端收到 <code class="notranslate">Socket closed</code> 或请求连接失败。</p>
+</li>
+<li>
+<p>原因</p>
+<p>：</p>
+<ol>
+<li>Nginx 的超时时间设置过短。</li>
+<li>后端服务器响应缓慢。</li>
+</ol>
+</li>
+<li>
+<p>解决方法</p>
+<p>：</p>
+<ol>
+<li>
+<p>调整 Nginx 的</p>
+<pre class="notranslate"><code class="notranslate">proxy_read_timeout
+</code></pre>
+<p>和</p>
+<pre class="notranslate"><code class="notranslate">proxy_connect_timeout
+</code></pre>
+<p>：</p>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">proxy_connect_timeout</span> <span class="pl-c1">30s</span>;
+<span class="pl-k">proxy_read_timeout</span> <span class="pl-c1">30s</span>;
+<span class="pl-k">proxy_send_timeout</span> <span class="pl-c1">30s</span>;</pre></div>
+</li>
+<li>
+<p>优化后端服务器性能或检查后端日志排查问题。</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3><strong>干净的配置代码：</strong></h3>
+<div class="highlight highlight-source-nginx"><pre class="notranslate"><span class="pl-k">worker_processes</span> auto;
+
+<span class="pl-k">events</span> {
+    <span class="pl-k">worker_connections</span> <span class="pl-s">1024</span>;
+}
+
+<span class="pl-k">http</span> {
+    <span class="pl-k">include</span>       mime.types;
+    <span class="pl-k">default_type</span>  application/octet-stream;
+
+    <span class="pl-k">types_hash_max_size</span> <span class="pl-s">2048</span>;
+    <span class="pl-k">types_hash_bucket_size</span> 128;
+
+    <span class="pl-k">sendfile</span><span class="pl-c1"> on</span>;
+    <span class="pl-k">tcp_nopush</span><span class="pl-c1"> on</span>;
+    <span class="pl-k">tcp_nodelay</span><span class="pl-c1"> on</span>;
+
+    <span class="pl-k">keepalive_timeout</span> <span class="pl-s">15</span>;
+    <span class="pl-k">client_body_timeout</span> <span class="pl-s">10</span>;
+    <span class="pl-k">client_header_timeout</span> <span class="pl-s">10</span>;
+    <span class="pl-k">send_timeout</span> <span class="pl-s">10</span>;
+
+    <span class="pl-k">upstream</span> <span class="pl-en">backend </span>{
+        <span class="pl-k">ip_hash</span>;
+        <span class="pl-k">server</span> 127.0.0.1:8081;
+        <span class="pl-k">server</span> 127.0.0.1:8082;
+    }
+
+    <span class="pl-k">server</span> {
+        <span class="pl-k">listen</span> <span class="pl-s">80</span>;
+
+        <span class="pl-k">location</span> <span class="pl-en">/ </span>{
+            <span class="pl-k">proxy_pass</span> http://backend;
+            <span class="pl-k">proxy_set_header</span> Host <span class="pl-smi">$host</span>;
+            <span class="pl-k">proxy_set_header</span> X-Real-IP <span class="pl-smi">$remote_addr</span>;
+            <span class="pl-k">proxy_set_header</span> X-Forwarded-For <span class="pl-smi">$proxy_add_x_forwarded_for</span>;
+
+            <span class="pl-k">proxy_connect_timeout</span> <span class="pl-c1">30s</span>;
+            <span class="pl-k">proxy_read_timeout</span> <span class="pl-c1">30s</span>;
+            <span class="pl-k">proxy_send_timeout</span> <span class="pl-c1">30s</span>;
+        }
+    }
+}</pre></div>
+<p>通过以上完整代码和总结，你可以快速部署并排查 Nginx 相关问题。</p>
+<h2>3.编写Docker部分</h2>
+<h4>安装docker&amp;docker-compose</h4>
+<div class="highlight highlight-source-shell"><pre class="notranslate">yum install docker -y 
+sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-<span class="pl-s"><span class="pl-pds">$(</span>uname -s<span class="pl-pds">)</span></span>-<span class="pl-s"><span class="pl-pds">$(</span>uname -m<span class="pl-pds">)</span></span> -o /usr/local/bin/docker-compose
+<span class="pl-c1">cd</span> /usr/local/bin
+chmod +x docker-compose </pre></div>
+<h4>Dockerfile</h4>
+<div class="highlight highlight-source-dockerfile"><pre class="notranslate"><span class="pl-k">FROM</span> public.ecr.aws/amazonlinux/amazonlinux:latest
+<span class="pl-k">RUN</span> yum update -y &amp;&amp; \
+    mkdir /server
+<span class="pl-k">WORKDIR</span> /server
+<span class="pl-k">COPY</span> server /server
+<span class="pl-k">COPY</span> server.ini /server
+<span class="pl-k">EXPOSE</span> 80
+<span class="pl-k">ENTRYPOINT</span> /server/server -port 80
+</pre></div>
+<h4>启动docker</h4>
+<pre class="notranslate"><code class="notranslate">docker run --rm -it -p 80:80 -v /root/.aws:/root/.aws root-server
+docker run --rm -it -p 80:80 -v /mnt:/mnt root-images
+</code></pre>
+<h4>docker-compose.yml</h4>
+<div class="highlight highlight-source-yaml"><pre class="notranslate"><span class="pl-ent">version</span>: <span class="pl-s"><span class="pl-pds">'</span>3.8<span class="pl-pds">'</span></span>
+
+<span class="pl-ent">services</span>:
+  <span class="pl-ent">app1</span>:
+    <span class="pl-ent">build</span>:
+      <span class="pl-ent">context</span>: <span class="pl-s">.</span>
+      <span class="pl-ent">dockerfile</span>: <span class="pl-s">Dockerfile  </span><span class="pl-c"><span class="pl-c">#</span> 使用当前目录的 Dockerfile 来构建镜像</span>
+    <span class="pl-ent">container_name</span>: <span class="pl-s">app1</span>
+    <span class="pl-ent">ports</span>:
+      - <span class="pl-s"><span class="pl-pds">"</span>8001:80<span class="pl-pds">"</span></span>  <span class="pl-c"><span class="pl-c">#</span> 映射宿主机端口 8001 到容器 80 端口</span>
+    <span class="pl-ent">volumes</span>:
+      - <span class="pl-s">/mnt:/mnt  </span><span class="pl-c"><span class="pl-c">#</span> 将宿主机的 /mnt 目录挂载到容器的 /mnt</span>
+    <span class="pl-ent">networks</span>:
+      - <span class="pl-s">app_network  </span><span class="pl-c"><span class="pl-c">#</span> 使用 app_network 网络</span>
+
+  <span class="pl-ent">app2</span>:
+    <span class="pl-ent">build</span>:
+      <span class="pl-ent">context</span>: <span class="pl-s">.</span>
+      <span class="pl-ent">dockerfile</span>: <span class="pl-s">Dockerfile  </span><span class="pl-c"><span class="pl-c">#</span> 使用当前目录的 Dockerfile 来构建镜像</span>
+    <span class="pl-ent">container_name</span>: <span class="pl-s">app2</span>
+    <span class="pl-ent">ports</span>:
+      - <span class="pl-s"><span class="pl-pds">"</span>8002:80<span class="pl-pds">"</span></span>  <span class="pl-c"><span class="pl-c">#</span> 映射宿主机端口 8002 到容器 80 端口</span>
+    <span class="pl-ent">volumes</span>:
+      - <span class="pl-s">/mnt:/mnt  </span><span class="pl-c"><span class="pl-c">#</span> 将宿主机的 /mnt 目录挂载到容器的 /mnt</span>
+    <span class="pl-ent">networks</span>:
+      - <span class="pl-s">app_network  </span><span class="pl-c"><span class="pl-c">#</span> 使用 app_network 网络</span>
+
+<span class="pl-ent">networks</span>:
+  <span class="pl-ent">app_network</span>:
+    <span class="pl-ent">driver</span>: <span class="pl-s">bridge  </span><span class="pl-c"><span class="pl-c">#</span> 定义网络类型</span>
+
+</pre></div>
+<p>直接使用镜像</p>
+<div class="highlight highlight-source-yaml"><pre class="notranslate"><span class="pl-ent">version</span>: <span class="pl-s"><span class="pl-pds">'</span>3.8<span class="pl-pds">'</span></span>
+<span class="pl-ent">services</span>:
+  <span class="pl-ent">app1</span>:
+    <span class="pl-ent">image</span>: <span class="pl-s">app-images </span>
+    <span class="pl-ent">container_name</span>: <span class="pl-s">app1</span>
+    <span class="pl-ent">ports</span>:
+      - <span class="pl-s"><span class="pl-pds">"</span>8081:80<span class="pl-pds">"</span></span>
+    <span class="pl-ent">volumes</span>:
+      - <span class="pl-s">/mnt:/mnt</span>
+    <span class="pl-ent">networks</span>:
+      - <span class="pl-s">app_network</span>
+
+  <span class="pl-ent">app2</span>:
+    <span class="pl-ent">image</span>: <span class="pl-s">app-images</span>
+    <span class="pl-ent">container_name</span>: <span class="pl-s">app2</span>
+    <span class="pl-ent">ports</span>:
+      - <span class="pl-s"><span class="pl-pds">"</span>8082:80<span class="pl-pds">"</span></span>
+    <span class="pl-ent">volumes</span>:
+      - <span class="pl-s">/mnt:/mnt</span>
+    <span class="pl-ent">networks</span>:
+      - <span class="pl-s">app_network</span>
+
+  <span class="pl-ent">app3</span>:
+    <span class="pl-ent">image</span>: <span class="pl-s">app-images</span>
+    <span class="pl-ent">container_name</span>: <span class="pl-s">app2</span>
+    <span class="pl-ent">ports</span>:
+      - <span class="pl-s"><span class="pl-pds">"</span>8083:80<span class="pl-pds">"</span></span>
+    <span class="pl-ent">volumes</span>:
+      - <span class="pl-s">/mnt:/mnt</span>
+    <span class="pl-ent">networks</span>:
+      - <span class="pl-s">app_network</span>
+
+<span class="pl-ent">networks</span>:
+  <span class="pl-ent">app_network</span>:
+    <span class="pl-ent">driver</span>: <span class="pl-s">bridge</span>
+</pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Owenwoow.github.io/aws">GitHub - CN Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Owenwoow/aws");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>

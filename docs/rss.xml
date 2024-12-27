@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 13:01:14 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>架构优化和安全要点</title><link>https://Owenwoow.github.io/aws/post/jia-gou-you-hua-he-an-quan-yao-dian.html</link><description>### 目标组&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 13:01:45 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>使用nginx反向代理多个容器</title><link>https://Owenwoow.github.io/aws/post/shi-yong-nginx-fan-xiang-dai-li-duo-ge-rong-qi.html</link><description>## 1.安装ngnix&#13;
+&#13;
+```shell&#13;
+yum install nginx -y &#13;
+```&#13;
+&#13;
+&#13;
+&#13;
+## 2.修改nginx.conf文件&#13;
+&#13;
+要为 Nginx 配置缓存和基于最小连接数的负载均衡，你需要进行如下调整：&#13;
+&#13;
+1. **缓存配置**：你可以使用 `proxy_cache` 指令在 Nginx 中配置缓存，将响应缓存到本地磁盘，从而减少后端服务器的负担。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/shi-yong-nginx-fan-xiang-dai-li-duo-ge-rong-qi.html</guid><pubDate>Fri, 27 Dec 2024 13:01:23 +0000</pubDate></item><item><title>架构优化和安全要点</title><link>https://Owenwoow.github.io/aws/post/jia-gou-you-hua-he-an-quan-yao-dian.html</link><description>### 目标组&#13;
 &#13;
 1. 目标组取消注册 60 和负载auth冷却时间设置 60 &#13;
 2. 负载平衡算法 ， 最少未完成的请求&#13;
