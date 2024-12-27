@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 12:31:38 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>架构优化和安全要点</title><link>https://Owenwoow.github.io/aws/post/jia-gou-you-hua-he-an-quan-yao-dian.html</link><description>### 目标组&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>GitHub - CN Blog</title><link>https://Owenwoow.github.io/aws</link><description>GitHub - CN Blog</description><copyright>GitHub - CN Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/157098070?v=4</url><title>avatar</title><link>https://Owenwoow.github.io/aws</link></image><lastBuildDate>Fri, 27 Dec 2024 12:31:59 +0000</lastBuildDate><managingEditor>GitHub - CN Blog</managingEditor><ttl>60</ttl><webMaster>GitHub - CN Blog</webMaster><item><title>架构优化和安全要点</title><link>https://Owenwoow.github.io/aws/post/jia-gou-you-hua-he-an-quan-yao-dian.html</link><description>### 目标组&#13;
 &#13;
 1. 目标组取消注册 60 和负载auth冷却时间设置 60 &#13;
 2. 负载平衡算法 ， 最少未完成的请求&#13;
@@ -372,11 +372,11 @@ Amazon DynamoDB：允许访问特定的表&#13;
 &#13;
 ### 任务 1：构建 IAM 评估 Lambda 函数&#13;
 &#13;
-第一项任务是构建一个 AWS Lambda 函数，以编程方式使用 IAM Access Analyzer 策略验证功能。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/zi-dong-jian-ce-iam-yong-hu-bing-geng-gai.html</guid><pubDate>Thu, 07 Nov 2024 06:33:22 +0000</pubDate></item><item><title>[aws][jam]-09-修改存储桶策略</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-09--xiu-gai-cun-chu-tong-ce-lve.html</link><description>### 任务 1：为您的 IAM 用户应用存储桶策略&#13;
+第一项任务是构建一个 AWS Lambda 函数，以编程方式使用 IAM Access Analyzer 策略验证功能。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/zi-dong-jian-ce-iam-yong-hu-bing-geng-gai.html</guid><pubDate>Thu, 07 Nov 2024 06:33:22 +0000</pubDate></item><item><title>修改存储桶策略</title><link>https://Owenwoow.github.io/aws/post/xiu-gai-cun-chu-tong-ce-lve.html</link><description>### 任务 1：为您的 IAM 用户应用存储桶策略&#13;
 &#13;
 &#13;
 &#13;
-有 2 个拥有 IAM 账户的用户，USER-A 和 USER-B。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-09--xiu-gai-cun-chu-tong-ce-lve.html</guid><pubDate>Thu, 07 Nov 2024 05:54:02 +0000</pubDate></item><item><title>[aws][jam]-08-学习 Gateway 到 Transit Gateway</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-08--xue-xi-%20Gateway%20-dao-%20Transit%20Gateway.html</link><description>#学习 Gateway 到 Transit Gateway&#13;
+有 2 个拥有 IAM 账户的用户，USER-A 和 USER-B。</description><guid isPermaLink="true">https://Owenwoow.github.io/aws/post/xiu-gai-cun-chu-tong-ce-lve.html</guid><pubDate>Thu, 07 Nov 2024 05:54:02 +0000</pubDate></item><item><title>[aws][jam]-08-学习 Gateway 到 Transit Gateway</title><link>https://Owenwoow.github.io/aws/post/%5Baws%5D%5Bjam%5D-08--xue-xi-%20Gateway%20-dao-%20Transit%20Gateway.html</link><description>#学习 Gateway 到 Transit Gateway&#13;
 &#13;
 ##任务1：&#13;
 背景：&#13;
