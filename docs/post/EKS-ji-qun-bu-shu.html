@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/157098070?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="创建一个网络和相对应的子网
+
+![image-20241210142318743](https://github.com/user-attachments/assets/d58bd030-927f-4391-9fc6-f613b8bfbbad)
+
+## **创建集群**
+
+##### **1.点击创建集群**
+
+![image-20241210142448970](https://github.com/user-attachments/assets/436a9fee-0bc1-44cb-a4b4-ddc2b691d827)
+
+
+##### **2.配置选项，自定义配置**
+
+![image-20241210142544981](https://github.com/user-attachments/assets/223893f9-c4b4-4255-afa3-b2d0ed04043c)
+
+
+
+
+##### **3.集群配置**
+
+![image-20241210143337684](https://github.com/user-attachments/assets/9af64362-fa05-4715-b301-d0801c0a3de9)
+
+
+##### **4.Kubernetes 版本设置**
+
+![image-20241210150727195](https://github.com/user-attachments/assets/4a119a65-5712-41df-be0f-22a5d206cf84)
+
+
+##### **5.剩下的选择默认点击下一步继续**
+
+##### **6.设置联网**
+
+![image-20241210155550872](https://github.com/user-attachments/assets/89d46c78-827a-436b-b6f1-0da0daf6ff0c)
+
+
+##### **7.集群端点访问**
+
+![image-20241210160259800](https://github.com/user-attachments/assets/48d4bb43-0092-4c07-a631-02b7bed4e70d)
+
+
+##### 8.点击下一步选择**指标**和**控制面板日志记录**
+
+![image-20241210155951972](https://github.com/user-attachments/assets/a29d7a23-717a-4625-966e-eda1f2cdef65)
+
+
+##### 9.**选择插件**
+
+![image-20241210160138075](https://github.com/user-attachments/assets/96c971cf-d81f-41f0-9355-bb57a6325c54)
+
+
+
+
+## 创建redis
+
+-----
+
+![image-20241210170547880](https://github.com/user-attachments/assets/a6acbd61-0105-43e5-83da-c457d8df9fc9)
+
+
+## 创建s3
+
+-----
+
+![image-20241211125107158](https://github.com/user-attachments/assets/bfc56843-7bbe-4cbb-9bb8-141ec6391d62)
+
+
+
+
+
+
+## 连接和访问eks集群
+
+-----
+
+### 环境准备：
+
+> 官方eks集群连接文档(https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html)
+
+##### 1.更新aws 的授权凭证，使角色和创建eks集群的用户相同
+
+Amazon EKS 使用带`kubectl`的`aws eks get-token`命令进行集群身份验证。">
+<meta property="og:title" content="EKS集群部署">
+<meta property="og:description" content="创建一个网络和相对应的子网
+
+![image-20241210142318743](https://github.com/user-attachments/assets/d58bd030-927f-4391-9fc6-f613b8bfbbad)
+
+## **创建集群**
+
+##### **1.点击创建集群**
+
+![image-20241210142448970](https://github.com/user-attachments/assets/436a9fee-0bc1-44cb-a4b4-ddc2b691d827)
+
+
+##### **2.配置选项，自定义配置**
+
+![image-20241210142544981](https://github.com/user-attachments/assets/223893f9-c4b4-4255-afa3-b2d0ed04043c)
+
+
+
+
+##### **3.集群配置**
+
+![image-20241210143337684](https://github.com/user-attachments/assets/9af64362-fa05-4715-b301-d0801c0a3de9)
+
+
+##### **4.Kubernetes 版本设置**
+
+![image-20241210150727195](https://github.com/user-attachments/assets/4a119a65-5712-41df-be0f-22a5d206cf84)
+
+
+##### **5.剩下的选择默认点击下一步继续**
+
+##### **6.设置联网**
+
+![image-20241210155550872](https://github.com/user-attachments/assets/89d46c78-827a-436b-b6f1-0da0daf6ff0c)
+
+
+##### **7.集群端点访问**
+
+![image-20241210160259800](https://github.com/user-attachments/assets/48d4bb43-0092-4c07-a631-02b7bed4e70d)
+
+
+##### 8.点击下一步选择**指标**和**控制面板日志记录**
+
+![image-20241210155951972](https://github.com/user-attachments/assets/a29d7a23-717a-4625-966e-eda1f2cdef65)
+
+
+##### 9.**选择插件**
+
+![image-20241210160138075](https://github.com/user-attachments/assets/96c971cf-d81f-41f0-9355-bb57a6325c54)
+
+
+
+
+## 创建redis
+
+-----
+
+![image-20241210170547880](https://github.com/user-attachments/assets/a6acbd61-0105-43e5-83da-c457d8df9fc9)
+
+
+## 创建s3
+
+-----
+
+![image-20241211125107158](https://github.com/user-attachments/assets/bfc56843-7bbe-4cbb-9bb8-141ec6391d62)
+
+
+
+
+
+
+## 连接和访问eks集群
+
+-----
+
+### 环境准备：
+
+> 官方eks集群连接文档(https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html)
+
+##### 1.更新aws 的授权凭证，使角色和创建eks集群的用户相同
+
+Amazon EKS 使用带`kubectl`的`aws eks get-token`命令进行集群身份验证。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://Owenwoow.github.io/aws/post/EKS-ji-qun-bu-shu.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
+<title>EKS集群部署</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">EKS集群部署</h1>
+<div class="title-right">
+    <a href="https://Owenwoow.github.io/aws" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Owenwoow/aws/issues/26" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>创建一个网络和相对应的子网</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d58bd030-927f-4391-9fc6-f613b8bfbbad"><img src="https://github.com/user-attachments/assets/d58bd030-927f-4391-9fc6-f613b8bfbbad" alt="image-20241210142318743" style="max-width: 100%;"></a></p>
+<h2><strong>创建集群</strong></h2>
+<h5><strong>1.点击创建集群</strong></h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/436a9fee-0bc1-44cb-a4b4-ddc2b691d827"><img src="https://github.com/user-attachments/assets/436a9fee-0bc1-44cb-a4b4-ddc2b691d827" alt="image-20241210142448970" style="max-width: 100%;"></a></p>
+<h5><strong>2.配置选项，自定义配置</strong></h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/223893f9-c4b4-4255-afa3-b2d0ed04043c"><img src="https://github.com/user-attachments/assets/223893f9-c4b4-4255-afa3-b2d0ed04043c" alt="image-20241210142544981" style="max-width: 100%;"></a></p>
+<h5><strong>3.集群配置</strong></h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9af64362-fa05-4715-b301-d0801c0a3de9"><img src="https://github.com/user-attachments/assets/9af64362-fa05-4715-b301-d0801c0a3de9" alt="image-20241210143337684" style="max-width: 100%;"></a></p>
+<h5><strong>4.Kubernetes 版本设置</strong></h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4a119a65-5712-41df-be0f-22a5d206cf84"><img src="https://github.com/user-attachments/assets/4a119a65-5712-41df-be0f-22a5d206cf84" alt="image-20241210150727195" style="max-width: 100%;"></a></p>
+<h5><strong>5.剩下的选择默认点击下一步继续</strong></h5>
+<h5><strong>6.设置联网</strong></h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/89d46c78-827a-436b-b6f1-0da0daf6ff0c"><img src="https://github.com/user-attachments/assets/89d46c78-827a-436b-b6f1-0da0daf6ff0c" alt="image-20241210155550872" style="max-width: 100%;"></a></p>
+<h5><strong>7.集群端点访问</strong></h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/48d4bb43-0092-4c07-a631-02b7bed4e70d"><img src="https://github.com/user-attachments/assets/48d4bb43-0092-4c07-a631-02b7bed4e70d" alt="image-20241210160259800" style="max-width: 100%;"></a></p>
+<h5>8.点击下一步选择<strong>指标</strong>和<strong>控制面板日志记录</strong></h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a29d7a23-717a-4625-966e-eda1f2cdef65"><img src="https://github.com/user-attachments/assets/a29d7a23-717a-4625-966e-eda1f2cdef65" alt="image-20241210155951972" style="max-width: 100%;"></a></p>
+<h5>9.<strong>选择插件</strong></h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/96c971cf-d81f-41f0-9355-bb57a6325c54"><img src="https://github.com/user-attachments/assets/96c971cf-d81f-41f0-9355-bb57a6325c54" alt="image-20241210160138075" style="max-width: 100%;"></a></p>
+<h2>创建redis</h2>
+<hr>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a6acbd61-0105-43e5-83da-c457d8df9fc9"><img src="https://github.com/user-attachments/assets/a6acbd61-0105-43e5-83da-c457d8df9fc9" alt="image-20241210170547880" style="max-width: 100%;"></a></p>
+<h2>创建s3</h2>
+<hr>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bfc56843-7bbe-4cbb-9bb8-141ec6391d62"><img src="https://github.com/user-attachments/assets/bfc56843-7bbe-4cbb-9bb8-141ec6391d62" alt="image-20241211125107158" style="max-width: 100%;"></a></p>
+<h2>连接和访问eks集群</h2>
+<hr>
+<h3>环境准备：</h3>
+<blockquote>
+<p>官方eks集群连接文档(<a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html" rel="nofollow">https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html</a>)</p>
+</blockquote>
+<h5>1.更新aws 的授权凭证，使角色和创建eks集群的用户相同</h5>
+<p>Amazon EKS 使用带<code class="notranslate">kubectl</code>的<code class="notranslate">aws eks get-token</code>命令进行集群身份验证。默认情况下，AWS CLI 使用以下命令返回的相同原理：</p>
+<pre class="notranslate"><code class="notranslate">aws sts get-caller-identity
+</code></pre>
+<p>输入后返回的值</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/06fc1ae8-1a1a-47e2-98ee-06426d5df3bc"><img src="https://github.com/user-attachments/assets/06fc1ae8-1a1a-47e2-98ee-06426d5df3bc" alt="image-20241211131708094" style="max-width: 100%;"></a></p>
+<h5>2.确保aws cli的版本为2</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate">aws --version</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/048fd556-700f-4b77-b45d-d29f9bd91bf0"><img src="https://github.com/user-attachments/assets/048fd556-700f-4b77-b45d-d29f9bd91bf0" alt="image-20241211132123706" style="max-width: 100%;"></a></p>
+<h3>自动创建 <code class="notranslate">kubeconfig</code> 文件</h3>
+<h5>1.创建kubeconfig文件</h5>
+<p>为集群创建或更新**<code class="notranslate">kubeconfig</code><strong>文件。将</strong><code class="notranslate">region-code</code><strong>替换为您的集群所在的AWS区域，另外</strong><code class="notranslate">my-cluster</code>**替换为您的集群的名称。</p>
+<pre class="notranslate"><code class="notranslate">aws eks update-kubeconfig --region region-code --name my-cluster
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/dddb155f-e649-4026-88c1-881128e7357b"><img src="https://github.com/user-attachments/assets/dddb155f-e649-4026-88c1-881128e7357b" alt="image-20241211133150430" style="max-width: 100%;"></a></p>
+<h5>2.下载kubctl</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-234 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> curl -LO https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 服务文件可执行权限</span>
+[root@ip-10-0-1-234 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> chmod 755 kubectl </span>
+
+<span class="pl-c"><span class="pl-c">#</span> 移动到/bin目录下面</span>
+[root@ip-10-0-1-234 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> mv kubectl /bin</span>
+</pre></div>
+<h5>3.测试配置</h5>
+<pre class="notranslate"><code class="notranslate">kubectl get svc
+</code></pre>
+<p>示例输出如下。</p>
+<pre class="notranslate"><code class="notranslate">NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+svc/kubernetes   ClusterIP   10.100.0.1   &lt;none&gt;        443/TCP   1m
+</code></pre>
+<h5>4.问解决</h5>
+<p>如果出现一直连接不上的情况的话可以尝试重新安装一下aws的cli</p>
+<p>但是主要的问题还是去查看一下eks有没有附加上所需要的权限</p>
+<h2>创建EKS集群的计算节点</h2>
+<hr>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5044b45d-b4cb-4415-ac96-8f59ae217edd"><img src="https://github.com/user-attachments/assets/5044b45d-b4cb-4415-ac96-8f59ae217edd" alt="image-20241211143531647" style="max-width: 100%;"></a></p>
+<h4>第一步：配置节点组</h4>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/ca208d28-ad5d-4078-8af7-a4ff716f4e5a"><img src="https://github.com/user-attachments/assets/ca208d28-ad5d-4078-8af7-a4ff716f4e5a" alt="image-20241211144126819" style="max-width: 100%;"></a></p>
+<h5>其余的不动，点击下一步</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/4b5b8dbe-c365-4fed-ae30-5b3bd3a06532"><img src="https://github.com/user-attachments/assets/4b5b8dbe-c365-4fed-ae30-5b3bd3a06532" alt="image-20241211144210650" style="max-width: 100%;"></a></p>
+<h4>第二步：设置计算和扩展配置</h4>
+<h5><strong>节点组计算和拓展配置：按照比赛要求选取</strong></h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/af00f88a-2507-4824-938d-981930746c65"><img src="https://github.com/user-attachments/assets/af00f88a-2507-4824-938d-981930746c65" alt="image-20241211144330554" style="max-width: 100%;"></a></p>
+<h5><strong>节点组扩缩配置</strong>：刚开始创建时选一个</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/01fee975-6fd4-4f4a-97a5-20461931a68f"><img src="https://github.com/user-attachments/assets/01fee975-6fd4-4f4a-97a5-20461931a68f" alt="image-20241211144509897" style="max-width: 100%;"></a></p>
+<h5>剩下配置不对，点击下一步</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d7f970f9-3558-4b31-a764-c57b57fc8b08"><img src="https://github.com/user-attachments/assets/d7f970f9-3558-4b31-a764-c57b57fc8b08" alt="image-20241211144605798" style="max-width: 100%;"></a></p>
+<h4>第三步：指定网络</h4>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/11809004-6c07-4ede-b499-0018eace73bf"><img src="https://github.com/user-attachments/assets/11809004-6c07-4ede-b499-0018eace73bf" alt="image-20241211144730514" style="max-width: 100%;"></a></p>
+<h4>第四步：创建</h4>
+<blockquote>
+<p>检查没有问题后创建节点</p>
+</blockquote>
+<h2>部署root服务和配置文件文件</h2>
+<hr>
+<p>将文件传入服务并赋予服务可执行权限</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> chmod 755 root </span>
+<span class="pl-c"><span class="pl-c">#</span> chmod 755 stub </span>
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> ll</span>
+total 22080
+-rwxr-xr-x. 1 ec2-user ec2-user 11096064 Dec 11 07:06 root
+-rwxr-xr-x. 1 ec2-user ec2-user 11513856 Dec 11 07:06 stub</pre></div>
+<blockquote>
+<p>查看服务需要的参数 （放入appconfig)</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> ./root -h</span>
+2eaa1af4-f8a8-4337-86c6-465068774055
+Usage of ./root:
+  -application string
+        Application Name of AWS appConfig (default <span class="pl-s"><span class="pl-pds">"</span>Unicorn<span class="pl-pds">"</span></span>)
+  -configProfile string
+        Configuration profile of AWS appConfig (default <span class="pl-s"><span class="pl-pds">"</span>Unicorn<span class="pl-pds">"</span></span>)
+  -environment string
+        Environment Name of AWS appConfig (default <span class="pl-s"><span class="pl-pds">"</span>Production<span class="pl-pds">"</span></span>)
+  -region string
+        AWS Region where this app is running (default <span class="pl-s"><span class="pl-pds">"</span>us-east-1<span class="pl-pds">"</span></span>)
+</pre></div>
+<h3>Appconfig</h3>
+<h5>1.点击入门</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/059e9834-e700-4858-bb07-22c0344fabdb"><img src="https://github.com/user-attachments/assets/059e9834-e700-4858-bb07-22c0344fabdb" alt="image-20241211151952888" style="max-width: 100%;"></a></p>
+<h5>2.选择类型</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5d4352b4-d120-4f6b-8b9e-2f6374c492c4"><img src="https://github.com/user-attachments/assets/5d4352b4-d120-4f6b-8b9e-2f6374c492c4" alt="image-20241211152143673" style="max-width: 100%;"></a></p>
+<h5>3.定义配置</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a7f453d2-3b98-41a0-88ab-ffe359e1c06e"><img src="https://github.com/user-attachments/assets/a7f453d2-3b98-41a0-88ab-ffe359e1c06e" alt="image-20241211191443888" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">{ 
+<span class="pl-s"><span class="pl-pds">"</span>RedisHost<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>redis1.yfwyr3.ng.0001.use1.cache.amazonaws.com<span class="pl-pds">"</span></span>, 
+<span class="pl-s"><span class="pl-pds">"</span>RedisPort<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>6379<span class="pl-pds">"</span></span>, 
+<span class="pl-s"><span class="pl-pds">"</span>FsPath<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/mnt/<span class="pl-pds">"</span></span>, 
+<span class="pl-s"><span class="pl-pds">"</span>Port<span class="pl-pds">"</span></span>: 80, 
+<span class="pl-s"><span class="pl-pds">"</span>Bucket<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>unicorn-us-es-ws-1211<span class="pl-pds">"</span></span> 
+}</pre></div>
+<h5>4.定义应用程序名称</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fe3e09ef-9388-4ded-9e7f-ea4778d3160e"><img src="https://github.com/user-attachments/assets/fe3e09ef-9388-4ded-9e7f-ea4778d3160e" alt="image-20241211191552748" style="max-width: 100%;"></a></p>
+<h5>5.创建环境</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/293e45c4-3043-47e0-bfbb-db8e5c74c25f"><img src="https://github.com/user-attachments/assets/293e45c4-3043-47e0-bfbb-db8e5c74c25f" alt="image-20241211191718663" style="max-width: 100%;"></a></p>
+<h5>6.开始部署</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/70bc3178-ab7e-4958-8815-319f873c0d62"><img src="https://github.com/user-attachments/assets/70bc3178-ab7e-4958-8815-319f873c0d62" alt="image-20241211191842302" style="max-width: 100%;"></a></p>
+<h4>连接Appconfig，并把服务润起来</h4>
+<blockquote>
+<p>配置参数</p>
+<p>Usage of ./root:<br>
+-application string<br>
+Application Name of AWS appConfig (default "Unicorn")<br>
+-configProfile string<br>
+Configuration profile of AWS appConfig (default "Unicorn")<br>
+-environment string<br>
+Environment Name of AWS appConfig (default "Production")<br>
+-region string<br>
+AWS Region where this app is running (default "us-east-1")</p>
+</blockquote>
+<pre class="notranslate"><code class="notranslate">./root -application root-server -configProfile root-config -environment dev -region us-east-1
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5065d6f9-9cd4-4a53-bec3-de56d2924fdb"><img src="https://github.com/user-attachments/assets/5065d6f9-9cd4-4a53-bec3-de56d2924fdb" alt="image-20241211195236609" style="max-width: 100%;"></a></p>
+<h3>构建镜像</h3>
+<blockquote>
+<p>eks服务其实是一个k8s集群，k8s集群是负责管理容器的，那我们就先要构建一个镜像</p>
+</blockquote>
+<h5>1.编写Dokcerfile</h5>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 创建目录</span>
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> mkdir root-server </span>
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> mv root root-server/</span>
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> ls</span>
+root-server  stub
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> cd root-server/</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 安装docker </span>
+yum install docker -y
+systemctl start docker 
+systemctl <span class="pl-c1">enable</span> docker
+
+<span class="pl-c"><span class="pl-c">#</span> Dokcerfile</span>
+vi Dockerfile
+FROM public.ecr.aws/amazonlinux/amazonlinux:latest
+RUN yum update -y <span class="pl-k">&amp;&amp;</span> \
+    mkdir /app
+WORKDIR /app
+COPY root /app/root
+EXPOSE 80
+ENTRYPOINT /app/root -application root-server -configProfile root-config -environment dev -region us-east-1
+
+<span class="pl-c"><span class="pl-c">#</span> 创建images</span>
+docker build -t root-server <span class="pl-c1">.</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 检查</span>
+[root@ip-10-0-1-234 root-server]<span class="pl-c"><span class="pl-c">#</span> docker images</span>
+REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
+root-server   latest    c63c284dc803   14 seconds ago   225MB</pre></div>
+<h5>2.启动容器</h5>
+<blockquote>
+<p>运行容器的时候可能需要对应的权限，我们可以将 <strong>/root/.aws</strong> 下的 <strong>config</strong>  <strong>credentials</strong> 文件映射到容器中</p>
+</blockquote>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker run --rm -it -p 80:80 -v /root/.aws:/root/.aws root-server</pre></div>
+<h5>3.将容器推送到ECR上去</h5>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fb23c0fd-c71f-4d42-a3f1-bfdbf2f0a781"><img src="https://github.com/user-attachments/assets/fb23c0fd-c71f-4d42-a3f1-bfdbf2f0a781" alt="image-20241211204406738" style="max-width: 100%;"></a></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 推送镜像的命令</span>
+aws ecr get-login-password --region us-east-1 <span class="pl-k">|</span> docker login --username AWS --password-stdin 211125438445.dkr.ecr.us-east-1.amazonaws.com
+docker tag root-server:latest 211125438445.dkr.ecr.us-east-1.amazonaws.com/root-server:latest
+docker push 211125438445.dkr.ecr.us-east-1.amazonaws.com/root-server:latest</pre></div>
+<p>记录视频1.24：44</p>
+<p><a href="https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html" rel="nofollow">https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html</a></p>
+<p>去访问文档中的这个项目：[<a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html" rel="nofollow">使用 kubectl 访问集群</a>](<a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html" rel="nofollow">https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html</a>)</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">aws sts get-caller-identity</pre></div>
+<p>查看ec2的登入信息</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/44a14fbb-b5e0-4635-bb1b-9064a09fb300"><img src="https://github.com/user-attachments/assets/44a14fbb-b5e0-4635-bb1b-9064a09fb300" alt="image-20240830224642429" style="max-width: 100%;"></a></p>
+<p>以为权限的问题我把不能查看信息，所有我能可以使用之前创建的teamrole用户登入</p>
+<pre class="notranslate"><code class="notranslate">[root@ip-10-0-1-251 ~]# aws configure 
+AWS Access Key ID [None]: AKIATCKAOU3HLEUAHCY5 
+AWS Secret Access Key [None]: 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
+Default region name [None]: us-east-1
+Default output format [None]: 
+</code></pre>
+<p>登入上后我们再去查看AWS的授权凭证</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a04cc99b-963d-4e72-bdb1-c0c6312084bb"><img src="https://github.com/user-attachments/assets/a04cc99b-963d-4e72-bdb1-c0c6312084bb" alt="image-20240830224929925" style="max-width: 100%;"></a></p>
+<p>可以了，接下来</p>
+<p><strong>使用 AWS CLI 创建</strong> <code class="notranslate">kubeconfig</code></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">aws eks update-kubeconfig --region us-east-1 --name cluster</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e18fe99b-8ecd-401f-b08c-4f230266d4fb"><img src="https://github.com/user-attachments/assets/e18fe99b-8ecd-401f-b08c-4f230266d4fb" alt="image-20240830231730922" style="max-width: 100%;"></a></p>
+<p>查看一下他给的地址</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/eb9702c1-b4cd-459c-818a-8320ebfccb29"><img src="https://github.com/user-attachments/assets/eb9702c1-b4cd-459c-818a-8320ebfccb29" alt="image-20240830231932726" style="max-width: 100%;"></a></p>
+<p>测试配置</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl get svc</pre></div>
+<p>示例输出如下。</p>
+<pre class="notranslate"><code class="notranslate">NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+svc/kubernetes   ClusterIP   10.100.0.1   &lt;none&gt;        443/TCP   1m
+</code></pre>
+<p>如果您收到任何授权或资源类型错误，请参阅故障排除主题中的 [<a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/troubleshooting.html#unauthorized" rel="nofollow">未经授权或访问被拒绝 (kubectl)</a>](<a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/troubleshooting.html#unauthorized)%E3%80%82" rel="nofollow">https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/troubleshooting.html#unauthorized)。</a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e5e88cc5-1ae7-40da-a69e-8d4185e56d66"><img src="https://github.com/user-attachments/assets/e5e88cc5-1ae7-40da-a69e-8d4185e56d66" alt="image-20240830234323795" style="max-width: 100%;"></a></p>
+<p>如果无法访问需要去更改一下iam用户的权限</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl get node</pre></div>
+<p>查看计算服务</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6c6ad965-2ea6-4f26-a94e-ad597436ac85"><img src="https://github.com/user-attachments/assets/6c6ad965-2ea6-4f26-a94e-ad597436ac85" alt="image-20240830234504864" style="max-width: 100%;"></a></p>
+<p>现在是没有的状态我们去aws控制太中创建一下</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9ef8c1d4-571b-46c7-91ce-8e9bb742bb18"><img src="https://github.com/user-attachments/assets/9ef8c1d4-571b-46c7-91ce-8e9bb742bb18" alt="image-20240830234637741" style="max-width: 100%;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b84f89a6-5bfd-4411-a38a-a5aa80b793e8"><img src="https://github.com/user-attachments/assets/b84f89a6-5bfd-4411-a38a-a5aa80b793e8" alt="image-20240830235329648" style="max-width: 100%;"></a></p>
+<p>下一步，在点击下一步</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0929985d-3de4-4a7b-81be-1b7aa50f150c"><img src="https://github.com/user-attachments/assets/0929985d-3de4-4a7b-81be-1b7aa50f150c" alt="image-20240830235504950" style="max-width: 100%;"></a></p>
+<h3>二.配置服务</h3>
+<h4>1.创建config</h4>
+<p>将配置文件导入后启动，发现他需要四个服务</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9ad33307-2e17-4944-aef5-735547ec4728"><img src="https://github.com/user-attachments/assets/9ad33307-2e17-4944-aef5-735547ec4728" alt="image-20240831113457760" style="max-width: 100%;"></a></p>
+<p>在aws控制台中搜素appconfig，从文档中找去一段更服务的json配置文件复制进去</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e3ad5e81-b46c-40cd-b8ae-922d1d21e7f5"><img src="https://github.com/user-attachments/assets/e3ad5e81-b46c-40cd-b8ae-922d1d21e7f5" alt="image-20240831114136920" style="max-width: 100%;"></a></p>
+<p>点击下一步，应用服务名称设为<code class="notranslate">root-server</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5c5032be-fbfd-4e89-aa6c-389c51c46dc1"><img src="https://github.com/user-attachments/assets/5c5032be-fbfd-4e89-aa6c-389c51c46dc1" alt="image-20240831114240610" style="max-width: 100%;"></a></p>
+<p>保存并继续部署</p>
+<h4>2.运行服务</h4>
+<p>在程序上运行</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/57db480d-def2-4652-b394-6a751760726b"><img src="https://github.com/user-attachments/assets/57db480d-def2-4652-b394-6a751760726b" alt="image-20240831121827930" style="max-width: 100%;"></a></p>
+<p>连接成功，但是我们在本地是跑不起来的，我们需要构架一个docker镜像</p>
+<h4>3.创建docker镜像</h4>
+<p>先将文件整理一下，保存到一个目录</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b70f2110-3cec-4673-b938-ec4f8db26ffa"><img src="https://github.com/user-attachments/assets/b70f2110-3cec-4673-b938-ec4f8db26ffa" alt="image-20240831122536774" style="max-width: 100%;"></a></p>
+<p>安装docker并设置自启动</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">yum install docker
+systemctl start docker
+systemctl <span class="pl-c1">enable</span> docker
+systemctl status docker</pre></div>
+<p>创建dockerfile文件</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">vi Dockerflie
+----------------------------------------------------
+FROM centos
+COPY server /
+ENTRYPOINT /server -application server-root -configProfile config -environment dev -region us-east-1 
+----------------------------------------------------</pre></div>
+<p>创建镜像</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker build -t server:root <span class="pl-c1">.</span>
+docker images</pre></div>
+<h4>4.运行docker</h4>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/afbff937-d8fd-4c27-ad7a-c7c4c448da30"><img src="https://github.com/user-attachments/assets/afbff937-d8fd-4c27-ad7a-c7c4c448da30" alt="image-20240831132805731" style="max-width: 100%;"></a></p>
+<p>发现无法获得检索凭证，所以我们要让他主动获取凭证<code class="notranslate">/root/.aws</code></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker run --rm -it -v /root/.aws:/root/.aws server:root</pre></div>
+<ul>
+<li>
+<p><strong><code class="notranslate">docker run</code></strong>：该命令用于从Docker 镜像创建并启动容器。</p>
+<p><strong><code class="notranslate">--rm</code></strong>：此标志告诉 Docker 在退出时自动删除容器。通过删除不再需要的容器，它有助于保持系统清洁。</p>
+<p><strong><code class="notranslate">-it</code></strong>：这是两个标志的组合：</p>
+<ul>
+<li><code class="notranslate">-i</code>（交互式）：保持 STDIN 开放，允许您与容器交互。</li>
+<li><code class="notranslate">-t</code>(tty)：分配一个伪TTY，提供终端接口。</li>
+</ul>
+<p><strong><code class="notranslate">-v /root/.aws:/root/.aws</code></strong>：此标志将卷从主机安装到容器中。</p>
+<ul>
+<li><code class="notranslate">/root/.aws</code>（冒号之前）是主机上的路径。</li>
+<li><code class="notranslate">/root/.aws</code>（冒号后面）是容器内的路径。</li>
+<li>此挂载允许容器从主机访问 AWS 配置文件，如果您的应用程序需要 AWS 凭证或配置，这将很有用。</li>
+</ul>
+<p><strong><code class="notranslate">server:root</code></strong>：指定用于容器的 Docker 镜像。在本例中，它是带有标签<code class="notranslate">server</code>的镜像<code class="notranslate">root</code>。</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/041e80ad-1084-4b6f-ab5b-9424fff5b76b"><img src="https://github.com/user-attachments/assets/041e80ad-1084-4b6f-ab5b-9424fff5b76b" alt="image-20240831133800575" style="max-width: 100%;"></a></p>
+<h4>5.上传镜像</h4>
+<p>把镜像放到ecr上，在ecr上创建私有存储库</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a76de791-fa89-4d4b-9fdc-104e59332a08"><img src="https://github.com/user-attachments/assets/a76de791-fa89-4d4b-9fdc-104e59332a08" alt="image-20240831173033871" style="max-width: 100%;"></a></p>
+<p>点击查看存储库复制命令</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/08e2b422-6d75-45cc-a2cd-b13cab52bce7"><img src="https://github.com/user-attachments/assets/08e2b422-6d75-45cc-a2cd-b13cab52bce7" alt="image-20240831173129035" style="max-width: 100%;"></a></p>
+<p>最后得到这个表示上传成功</p>
+<h3>三.在k8s运行镜像</h3>
+<p>k8s是一个调度系统我们需要去写一个配置文件去运行镜像，我们这次选择<code class="notranslate">deploy</code>进行调度</p>
+<h4>1.上传镜像到erc</h4>
+<p>先创建一个k8s的目录用于存放文件</p>
+<pre class="notranslate"><code class="notranslate">mkdir k8s
+</code></pre>
+<p>将yaml文件写入<code class="notranslate">deploy-root.yaml</code></p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">vi deploy-root.yaml
+--------------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-root
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: root
+  template:
+    metadata:
+      labels:
+        app: root
+    spec:
+      containers:
+      - name: server-root
+        image: 211125446350.dkr.ecr.us-east-1.amazonaws.com/server:root
+------------------------------------------------------------</pre></div>
+<p>保存完后运行<code class="notranslate">kubectl apply -f deplooy-root.yaml</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bed84578-05bb-4d5d-8b2f-7745ccf4a031"><img src="https://github.com/user-attachments/assets/bed84578-05bb-4d5d-8b2f-7745ccf4a031" alt="image-20240831173813072" style="max-width: 100%;"></a></p>
+<p>可以看见kubectl给我们创建了一个deployment，我们可以使用这个命令进行检查</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl get deploy</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/aa789bfd-3645-4a6e-8507-3791b5d3559d"><img src="https://github.com/user-attachments/assets/aa789bfd-3645-4a6e-8507-3791b5d3559d" alt="image-20240831174236871" style="max-width: 100%;"></a></p>
+<p>确实已经创建成功，那么具体他创建的容器叫上面呢</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl get pod</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d6b2f07e-941a-4f83-bc4b-d053949cd66c"><img src="https://github.com/user-attachments/assets/d6b2f07e-941a-4f83-bc4b-d053949cd66c" alt="image-20240831174357858" style="max-width: 100%;"></a></p>
+<p>但是它显示不能运行，查看一下他的日志</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl logs deploy-root-7cc959688c-8csfd</pre></div>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/08e252a0-8a87-4df0-87bb-f8acd49daee9"><img src="https://github.com/user-attachments/assets/08e252a0-8a87-4df0-87bb-f8acd49daee9" alt="image-20240831174523757" style="max-width: 100%;"></a></p>
+<p>发现没有对应权限，我们重新看会文档</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/72e16951-42e5-48c3-8385-4b3994b7a487"><img src="https://github.com/user-attachments/assets/72e16951-42e5-48c3-8385-4b3994b7a487" alt="image-20240831174615463" style="max-width: 100%;"></a></p>
+<h4>2.为 Kubernetes 服务账户分配 IAM 角色</h4>
+<p>需要创建unicorn角色</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c29be020-cad0-4816-91ad-efc93990a6a7"><img src="https://github.com/user-attachments/assets/c29be020-cad0-4816-91ad-efc93990a6a7" alt="image-20240831174743711" style="max-width: 100%;"></a></p>
+<p><a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/iam-roles-for-service-accounts.html" rel="nofollow">https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/iam-roles-for-service-accounts.html</a></p>
+<p>视频教程 <code class="notranslate">1:34:29/3:24:23</code></p>
+<p>创建 IAM 角色并将其与 Kubernetes 服务账户关联。</p>
+<p>创建OIDC</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/53bdc9fd-ff1e-4561-8541-c38fb1aeb7ae"><img src="https://github.com/user-attachments/assets/53bdc9fd-ff1e-4561-8541-c38fb1aeb7ae" alt="image-20240831155849501" style="max-width: 100%;"></a></p>
+<ol>
+<li>
+<p>如果您有要分派 IAM 角色的现有 Kubernetes 服务账户，则您可以跳过此步骤。</p>
+<p>创建 Kubernetes 服务账户。将以下内容复制到您的设备。将 <code class="notranslate">my-service-account</code> 替换为所需的名称，如有必要，将 <code class="notranslate">default</code> 替换为其他命名空间。如更改 <code class="notranslate">default</code>，则命名空间必须已经存在。</p>
+<pre class="notranslate"><code class="notranslate">cat &gt;my-service-account.yaml &lt;&lt;EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sa1
+  namespace: default
+EOF
+kubectl apply -f my-service-account.yaml
+</code></pre>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/52cc41e7-8a3b-4655-87e8-0ff50dd29a83"><img src="https://github.com/user-attachments/assets/52cc41e7-8a3b-4655-87e8-0ff50dd29a83" alt="image-20240831185458083" style="max-width: 100%;"></a></p>
+<p>2.创建角色</p>
+<p>确认角色和服务账户配置正确。</p>
+<ol>
+<li>
+<p>确认 IAM 角色的信任策略配置正确。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">aws iam get-role UnicornRole my-role --query Role.AssumeRolePolicyDocument</pre></div>
+<p>示例输出如下。</p>
+<div class="highlight highlight-source-json"><pre class="notranslate">{
+    <span class="pl-ent">"Version"</span>: <span class="pl-s"><span class="pl-pds">"</span>2012-10-17<span class="pl-pds">"</span></span>,
+    <span class="pl-ent">"Statement"</span>: [
+        {
+            <span class="pl-ent">"Effect"</span>: <span class="pl-s"><span class="pl-pds">"</span>Allow<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Principal"</span>: {
+                <span class="pl-ent">"Federated"</span>: <span class="pl-s"><span class="pl-pds">"</span>arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE<span class="pl-pds">"</span></span>
+            },
+            <span class="pl-ent">"Action"</span>: <span class="pl-s"><span class="pl-pds">"</span>sts:AssumeRoleWithWebIdentity<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Condition"</span>: {
+                <span class="pl-ent">"StringEquals"</span>: {
+                    <span class="pl-ent">"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub"</span>: <span class="pl-s"><span class="pl-pds">"</span>system:serviceaccount:default:my-service-account<span class="pl-pds">"</span></span>,
+                    <span class="pl-ent">"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud"</span>: <span class="pl-s"><span class="pl-pds">"</span>sts.amazonaws.com<span class="pl-pds">"</span></span>
+                }
+            }
+        }
+    ]
+}</pre></div>
+</li>
+</ol>
+<p>绑定用户</p>
+<p><code class="notranslate">kubectl edit sa sa1</code></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a51caf01-05fb-45ba-b8a2-9d5a85c405ee"><img src="https://github.com/user-attachments/assets/a51caf01-05fb-45ba-b8a2-9d5a85c405ee" alt="image-20240901142738024" style="max-width: 100%;"></a></p>
+<p>更改这个iam用户也可以</p>
+<h4>3.配置 Pods 以使用 Kubernetes 服务账户</h4>
+<p><a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/pod-configuration.html" rel="nofollow">https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/pod-configuration.html</a></p>
+<p>改完配置文件后，重新上传一下配置</p>
+<pre class="notranslate"><code class="notranslate">kubectl apply -f my-deployment.yaml
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a7b8856b-1ab0-447d-b3b9-6f473e3199ea"><img src="https://github.com/user-attachments/assets/a7b8856b-1ab0-447d-b3b9-6f473e3199ea" alt="image-20240831185543214" style="max-width: 100%;"></a></p>
+<h3>四.连接eks集群</h3>
+<p>应为我们的eks集群是在内外中的我们没法访问，需要使用其他的方法</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7b023956-a1b6-41e5-87aa-015aec2f5d46"><img src="https://github.com/user-attachments/assets/7b023956-a1b6-41e5-87aa-015aec2f5d46" alt="image-20240831190019085" style="max-width: 100%;"></a></p>
+<p>详信息可以看这一片文档</p>
+<h4>1.创建iam角色</h4>
+<p>创建ELBControllerRole角色</p>
+<h4>2.创建yaml配置文本</h4>
+<ol>
+<li>将以下内容复制到您的设备。请将 <code class="notranslate">111122223333</code> 替换为您的账户 ID。如果您的集群位于 AWS GovCloud（美国东部）或 AWS GovCloud（美国西部）AWS 区域，则将 <code class="notranslate">arn:aws:</code> 替换为 <code class="notranslate">arn:aws-us-gov:</code>。替换文本后，运行修改后的命令可创建 <code class="notranslate">aws-load-balancer-controller-service-account.yaml</code> 文件。</li>
+</ol>
+<pre class="notranslate"><code class="notranslate">cat &gt;aws-load-balancer-controller-service-account.yaml &lt;&lt;EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: aws-load-balancer-controller
+  name: aws-load-balancer-controller
+  namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: 
+    arn:aws:iam::211125446350:role/ELBControllerRole
+EOF
+</code></pre>
+<p>运行一下</p>
+<p><a target="_blank" rel="noopener noreferrer" href="./img/image-20240831192808054.png"><img src="./img/image-20240831192808054.png" alt="image-20240831192808054" style="max-width: 100%;"></a></p>
+<h4>3.使用 Helm 安装 AWS Load Balancer Controller</h4>
+<p>1.安装helm</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">wget https://get.helm.sh/helm-v3.15.4-linux-amd64.tar.gz
+tar -zxvf helm-v3.15.4-linux-amd64.tar.gz </pre></div>
+<pre class="notranslate"><code class="notranslate">[root@ip-10-0-1-251 k8s]# ls
+aws-load-balancer-controller-service-account.yaml  deploy-root.yaml  helm-v3.15.4-linux-amd64.tar.gz  linux-amd64  my-service-account.yaml
+[root@ip-10-0-1-251 k8s]# cd linux-amd64/
+[root@ip-10-0-1-251 linux-amd64]# ls
+LICENSE  README.md  helm
+[root@ip-10-0-1-251 linux-amd64]# 
+[root@ip-10-0-1-251 linux-amd64]# cp helm /bin
+[root@ip-10-0-1-251 linux-amd64]# 
+[root@ip-10-0-1-251 linux-amd64]# helm
+The Kubernetes package manager
+
+Common actions for Helm:
+
+</code></pre>
+<p>2.安装 AWS Load Balancer Controller</p>
+<h6>使用 [<a href="https://helm.sh/" rel="nofollow">Helm V3</a>](<a href="https://helm.sh/" rel="nofollow">https://helm.sh/</a>) 安装 AWS Load Balancer Controller</h6>
+<ol>
+<li>
+<p>添加 <code class="notranslate">eks-charts</code> Helm 图表存储库。AWS 在 GitHub 上维护[<a href="https://github.com/aws/eks-charts">此存储库</a>](<a href="https://github.com/aws/eks-charts)%E3%80%82">https://github.com/aws/eks-charts)。</a></p>
+<pre class="notranslate"><code class="notranslate">helm repo add eks https://aws.github.io/eks-charts
+</code></pre>
+</li>
+<li>
+<p>更新您的本地存储库，以确保您拥有最新的图表。</p>
+<pre class="notranslate"><code class="notranslate">helm repo update eks
+</code></pre>
+</li>
+<li>
+<p>安装 AWS Load Balancer Controller。</p>
+<p>将 <code class="notranslate">my-cluster</code> 替换为您的集群名称。在以下命令中，<code class="notranslate">aws-load-balancer-controller</code> 是您在上一步中创建的 Kubernetes 服务账户。</p>
+<p>有关配置 Helm 图表的更多信息，请参阅 GitHub 上的 <a href="https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml"><code class="notranslate">[values.yaml](https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml)</code></a>。</p>
+<pre class="notranslate"><code class="notranslate">helm u'ninstall aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=cluster \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller 
+</code></pre>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/371e2b2c-5db8-4f25-9f45-9104233952a2"><img src="https://github.com/user-attachments/assets/371e2b2c-5db8-4f25-9f45-9104233952a2" alt="image-20240831194819459" style="max-width: 100%;"></a></p>
+<p>创建成功</p>
+<p>​	4.检查是否在运行</p>
+<pre class="notranslate"><code class="notranslate">kubectl get pod -A
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e2b64c98-de95-4f21-ba8b-a99fbe012df3"><img src="https://github.com/user-attachments/assets/e2b64c98-de95-4f21-ba8b-a99fbe012df3" alt="image-20240831194942035" style="max-width: 100%;"></a></p>
+<p>能看到他已经在运行了</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a56ec70d-60aa-46db-85b5-cabd6f1b3e32"><img src="https://github.com/user-attachments/assets/a56ec70d-60aa-46db-85b5-cabd6f1b3e32" alt="image-20240831114357663" style="max-width: 100%;"></a></p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Owenwoow.github.io/aws">GitHub - CN Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Owenwoow/aws");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
