@@ -177,7 +177,7 @@ Amazon EKS 使用带`kubectl`的`aws eks get-token`命令进行集群身份验�
 <meta property="og:url" content="https://Owenwoow.github.io/aws/post/EKS-ji-qun-bu-shu.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/157098070?v=4">
 <title>EKS集群部署</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -282,8 +282,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>输入后返回的值</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/06fc1ae8-1a1a-47e2-98ee-06426d5df3bc"><img src="https://github.com/user-attachments/assets/06fc1ae8-1a1a-47e2-98ee-06426d5df3bc" alt="image-20241211131708094" style="max-width: 100%;"></a></p>
 <h5>2.确保aws cli的版本为2</h5>
-<pre lang="bash" class="notranslate"><code class="notranslate">aws --version
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">aws --version</pre></div>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/048fd556-700f-4b77-b45d-d29f9bd91bf0"><img src="https://github.com/user-attachments/assets/048fd556-700f-4b77-b45d-d29f9bd91bf0" alt="image-20241211132123706" style="max-width: 100%;"></a></p>
 <h3>自动创建 <code class="notranslate">kubeconfig</code> 文件</h3>
 <h5>1.创建kubeconfig文件</h5>
@@ -292,16 +291,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </code></pre>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/dddb155f-e649-4026-88c1-881128e7357b"><img src="https://github.com/user-attachments/assets/dddb155f-e649-4026-88c1-881128e7357b" alt="image-20241211133150430" style="max-width: 100%;"></a></p>
 <h5>2.下载kubctl</h5>
-<pre lang="bash" class="notranslate"><code class="notranslate">
-[root@ip-10-0-1-234 ~]# curl -LO https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-234 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> curl -LO https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl</span>
 
-# 服务文件可执行权限
-[root@ip-10-0-1-234 ~]# chmod 755 kubectl 
+<span class="pl-c"><span class="pl-c">#</span> 服务文件可执行权限</span>
+[root@ip-10-0-1-234 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> chmod 755 kubectl </span>
 
-# 移动到/bin目录下面
-[root@ip-10-0-1-234 ~]# mv kubectl /bin
-
-</code></pre>
+<span class="pl-c"><span class="pl-c">#</span> 移动到/bin目录下面</span>
+[root@ip-10-0-1-234 <span class="pl-k">~</span>]<span class="pl-c"><span class="pl-c">#</span> mv kubectl /bin</span>
+</pre></div>
 <h5>3.测试配置</h5>
 <pre class="notranslate"><code class="notranslate">kubectl get svc
 </code></pre>
@@ -335,29 +332,27 @@ svc/kubernetes   ClusterIP   10.100.0.1   &lt;none&gt;        443/TCP   1m
 <h2>部署root服务和配置文件文件</h2>
 <hr>
 <p>将文件传入服务并赋予服务可执行权限</p>
-<pre lang="shell" class="notranslate"><code class="notranslate"># chmod 755 root 
-# chmod 755 stub 
-[root@ip-10-0-1-234 ec2-user]# ll
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> chmod 755 root </span>
+<span class="pl-c"><span class="pl-c">#</span> chmod 755 stub </span>
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> ll</span>
 total 22080
 -rwxr-xr-x. 1 ec2-user ec2-user 11096064 Dec 11 07:06 root
--rwxr-xr-x. 1 ec2-user ec2-user 11513856 Dec 11 07:06 stub
-</code></pre>
+-rwxr-xr-x. 1 ec2-user ec2-user 11513856 Dec 11 07:06 stub</pre></div>
 <blockquote>
 <p>查看服务需要的参数 （放入appconfig)</p>
 </blockquote>
-<pre lang="shell" class="notranslate"><code class="notranslate">[root@ip-10-0-1-234 ec2-user]# ./root -h
+<div class="highlight highlight-source-shell"><pre class="notranslate">[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> ./root -h</span>
 2eaa1af4-f8a8-4337-86c6-465068774055
 Usage of ./root:
   -application string
-        Application Name of AWS appConfig (default "Unicorn")
+        Application Name of AWS appConfig (default <span class="pl-s"><span class="pl-pds">"</span>Unicorn<span class="pl-pds">"</span></span>)
   -configProfile string
-        Configuration profile of AWS appConfig (default "Unicorn")
+        Configuration profile of AWS appConfig (default <span class="pl-s"><span class="pl-pds">"</span>Unicorn<span class="pl-pds">"</span></span>)
   -environment string
-        Environment Name of AWS appConfig (default "Production")
+        Environment Name of AWS appConfig (default <span class="pl-s"><span class="pl-pds">"</span>Production<span class="pl-pds">"</span></span>)
   -region string
-        AWS Region where this app is running (default "us-east-1")
-
-</code></pre>
+        AWS Region where this app is running (default <span class="pl-s"><span class="pl-pds">"</span>us-east-1<span class="pl-pds">"</span></span>)
+</pre></div>
 <h3>Appconfig</h3>
 <h5>1.点击入门</h5>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/059e9834-e700-4858-bb07-22c0344fabdb"><img src="https://github.com/user-attachments/assets/059e9834-e700-4858-bb07-22c0344fabdb" alt="image-20241211151952888" style="max-width: 100%;"></a></p>
@@ -365,14 +360,13 @@ Usage of ./root:
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5d4352b4-d120-4f6b-8b9e-2f6374c492c4"><img src="https://github.com/user-attachments/assets/5d4352b4-d120-4f6b-8b9e-2f6374c492c4" alt="image-20241211152143673" style="max-width: 100%;"></a></p>
 <h5>3.定义配置</h5>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a7f453d2-3b98-41a0-88ab-ffe359e1c06e"><img src="https://github.com/user-attachments/assets/a7f453d2-3b98-41a0-88ab-ffe359e1c06e" alt="image-20241211191443888" style="max-width: 100%;"></a></p>
-<pre lang="shell" class="notranslate"><code class="notranslate">{ 
-"RedisHost": "redis1.yfwyr3.ng.0001.use1.cache.amazonaws.com", 
-"RedisPort": "6379", 
-"FsPath": "/mnt/", 
-"Port": 80, 
-"Bucket": "unicorn-us-es-ws-1211" 
-}
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">{ 
+<span class="pl-s"><span class="pl-pds">"</span>RedisHost<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>redis1.yfwyr3.ng.0001.use1.cache.amazonaws.com<span class="pl-pds">"</span></span>, 
+<span class="pl-s"><span class="pl-pds">"</span>RedisPort<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>6379<span class="pl-pds">"</span></span>, 
+<span class="pl-s"><span class="pl-pds">"</span>FsPath<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>/mnt/<span class="pl-pds">"</span></span>, 
+<span class="pl-s"><span class="pl-pds">"</span>Port<span class="pl-pds">"</span></span>: 80, 
+<span class="pl-s"><span class="pl-pds">"</span>Bucket<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>unicorn-us-es-ws-1211<span class="pl-pds">"</span></span> 
+}</pre></div>
 <h5>4.定义应用程序名称</h5>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fe3e09ef-9388-4ded-9e7f-ea4778d3160e"><img src="https://github.com/user-attachments/assets/fe3e09ef-9388-4ded-9e7f-ea4778d3160e" alt="image-20241211191552748" style="max-width: 100%;"></a></p>
 <h5>5.创建环境</h5>
@@ -400,54 +394,50 @@ AWS Region where this app is running (default "us-east-1")</p>
 <p>eks服务其实是一个k8s集群，k8s集群是负责管理容器的，那我们就先要构建一个镜像</p>
 </blockquote>
 <h5>1.编写Dokcerfile</h5>
-<pre lang="shell" class="notranslate"><code class="notranslate"># 创建目录
-[root@ip-10-0-1-234 ec2-user]# mkdir root-server 
-[root@ip-10-0-1-234 ec2-user]# mv root root-server/
-[root@ip-10-0-1-234 ec2-user]# ls
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 创建目录</span>
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> mkdir root-server </span>
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> mv root root-server/</span>
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> ls</span>
 root-server  stub
-[root@ip-10-0-1-234 ec2-user]# cd root-server/
+[root@ip-10-0-1-234 ec2-user]<span class="pl-c"><span class="pl-c">#</span> cd root-server/</span>
 
-# 安装docker 
+<span class="pl-c"><span class="pl-c">#</span> 安装docker </span>
 yum install docker -y
 systemctl start docker 
-systemctl enable docker
+systemctl <span class="pl-c1">enable</span> docker
 
-# Dokcerfile
+<span class="pl-c"><span class="pl-c">#</span> Dokcerfile</span>
 vi Dockerfile
 FROM public.ecr.aws/amazonlinux/amazonlinux:latest
-RUN yum update -y &amp;&amp; \
+RUN yum update -y <span class="pl-k">&amp;&amp;</span> \
     mkdir /app
 WORKDIR /app
 COPY root /app/root
 EXPOSE 80
 ENTRYPOINT /app/root -application root-server -configProfile root-config -environment dev -region us-east-1
 
-# 创建images
-docker build -t root-server .
+<span class="pl-c"><span class="pl-c">#</span> 创建images</span>
+docker build -t root-server <span class="pl-c1">.</span>
 
-# 检查
-[root@ip-10-0-1-234 root-server]# docker images
+<span class="pl-c"><span class="pl-c">#</span> 检查</span>
+[root@ip-10-0-1-234 root-server]<span class="pl-c"><span class="pl-c">#</span> docker images</span>
 REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
-root-server   latest    c63c284dc803   14 seconds ago   225MB
-</code></pre>
+root-server   latest    c63c284dc803   14 seconds ago   225MB</pre></div>
 <h5>2.启动容器</h5>
 <blockquote>
 <p>运行容器的时候可能需要对应的权限，我们可以将 <strong>/root/.aws</strong> 下的 <strong>config</strong>  <strong>credentials</strong> 文件映射到容器中</p>
 </blockquote>
-<pre lang="shell" class="notranslate"><code class="notranslate">docker run --rm -it -p 80:80 -v /root/.aws:/root/.aws root-server
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker run --rm -it -p 80:80 -v /root/.aws:/root/.aws root-server</pre></div>
 <h5>3.将容器推送到ECR上去</h5>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/fb23c0fd-c71f-4d42-a3f1-bfdbf2f0a781"><img src="https://github.com/user-attachments/assets/fb23c0fd-c71f-4d42-a3f1-bfdbf2f0a781" alt="image-20241211204406738" style="max-width: 100%;"></a></p>
-<pre lang="shell" class="notranslate"><code class="notranslate"># 推送镜像的命令
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 211125438445.dkr.ecr.us-east-1.amazonaws.com
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 推送镜像的命令</span>
+aws ecr get-login-password --region us-east-1 <span class="pl-k">|</span> docker login --username AWS --password-stdin 211125438445.dkr.ecr.us-east-1.amazonaws.com
 docker tag root-server:latest 211125438445.dkr.ecr.us-east-1.amazonaws.com/root-server:latest
-docker push 211125438445.dkr.ecr.us-east-1.amazonaws.com/root-server:latest
-</code></pre>
+docker push 211125438445.dkr.ecr.us-east-1.amazonaws.com/root-server:latest</pre></div>
 <p>记录视频1.24：44</p>
 <p><a href="https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html" rel="nofollow">https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html</a></p>
 <p>去访问文档中的这个项目：[<a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html" rel="nofollow">使用 kubectl 访问集群</a>](<a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html" rel="nofollow">https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/create-kubeconfig.html</a>)</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">aws sts get-caller-identity
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">aws sts get-caller-identity</pre></div>
 <p>查看ec2的登入信息</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/44a14fbb-b5e0-4635-bb1b-9064a09fb300"><img src="https://github.com/user-attachments/assets/44a14fbb-b5e0-4635-bb1b-9064a09fb300" alt="image-20240830224642429" style="max-width: 100%;"></a></p>
 <p>以为权限的问题我把不能查看信息，所有我能可以使用之前创建的teamrole用户登入</p>
@@ -461,14 +451,12 @@ Default output format [None]:
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a04cc99b-963d-4e72-bdb1-c0c6312084bb"><img src="https://github.com/user-attachments/assets/a04cc99b-963d-4e72-bdb1-c0c6312084bb" alt="image-20240830224929925" style="max-width: 100%;"></a></p>
 <p>可以了，接下来</p>
 <p><strong>使用 AWS CLI 创建</strong> <code class="notranslate">kubeconfig</code></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">aws eks update-kubeconfig --region us-east-1 --name cluster
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">aws eks update-kubeconfig --region us-east-1 --name cluster</pre></div>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e18fe99b-8ecd-401f-b08c-4f230266d4fb"><img src="https://github.com/user-attachments/assets/e18fe99b-8ecd-401f-b08c-4f230266d4fb" alt="image-20240830231730922" style="max-width: 100%;"></a></p>
 <p>查看一下他给的地址</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/eb9702c1-b4cd-459c-818a-8320ebfccb29"><img src="https://github.com/user-attachments/assets/eb9702c1-b4cd-459c-818a-8320ebfccb29" alt="image-20240830231932726" style="max-width: 100%;"></a></p>
 <p>测试配置</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">kubectl get svc
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl get svc</pre></div>
 <p>示例输出如下。</p>
 <pre class="notranslate"><code class="notranslate">NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 svc/kubernetes   ClusterIP   10.100.0.1   &lt;none&gt;        443/TCP   1m
@@ -476,8 +464,7 @@ svc/kubernetes   ClusterIP   10.100.0.1   &lt;none&gt;        443/TCP   1m
 <p>如果您收到任何授权或资源类型错误，请参阅故障排除主题中的 [<a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/troubleshooting.html#unauthorized" rel="nofollow">未经授权或访问被拒绝 (kubectl)</a>](<a href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/troubleshooting.html#unauthorized)%E3%80%82" rel="nofollow">https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/troubleshooting.html#unauthorized)。</a></p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e5e88cc5-1ae7-40da-a69e-8d4185e56d66"><img src="https://github.com/user-attachments/assets/e5e88cc5-1ae7-40da-a69e-8d4185e56d66" alt="image-20240830234323795" style="max-width: 100%;"></a></p>
 <p>如果无法访问需要去更改一下iam用户的权限</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">kubectl get node
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl get node</pre></div>
 <p>查看计算服务</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6c6ad965-2ea6-4f26-a94e-ad597436ac85"><img src="https://github.com/user-attachments/assets/6c6ad965-2ea6-4f26-a94e-ad597436ac85" alt="image-20240830234504864" style="max-width: 100%;"></a></p>
 <p>现在是没有的状态我们去aws控制太中创建一下</p>
@@ -502,28 +489,24 @@ svc/kubernetes   ClusterIP   10.100.0.1   &lt;none&gt;        443/TCP   1m
 <p>先将文件整理一下，保存到一个目录</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/b70f2110-3cec-4673-b938-ec4f8db26ffa"><img src="https://github.com/user-attachments/assets/b70f2110-3cec-4673-b938-ec4f8db26ffa" alt="image-20240831122536774" style="max-width: 100%;"></a></p>
 <p>安装docker并设置自启动</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">yum install docker
+<div class="highlight highlight-source-shell"><pre class="notranslate">yum install docker
 systemctl start docker
-systemctl enable docker
-systemctl status docker
-</code></pre>
+systemctl <span class="pl-c1">enable</span> docker
+systemctl status docker</pre></div>
 <p>创建dockerfile文件</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">vi Dockerflie
+<div class="highlight highlight-source-shell"><pre class="notranslate">vi Dockerflie
 ----------------------------------------------------
 FROM centos
 COPY server /
 ENTRYPOINT /server -application server-root -configProfile config -environment dev -region us-east-1 
-----------------------------------------------------
-</code></pre>
+----------------------------------------------------</pre></div>
 <p>创建镜像</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">docker build -t server:root .
-docker images
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker build -t server:root <span class="pl-c1">.</span>
+docker images</pre></div>
 <h4>4.运行docker</h4>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/afbff937-d8fd-4c27-ad7a-c7c4c448da30"><img src="https://github.com/user-attachments/assets/afbff937-d8fd-4c27-ad7a-c7c4c448da30" alt="image-20240831132805731" style="max-width: 100%;"></a></p>
 <p>发现无法获得检索凭证，所以我们要让他主动获取凭证<code class="notranslate">/root/.aws</code></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">docker run --rm -it -v /root/.aws:/root/.aws server:root
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker run --rm -it -v /root/.aws:/root/.aws server:root</pre></div>
 <ul>
 <li>
 <p><strong><code class="notranslate">docker run</code></strong>：该命令用于从Docker 镜像创建并启动容器。</p>
@@ -556,7 +539,7 @@ docker images
 <pre class="notranslate"><code class="notranslate">mkdir k8s
 </code></pre>
 <p>将yaml文件写入<code class="notranslate">deploy-root.yaml</code></p>
-<pre lang="bash" class="notranslate"><code class="notranslate">vi deploy-root.yaml
+<div class="highlight highlight-source-shell"><pre class="notranslate">vi deploy-root.yaml
 --------------------------------------------------------
 apiVersion: apps/v1
 kind: Deployment
@@ -575,21 +558,17 @@ spec:
       containers:
       - name: server-root
         image: 211125446350.dkr.ecr.us-east-1.amazonaws.com/server:root
-------------------------------------------------------------
-</code></pre>
+------------------------------------------------------------</pre></div>
 <p>保存完后运行<code class="notranslate">kubectl apply -f deplooy-root.yaml</code></p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bed84578-05bb-4d5d-8b2f-7745ccf4a031"><img src="https://github.com/user-attachments/assets/bed84578-05bb-4d5d-8b2f-7745ccf4a031" alt="image-20240831173813072" style="max-width: 100%;"></a></p>
 <p>可以看见kubectl给我们创建了一个deployment，我们可以使用这个命令进行检查</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">kubectl get deploy
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl get deploy</pre></div>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/aa789bfd-3645-4a6e-8507-3791b5d3559d"><img src="https://github.com/user-attachments/assets/aa789bfd-3645-4a6e-8507-3791b5d3559d" alt="image-20240831174236871" style="max-width: 100%;"></a></p>
 <p>确实已经创建成功，那么具体他创建的容器叫上面呢</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">kubectl get pod
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl get pod</pre></div>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d6b2f07e-941a-4f83-bc4b-d053949cd66c"><img src="https://github.com/user-attachments/assets/d6b2f07e-941a-4f83-bc4b-d053949cd66c" alt="image-20240831174357858" style="max-width: 100%;"></a></p>
 <p>但是它显示不能运行，查看一下他的日志</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">kubectl logs deploy-root-7cc959688c-8csfd
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">kubectl logs deploy-root-7cc959688c-8csfd</pre></div>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/08e252a0-8a87-4df0-87bb-f8acd49daee9"><img src="https://github.com/user-attachments/assets/08e252a0-8a87-4df0-87bb-f8acd49daee9" alt="image-20240831174523757" style="max-width: 100%;"></a></p>
 <p>发现没有对应权限，我们重新看会文档</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/72e16951-42e5-48c3-8385-4b3994b7a487"><img src="https://github.com/user-attachments/assets/72e16951-42e5-48c3-8385-4b3994b7a487" alt="image-20240831174615463" style="max-width: 100%;"></a></p>
@@ -622,28 +601,26 @@ kubectl apply -f my-service-account.yaml
 <ol>
 <li>
 <p>确认 IAM 角色的信任策略配置正确。</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">aws iam get-role UnicornRole my-role --query Role.AssumeRolePolicyDocument
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">aws iam get-role UnicornRole my-role --query Role.AssumeRolePolicyDocument</pre></div>
 <p>示例输出如下。</p>
-<pre lang="json" class="notranslate"><code class="notranslate">{
-    "Version": "2012-10-17",
-    "Statement": [
+<div class="highlight highlight-source-json"><pre class="notranslate">{
+    <span class="pl-ent">"Version"</span>: <span class="pl-s"><span class="pl-pds">"</span>2012-10-17<span class="pl-pds">"</span></span>,
+    <span class="pl-ent">"Statement"</span>: [
         {
-            "Effect": "Allow",
-            "Principal": {
-                "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+            <span class="pl-ent">"Effect"</span>: <span class="pl-s"><span class="pl-pds">"</span>Allow<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Principal"</span>: {
+                <span class="pl-ent">"Federated"</span>: <span class="pl-s"><span class="pl-pds">"</span>arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE<span class="pl-pds">"</span></span>
             },
-            "Action": "sts:AssumeRoleWithWebIdentity",
-            "Condition": {
-                "StringEquals": {
-                    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:default:my-service-account",
-                    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
+            <span class="pl-ent">"Action"</span>: <span class="pl-s"><span class="pl-pds">"</span>sts:AssumeRoleWithWebIdentity<span class="pl-pds">"</span></span>,
+            <span class="pl-ent">"Condition"</span>: {
+                <span class="pl-ent">"StringEquals"</span>: {
+                    <span class="pl-ent">"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub"</span>: <span class="pl-s"><span class="pl-pds">"</span>system:serviceaccount:default:my-service-account<span class="pl-pds">"</span></span>,
+                    <span class="pl-ent">"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud"</span>: <span class="pl-s"><span class="pl-pds">"</span>sts.amazonaws.com<span class="pl-pds">"</span></span>
                 }
             }
         }
     ]
-}
-</code></pre>
+}</pre></div>
 </li>
 </ol>
 <p>绑定用户</p>
@@ -684,9 +661,8 @@ EOF
 <p><a target="_blank" rel="noopener noreferrer" href="./img/image-20240831192808054.png"><img src="./img/image-20240831192808054.png" alt="image-20240831192808054" style="max-width: 100%;"></a></p>
 <h4>3.使用 Helm 安装 AWS Load Balancer Controller</h4>
 <p>1.安装helm</p>
-<pre lang="bash" class="notranslate"><code class="notranslate">wget https://get.helm.sh/helm-v3.15.4-linux-amd64.tar.gz
-tar -zxvf helm-v3.15.4-linux-amd64.tar.gz 
-</code></pre>
+<div class="highlight highlight-source-shell"><pre class="notranslate">wget https://get.helm.sh/helm-v3.15.4-linux-amd64.tar.gz
+tar -zxvf helm-v3.15.4-linux-amd64.tar.gz </pre></div>
 <pre class="notranslate"><code class="notranslate">[root@ip-10-0-1-251 k8s]# ls
 aws-load-balancer-controller-service-account.yaml  deploy-root.yaml  helm-v3.15.4-linux-amd64.tar.gz  linux-amd64  my-service-account.yaml
 [root@ip-10-0-1-251 k8s]# cd linux-amd64/
